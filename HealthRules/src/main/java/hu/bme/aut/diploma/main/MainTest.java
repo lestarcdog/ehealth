@@ -15,6 +15,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.kie.api.event.process.ProcessCompletedEvent;
+import org.kie.api.event.rule.DefaultAgendaEventListener;
+import org.kie.api.event.rule.MatchCreatedEvent;
+import org.kie.api.event.rule.RuleFlowGroupActivatedEvent;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeEnvironmentBuilder;
@@ -65,21 +68,21 @@ public class MainTest  {
 		final KieSession session = engine.getKieSession();
 		TaskService ts = engine.getTaskService();
 		
-		session.addEventListener(new org.kie.api.event.process.DefaultProcessEventListener() {
+		session.addEventListener(new DefaultAgendaEventListener() {
 			@Override
-			public void afterProcessCompleted(ProcessCompletedEvent event) {
-				event.getKieRuntime().halt();
-			}});
+			public void afterRuleFlowGroupActivated(RuleFlowGroupActivatedEvent event) {
+				KieSession kses = (KieSession) event.getKieRuntime();
+				kses.fireAllRules();
+			}
+			@Override
+			public void matchCreated(MatchCreatedEvent event) {
+				KieSession kses = (KieSession) event.getKieRuntime();
+				kses.fireAllRules();
+			}
+		});
 
 		
 		createPatient();
-
-		
-		Thread t = new Thread() {
-			  public void run() {
-			    session.fireUntilHalt();
-			}};
-		t.start();
 		
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("RedFlag", new Boolean(false));
