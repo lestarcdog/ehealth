@@ -1,6 +1,5 @@
 package hu.bme.aut.diploma.model;
 
-import java.math.BigInteger;
 import java.util.Calendar;
 
 public class Measurement {

@@ -3,8 +3,13 @@ package hu.bme.aut.diploma.main;
 import hu.bme.aut.diploma.model.Diagnosis;
 import hu.bme.aut.diploma.model.Measurement;
 import hu.bme.aut.diploma.model.Person;
+import hu.bme.aut.diploma.util.DiagnosisUtil;
+import hu.bme.aut.diploma.util.MeasurementUtil;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -15,6 +20,8 @@ import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeEnvironmentBuilder;
 import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.api.runtime.manager.RuntimeManagerFactory;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.kie.api.task.TaskService;
 import org.kie.internal.runtime.manager.context.EmptyContext;
 
@@ -74,10 +81,14 @@ public class MainTest  {
 			}};
 		t.start();
 		
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("RedFlag", new Boolean(false));
+																													
+		WorkflowProcessInstance hearthfailureProcess =  (WorkflowProcessInstance) session.createProcessInstance("rules.HearthFailure", params);
+		session.insert(hearthfailureProcess);
 		session.insert(patient);
-		session.startProcess("rules.HearthFailure");
-		
-		
+		session.startProcessInstance(hearthfailureProcess.getId());
+	
 
 		// // fun endds here
 //		t.stop();
@@ -94,29 +105,10 @@ public class MainTest  {
 		patient.setDiagnosis(new LinkedList<Diagnosis>());
 		patient.setMeasurements(new LinkedList<Measurement>());
 		
-		Diagnosis apneaatrest= new Diagnosis();
-		apneaatrest.setHumanname("Dyspnea at rest");
-		apneaatrest.setSnomedcode("161941007");
+		DiagnosisUtil.insertDiagnosis(patient, "161941007", "Dyspnea at rest");
+		MeasurementUtil.insertMeasurement(patient, "111973004", 160.0);
+		MeasurementUtil.insertMeasurement(patient, "90892000", 80.0);
 		
-		patient.getDiagnosis().add(apneaatrest);
-		
-//   		Diagnosis highbp = new Diagnosis();
-//   		highbp.setSnomedcode("38341003");
-//   		highbp.setHumanname("Hypertensive disorder, systemic arterial");
-//   		patient.getDiagnosis().add(highbp);
-		
-		Measurement sys = new Measurement();
-		sys.setValue(80.0);
-		sys.setType("111973004");
-		
-		Measurement dias = new Measurement();
-		dias.setValue(80.0);
-		dias.setType("90892000");
-		
-
-		
-		patient.getMeasurements().add(sys);
-		patient.getMeasurements().add(dias);
 
 	}
 
