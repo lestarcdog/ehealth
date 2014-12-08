@@ -12,7 +12,9 @@ import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.jbpm.services.task.HumanTaskServiceFactory;
+import org.kie.api.KieBase;
+import org.kie.api.KieBaseConfiguration;
+import org.kie.api.KieServices;
 import org.kie.api.event.rule.DefaultAgendaEventListener;
 import org.kie.api.event.rule.MatchCreatedEvent;
 import org.kie.api.event.rule.RuleFlowGroupActivatedEvent;
@@ -59,6 +61,7 @@ public class MainTest {
 				.get().newClasspathKmoduleDefaultBuilder("healthKB",
 						"health-session");
 		runenv.persistence(false);
+		
 
 		initDataSource();
 
@@ -68,6 +71,7 @@ public class MainTest {
 		runenv.userGroupCallback(new HealthUserGroupCallback());
 		RuntimeManager manager = RuntimeManagerFactory.Factory.get()
 				.newSingletonRuntimeManager(runenv.get());
+		
 		
 		RuntimeEngine engine = manager.getRuntimeEngine(EmptyContext.get());
 		final KieSession session = engine.getKieSession();
