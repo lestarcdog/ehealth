@@ -1,0 +1,40 @@
+//created on: 2014.12.02.
+package rules
+
+//list any import classes here.
+import hu.bme.aut.diploma.model.Person
+import hu.bme.aut.diploma.model.Diagnosis
+import hu.bme.aut.diploma.model.Measurement
+import hu.bme.aut.diploma.util.DiagnosisUtil
+import org.kie.api.runtime.process.WorkflowProcessInstance
+
+
+//declare any global variables here
+
+
+rule "High blood pressure"
+	ruleflow-group "CommonTestGroup"
+	no-loop
+    when
+     	$p : Person(  )
+     	Measurement( type == "111973004", value > 150.0 ) from $p.getMeasurements()  //systolis
+		Measurement( type == "90892000", value > 110.0 ) from $p.getMeasurements()//diastolic
+		$process : WorkflowProcessInstance(  )
+    then
+   		System.out.println("High blood pressure rule called");
+   		DiagnosisUtil.insertDiagnosis($p,"38341003","Hypertensive disorder, systemic arterial");
+   		update($p);
+   		$process.setVariable("RedFlag",true);
+end
+
+rule "Dyspnea at resting"
+	ruleflow-group "CommonTestGroup"
+	no-loop
+	when
+		$p : Person(  )
+     	Diagnosis( snomedcode == "161941007") from $p.getDiagnosis() //Dyspnea at resting
+     	$process : WorkflowProcessInstance(  )
+     then
+     	System.out.println("Dyspnea at resting rule called");
+     	$process.setVariable("RedFlag",true);
+end
