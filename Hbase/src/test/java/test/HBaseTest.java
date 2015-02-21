@@ -1,6 +1,6 @@
 package test;
 
-import hbase.HBaseFirst;
+import hu.bme.diploma.a7e7yk.hbase.HBaseFirst;
 
 import org.junit.Test;
 

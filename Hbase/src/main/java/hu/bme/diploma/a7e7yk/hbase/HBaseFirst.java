@@ -1,4 +1,4 @@
-package hbase;
+package hu.bme.diploma.a7e7yk.hbase;
 
 import java.io.IOException;
 
