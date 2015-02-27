@@ -2,61 +2,62 @@ package hu.bme.diploma.a7e7yk.ahd.datamodel.data;
 
 public class AHDModel {
 
-	private String sendingApplicationName;
-	private String sendingApplicationCode;
-	// 28-B2-BD-3A-8C-6B
-	private String sendingApplicationFormat;
-	private String companyName;
-	private TimeModel timeModel;
-	private RegistrationCertificateModel registrationCertificateModel;
+  private String sendingApplicationName;
+  private String sendingApplicationCode;
+  // 28-B2-BD-3A-8C-6B
+  private String sendingApplicationFormat;
+  private String companyName;
+  private TimeModel timeModel;
 
-	public String getSendingApplicationName() {
-		return sendingApplicationName;
-	}
+  private RegistrationCertificateModel registrationCertificateModel;
 
-	public void setSendingApplicationName(String sendingApplicationName) {
-		this.sendingApplicationName = sendingApplicationName;
-	}
+  public String getSendingApplicationName() {
+    return sendingApplicationName;
+  }
 
-	public String getSendingApplicationCode() {
-		return sendingApplicationCode;
-	}
+  public void setSendingApplicationName(String sendingApplicationName) {
+    this.sendingApplicationName = sendingApplicationName;
+  }
 
-	public void setSendingApplicationCode(String sendingApplicationCode) {
-		this.sendingApplicationCode = sendingApplicationCode;
-	}
+  public String getSendingApplicationCode() {
+    return sendingApplicationCode;
+  }
 
-	public String getSendingApplicationFormat() {
-		return sendingApplicationFormat;
-	}
+  public void setSendingApplicationCode(String sendingApplicationCode) {
+    this.sendingApplicationCode = sendingApplicationCode;
+  }
 
-	public void setSendingApplicationFormat(String sendingApplicationFormat) {
-		this.sendingApplicationFormat = sendingApplicationFormat;
-	}
+  public String getSendingApplicationFormat() {
+    return sendingApplicationFormat;
+  }
 
-	public String getCompanyName() {
-		return companyName;
-	}
+  public void setSendingApplicationFormat(String sendingApplicationFormat) {
+    this.sendingApplicationFormat = sendingApplicationFormat;
+  }
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
+  public String getCompanyName() {
+    return companyName;
+  }
 
-	public TimeModel getTimeModel() {
-		return timeModel;
-	}
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
+  }
 
-	public void setTimeModel(TimeModel timeModel) {
-		this.timeModel = timeModel;
-	}
+  public TimeModel getTimeModel() {
+    return timeModel;
+  }
 
-	public RegistrationCertificateModel getRegistrationCertificateModel() {
-		return registrationCertificateModel;
-	}
+  public void setTimeModel(TimeModel timeModel) {
+    this.timeModel = timeModel;
+  }
 
-	public void setRegistrationCertificateModel(
-			RegistrationCertificateModel registrationCertificateModel) {
-		this.registrationCertificateModel = registrationCertificateModel;
-	}
+  public RegistrationCertificateModel getRegistrationCertificateModel() {
+    return registrationCertificateModel;
+  }
+
+  public void setRegistrationCertificateModel(
+      RegistrationCertificateModel registrationCertificateModel) {
+    this.registrationCertificateModel = registrationCertificateModel;
+  }
 
 }

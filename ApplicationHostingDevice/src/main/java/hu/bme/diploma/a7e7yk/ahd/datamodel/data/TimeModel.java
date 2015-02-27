@@ -4,7 +4,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class TimeModel {
-  private static final String TIME_ZONE = "Europe/Budapest";
+  public static final String TIME_ZONE = "Europe/Budapest";
 
   String timeSyncProtocol;
   Double timeSyncAccuracy;

@@ -42,10 +42,4 @@
 	<name>E-Health Master Thesis</name>
 	<url>www.aut.bme.hu</url>
 	<description>This is the shiiiiiit</description>
-	<dependencies>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-	</dependencies>
 </project>
