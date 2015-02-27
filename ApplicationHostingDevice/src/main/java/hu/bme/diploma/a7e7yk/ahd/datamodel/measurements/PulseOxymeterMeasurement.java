@@ -26,27 +26,37 @@ public class PulseOxymeterMeasurement extends AbstractMeasurement {
   protected List<OBX> getMeasurementOBXs() throws DataTypeException {
     List<OBX> obxs = new ArrayList<OBX>();
     OBX obx;
+    obx = builder.provideOBX();
+
     if (spo2 != null) {
       obx = builder.provideOBX();
+      obxs.add(obx);
       obx.getObx2_ValueType().setValue("NM");
-      // 528388^MDC_DEV_SPEC_PROFILE_PULS_OXIM^MDC
-      obx.getObx3_ObservationIdentifier().getCwe1_Identifier().setValue("528388");
-      obx.getObx3_ObservationIdentifier().getCwe2_Text().setValue("MDC_DEV_SPEC_PROFILE_PULS_OXIM");
-      obx.getObx3_ObservationIdentifier().getCwe3_NameOfCodingSystem().setValue("MDC");
-      obx.getObx4_ObservationSubID().setValue(majorGroup + "0.0.1");
+      // 150456^MDC_PULS_OXIM_SAT_O2^MDC
+      MeasurementHelper.setObxField3(obx, "150456", "MDC_PULS_OXIM_SAT_O2", "MDC");
+      obx.getObx4_ObservationSubID().setValue(majorGroup + ".0.0.1");
       obx.getObx5_ObservationValue(0).setData(new NM(builder.getMessage()) {
         {
           setValue(spo2.toString());
         }
       });
       // 262688^MDC_DIM_PERCENT^MDC
-      obx.getObx6_Units().getCwe1_Identifier().setValue("262688");
-      obx.getObx6_Units().getCwe2_Text().setValue("MDC_DIM_PERCENT");
-      obx.getObx6_Units().getCwe3_NameOfCodingSystem().setValue("MDC");
+      MeasurementHelper.setObxField6(obx, "262688", "MDC_DIM_PERCENT", "MDC");
     }
-    if (spo2Accuracy != null) {
-
+    if (pulseRate != null) {
+      obx = builder.provideOBX();
+      obxs.add(obx);
+      obx.getObx2_ValueType().setValue("NM");
+      // 149530^MDC_PULS_OXIM_PULS_RATE^MDC
+      MeasurementHelper.setObxField3(obx, "149530", "MDC_PULS_OXIM_PULS_RATE", "MDC");
+      obx.getObx4_ObservationSubID().setValue(majorGroup + ".0.0.1");
+      obx.getObx5_ObservationValue(0).setData(new NM(builder.getMessage()) {
+        {
+          setValue(pulseRate.toString());
+        }
+      });
     }
+    // 264864^MDC_DIM_BEAT_PER_MIN^MDC
     return obxs;
   }
 }

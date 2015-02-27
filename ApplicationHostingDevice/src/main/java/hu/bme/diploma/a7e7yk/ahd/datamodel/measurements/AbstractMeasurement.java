@@ -34,6 +34,7 @@ public abstract class AbstractMeasurement implements IMeasurement {
   }
 
   // getter / setters
+
   public TimeModel getTimeModel() {
     return timeModel;
   }
