@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -19,7 +22,10 @@ import ca.uhn.hl7v2.validation.builder.support.NoValidationBuilder;
 
 public class MessageGenerator {
 
+  private static final Logger _l = LoggerFactory.getLogger(MessageGenerator.class);
+
   public static void main(String[] args) {
+    _l.debug("Start application");
     HapiContext ctx = new DefaultHapiContext();
     ctx.setValidationRuleBuilder(new NoValidationBuilder());
 

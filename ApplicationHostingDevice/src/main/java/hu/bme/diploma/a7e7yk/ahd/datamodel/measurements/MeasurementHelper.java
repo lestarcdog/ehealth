@@ -1,15 +1,15 @@
 package hu.bme.diploma.a7e7yk.ahd.datamodel.measurements;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
 public class MeasurementHelper {
 
-  private static final ZoneId GMT_ZONEID = ZoneId.of("GMT");
+  private static final TimeZone GMT_ZONEID = TimeZone.getTimeZone("GMT");
 
   public static void setObxField3ObservationId(OBX obx, String identifier, String text,
       String codingSytem) throws DataTypeException {
@@ -33,9 +33,9 @@ public class MeasurementHelper {
   }
 
   public static Calendar convertDateTimeToGMTCalendar(ZonedDateTime dateTime) {
-    Calendar c = Calendar.getInstance();
-    c.setTimeInMillis(dateTime.withZoneSameInstant(GMT_ZONEID).toInstant().toEpochMilli());
-    return c;
+    Calendar gmt = Calendar.getInstance(GMT_ZONEID);
+    gmt.setTimeInMillis(dateTime.toInstant().toEpochMilli());
+    return gmt;
   }
 
   public static Calendar convertDateTimeToCalendar(ZonedDateTime dateTime) {
