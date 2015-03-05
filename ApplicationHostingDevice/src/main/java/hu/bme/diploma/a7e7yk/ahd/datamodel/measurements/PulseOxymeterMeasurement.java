@@ -26,7 +26,7 @@ public class PulseOxymeterMeasurement extends AbstractMeasurement {
     MeasurementHelper.initObxSegment(obx, "X", this.timeModel.getMeasurementTime());
     // 528388^MDC_DEV_SPEC_PROFILE_PULS_OXIM^MDC
     MeasurementHelper.setObxField3ObservationId(obx, "528388", "MDC_DEV_SPEC_PROFILE_PULS_OXIM", "MDC");
-    obx.getObx4_ObservationSubID().setValue(majorGroup);
+    obx.getObx4_ObservationSubID().setValue(getObservationalId().getFirstGroup());
     obx.getObx18_EquipmentInstanceIdentifier(0).getEi1_EntityIdentifier().setValue("0123456789ABCDEF");
     obx.getObx18_EquipmentInstanceIdentifier(0).getEi2_NamespaceID().setValue("EUI-64");
 

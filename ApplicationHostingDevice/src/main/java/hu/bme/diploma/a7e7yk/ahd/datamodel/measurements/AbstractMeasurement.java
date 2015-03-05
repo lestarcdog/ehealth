@@ -26,7 +26,6 @@ public abstract class AbstractMeasurement implements IMeasurement {
   private RegistrationCertificateModel registrationCertificateModel;
   private final SnomedConcept universalServiceIdentifier;
   protected IMessageBuilder builder;
-  protected String majorGroup;
   private ZonedDateTime msgCreationTime;
   private boolean generateMDSSegments = false;
   private final ObservationalId obsId = new ObservationalId(1);

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 import ca.uhn.hl7v2.model.DataTypeException;
+import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.v26.datatype.NM;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
 import com.google.common.base.Splitter;
@@ -24,6 +26,14 @@ public class MeasurementHelper {
   public static void setObxField3ObservationId(OBX obx, String longid) throws DataTypeException {
     List<String> s = Splitter.on("^").splitToList(longid);
     setObxField3ObservationId(obx, s.get(0), s.get(1), s.get(2));
+  }
+
+  public static void setObxField5NMTypeVale(OBX obx, Message msg, Double value) throws DataTypeException {
+    obx.getObx5_ObservationValue(0).setData(new NM(msg) {
+      {
+        setValue(value.toString());
+      }
+    });
   }
 
 
