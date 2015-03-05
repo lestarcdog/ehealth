@@ -5,8 +5,8 @@ import ca.uhn.hl7v2.model.DataTypeException;
 
 public class GlucoseMeasurement extends AbstractMeasurement {
 
-  public GlucoseMeasurement(String majorGroup) {
-    super(new SnomedConcept("359772000", "Glucose monitoring at home"), majorGroup);
+  public GlucoseMeasurement() {
+    super(new SnomedConcept("359772000", "Glucose monitoring at home"));
   }
 
   @Override

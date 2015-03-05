@@ -23,23 +23,27 @@ import ca.uhn.hl7v2.model.v26.segment.PID;
 
 public class PCD_01MessageBuilder implements IMessageBuilder {
   private static final Logger _l = LoggerFactory.getLogger(PCD_01MessageBuilder.class);
-  private final ORU_R01 msg;
-  private final ORU_R01_ORDER_OBSERVATION orderObservation;
+  private int messageControlId = 0;
+  private ORU_R01 msg;
+  private ORU_R01_ORDER_OBSERVATION orderObservation;
   private int segmentId;
   private int obxId;
   private List<OBX> obxs;
-  private final String messageControlId;
+  private String messageControl;
   private final AHDModel ahdModel;
   private final PersonModel personModel;
 
-  public PCD_01MessageBuilder(String messageControlId, AHDModel ahdModel, PersonModel personModel)
-      throws HL7Exception, IOException {
+  public PCD_01MessageBuilder(AHDModel ahdModel, PersonModel personModel) throws HL7Exception, IOException {
+    this.ahdModel = ahdModel;
+    this.personModel = personModel;
+    resetBuilder();
+  }
+
+  private void resetBuilder() throws HL7Exception, IOException {
     segmentId = 0;
     obxId = 0;
     obxs = new ArrayList<OBX>();
-    this.messageControlId = messageControlId;
-    this.ahdModel = ahdModel;
-    this.personModel = personModel;
+    messageControl = "msgId" + messageControlId++;
     // T (Training) P (Production) D (Debugging)
     msg = new ORU_R01();
     msg.initQuickstart("ORU", "R01", "T");
@@ -48,6 +52,8 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
 
   public Message generateMessage(AbstractMeasurement measurement) throws DataTypeException {
     measurement.setBuilder(this);
+    // generateAHDSegments
+    // generateMDSSegment
     measurement.generateMessage();
     return msg;
   }
@@ -55,7 +61,7 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
   @Override
   public MSH provideMSH() throws DataTypeException {
     MSH msh = msg.getMSH();
-    msh.getMsh10_MessageControlID().setValue(messageControlId);
+    msh.getMsh10_MessageControlID().setValue(messageControl);
     return msh;
   }
 
@@ -90,6 +96,10 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
     return personModel;
   }
 
+  private void generateAHDSegments() {
+    throw new UnsupportedOperationException();
+  }
+
   private String nextSegmentId() {
     return Integer.toString(++segmentId);
   }
@@ -100,7 +110,7 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
     return t;
   }
 
-  public Message getMessage() {
+  public Message getHL7Message() {
     return msg;
   }
 }

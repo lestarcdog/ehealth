@@ -16,7 +16,7 @@ public interface IMessageBuilder {
 
   public OBR provideOBR() throws DataTypeException;
 
-  public Message getMessage() throws DataTypeException;
+  public Message getHL7Message() throws DataTypeException;
 
   public MSH provideMSH() throws DataTypeException;
 

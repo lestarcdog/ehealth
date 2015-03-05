@@ -5,8 +5,8 @@ import ca.uhn.hl7v2.model.DataTypeException;
 
 public class Thermometer extends AbstractMeasurement {
 
-  public Thermometer(String majorGroup) {
-    super(new SnomedConcept("133879001", "Monitoring of patient temperature "), majorGroup);
+  public Thermometer() {
+    super(new SnomedConcept("133879001", "Monitoring of patient temperature "));
 
   }
 

@@ -11,5 +11,9 @@
   		<groupId>ca.uhn.hapi</groupId>
   		<artifactId>hapi-structures-v26</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>com.google.guava</groupId>
+  		<artifactId>guava</artifactId>
+  	</dependency>
   </dependencies>
 </project>

@@ -1,28 +1,42 @@
-package hu.bme.diploma.a7e7yk.ahd.datamodel.measurements;
+package hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.helper;
 
 import java.time.ZonedDateTime;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
+import com.google.common.base.Splitter;
+
 public class MeasurementHelper {
 
   private static final TimeZone GMT_ZONEID = TimeZone.getTimeZone("GMT");
 
-  public static void setObxField3ObservationId(OBX obx, String identifier, String text,
-      String codingSytem) throws DataTypeException {
+  public static void setObxField3ObservationId(OBX obx, String identifier, String text, String codingSytem)
+      throws DataTypeException {
     obx.getObx3_ObservationIdentifier().getCwe1_Identifier().setValue(identifier);
     obx.getObx3_ObservationIdentifier().getCwe2_Text().setValue(text);
     obx.getObx3_ObservationIdentifier().getCwe3_NameOfCodingSystem().setValue(codingSytem);
   }
+
+  public static void setObxField3ObservationId(OBX obx, String longid) throws DataTypeException {
+    List<String> s = Splitter.on("^").splitToList(longid);
+    setObxField3ObservationId(obx, s.get(0), s.get(1), s.get(2));
+  }
+
 
   public static void setObxField6Unit(OBX obx, String identifier, String text, String codingSytem)
       throws DataTypeException {
     obx.getObx6_Units().getCwe1_Identifier().setValue(identifier);
     obx.getObx6_Units().getCwe2_Text().setValue(text);
     obx.getObx6_Units().getCwe3_NameOfCodingSystem().setValue(codingSytem);
+  }
+
+  public static void setObxField6Unit(OBX obx, String longid) throws DataTypeException {
+    List<String> s = Splitter.on("^").splitToList(longid);
+    setObxField6Unit(obx, s.get(0), s.get(1), s.get(2));
   }
 
   public static OBX initObxSegment(OBX obx, String resultStatus, ZonedDateTime measurementTime)
