@@ -3,9 +3,12 @@ package hu.bme.diploma.a7e7yk.ahd.runtime;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.data.AHDModel;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.data.PersonModel;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.data.TimeModel;
+import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.AbstractMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.BloodPressureMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.GlucoseMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.PulseOxymeterMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.Thermometer;
+import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.WeightScaleMeasurement;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -52,8 +55,22 @@ public class MeasurementsTest {
   }
 
   @Test
-  public void glucoseTest() {
+  public void glucoseTest() throws HL7Exception, IOException {
+    GlucoseMeasurement t = new GlucoseMeasurement();
+    t.setGlucose(6.7);
+    t.setTimeModel(tm);
 
+    pcd_01builder(t);
+  }
+
+  @Test
+  public void weightscaleTest() throws HL7Exception, IOException {
+    WeightScaleMeasurement t = new WeightScaleMeasurement();
+    t.setWeight(117.0);
+    t.setHeight(192.0);
+    t.setTimeModel(tm);
+
+    pcd_01builder(t);
   }
 
   @Test
@@ -64,11 +81,7 @@ public class MeasurementsTest {
     t.setSystolic(140.5);
     t.setPulseRate(75.5);
 
-    PCD_01MessageBuilder builder = new PCD_01MessageBuilder(ahdm, p);
-    Message m = builder.generateMessage(t);
-    Parser parser = ctx.getPipeParser();
-    String msg = parser.encode(m);
-    System.err.println(msg);
+    pcd_01builder(t);
   }
 
   @Test
@@ -77,14 +90,7 @@ public class MeasurementsTest {
     t.setTimeModel(tm);
     t.setTemp(35.69);
 
-    PCD_01MessageBuilder builder = new PCD_01MessageBuilder(ahdm, p);
-    Message m = builder.generateMessage(t);
-    Parser parser = ctx.getPipeParser();
-    String msg = parser.encode(m);
-    System.err.println(msg);
-
-
-
+    pcd_01builder(t);
   }
 
   @Test
@@ -94,8 +100,12 @@ public class MeasurementsTest {
     t.setSpo2(80.9);
     t.setPulseRate(72.3);
 
+    pcd_01builder(t);
+  }
+
+  private void pcd_01builder(AbstractMeasurement mm) throws HL7Exception, IOException {
     PCD_01MessageBuilder builder = new PCD_01MessageBuilder(ahdm, p);
-    Message m = builder.generateMessage(t);
+    Message m = builder.generateMessage(mm);
     Parser parser = ctx.getPipeParser();
     String msg = parser.encode(m);
     System.err.println(msg);
