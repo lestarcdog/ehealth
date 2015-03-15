@@ -31,7 +31,7 @@ public class WeightScaleMeasurement extends AbstractMeasurement {
       // 150021^MDC_PRESS_BLD_NONINV_SYS^MDC
       MeasurementHelper.setObxField3ObservationId(obx, "188736^MDC_MASS_BODY_ACTUAL^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeVale(obx, builder.getHL7Message(), weight);
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), weight);
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "263875^MDC_DIM_KILO_G^MDC");
     }
@@ -43,7 +43,7 @@ public class WeightScaleMeasurement extends AbstractMeasurement {
       // 150021^MDC_PRESS_BLD_NONINV_SYS^MDC
       MeasurementHelper.setObxField3ObservationId(obx, "188740^MDC_LEN_BODY_ACTUAL^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeVale(obx, builder.getHL7Message(), height);
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), height);
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "263441^MDC_DIM_CENTI_M^MDC");
     }

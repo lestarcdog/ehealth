@@ -4,6 +4,7 @@ import hu.bme.diploma.a7e7yk.ahd.datamodel.data.AHDModel;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.data.PersonModel;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.data.TimeModel;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.AbstractMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.ActivityMonitorMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.BloodPressureMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.GlucoseMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.datamodel.measurements.PulseOxymeterMeasurement;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
@@ -28,13 +29,13 @@ import ca.uhn.hl7v2.validation.builder.support.NoValidationBuilder;
 public class MeasurementsTest {
 
 
-  private static AHDModel ahdm;
-  private static TimeModel tm;
-  private static PersonModel p;
-  private static HapiContext ctx = new DefaultHapiContext();
+  private AHDModel ahdm;
+  private TimeModel tm;
+  private PersonModel p;
+  private HapiContext ctx = new DefaultHapiContext();
 
-  @BeforeClass
-  public static void setUp() {
+  @Before
+  public void setUp() {
     ctx.setValidationRuleBuilder(new NoValidationBuilder());
 
     ahdm = new AHDModel();
@@ -62,6 +63,17 @@ public class MeasurementsTest {
 
     pcd_01builder(t);
   }
+
+  @Test
+  public void activityMonitorTest() throws HL7Exception, IOException {
+    ActivityMonitorMeasurement t = new ActivityMonitorMeasurement();
+    t.setTimeModel(tm);
+    t.setAltitude(3.2);
+    t.setSpeed(10.0);
+
+    pcd_01builder(t);
+  }
+
 
   @Test
   public void weightscaleTest() throws HL7Exception, IOException {

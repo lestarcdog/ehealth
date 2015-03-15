@@ -31,7 +31,7 @@ public class Thermometer extends AbstractMeasurement {
       obx.getObx2_ValueType().setValue("NM");
       MeasurementHelper.setObxField3ObservationId(obx, "150364^MDC_TEMP_BODY^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeVale(obx, builder.getHL7Message(), this.temp);
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), this.temp);
       MeasurementHelper.setObxField6Unit(obx, "268192^MDC_DIM_DEGC^MDC");
     }
   }

@@ -42,7 +42,7 @@ public class BloodPressureMeasurement extends AbstractMeasurement {
       // 150021^MDC_PRESS_BLD_NONINV_SYS^MDC
       MeasurementHelper.setObxField3ObservationId(obx, "150021", "MDC_PRESS_BLD_NONINV_SYS", "MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeVale(obx, builder.getHL7Message(), systolic);
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), systolic);
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "266016", "MDC_DIM_MMHG", "MDC");
     }
@@ -54,7 +54,7 @@ public class BloodPressureMeasurement extends AbstractMeasurement {
       // 150022^MDC_PRESS_BLD_NONINV_DIA^MDC
       MeasurementHelper.setObxField3ObservationId(obx, "150022^MDC_PRESS_BLD_NONINV_DIA^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeVale(obx, builder.getHL7Message(), diastolic);
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), diastolic);
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "266016^MDC_DIM_MMHG^MDC");
 
@@ -67,7 +67,7 @@ public class BloodPressureMeasurement extends AbstractMeasurement {
       MeasurementHelper.setObxField3ObservationId(obx, "149546^MDC_PULS_RATE_NON_INV^MDC");
       getObservationalId().restartCounters();
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeVale(obx, builder.getHL7Message(), pulseRate);
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), pulseRate);
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "264864^MDC_DIM_BEAT_PER_MIN^MDC");
     }

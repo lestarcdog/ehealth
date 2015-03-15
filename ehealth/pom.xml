@@ -42,6 +42,33 @@
 				<artifactId>mqtt-client</artifactId>
 				<version>1.10</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.storm</groupId>
+				<artifactId>storm-core</artifactId>
+				<version>0.9.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.storm</groupId>
+				<artifactId>storm-hbase</artifactId>
+				<version>0.9.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-bom</artifactId>
+				<version>6.2.0.Final</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>com.rabbitmq</groupId>
+				<artifactId>amqp-client</artifactId>
+				<version>3.4.4</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -63,8 +90,9 @@
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>../ApplicationHostingDevice</module>
-		<module>../Hbase</module>
+		<module>../ehealth-ahd</module>
+		<module>../ehealth-hbase</module>
+		<module>../ehealth-storm</module>
 	</modules>
 	<name>E-Health Master Thesis</name>
 	<url>www.aut.bme.hu</url>

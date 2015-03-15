@@ -19,19 +19,20 @@ public class GlucoseMeasurement extends AbstractMeasurement {
     obx = builder.provideOBX();
     // MDS
     MeasurementHelper.initObxSegment(obx, "X", this.timeModel.getMeasurementTime());
-    // 528391^MDC_DEV_SPEC_PROFILE_BP^MDC
-    MeasurementHelper.setObxField3ObservationId(obx, "528401^MDC_DEV_SPEC_PROFILE_SCALE^MDC");
+    MeasurementHelper.setObxField3ObservationId(obx, "528401^MDC_DEV_SPEC_PROFILE_GLUCOSE^MDC");
     obx.getObx4_ObservationSubID().setValue(this.getObservationalId().getFirstGroup());
-    obx.getObx18_EquipmentInstanceIdentifier(0).getEi1_EntityIdentifier().setValue("0123456789ABCDEF");
+    obx.getObx18_EquipmentInstanceIdentifier(0).getEi1_EntityIdentifier()
+        .setValue("0123456789ABCDEF");
     obx.getObx18_EquipmentInstanceIdentifier(0).getEi2_NamespaceID().setValue("EUI-64");
 
     if (glucose != null) {
       obx = builder.provideOBX();
       MeasurementHelper.initObxSegment(obx, "R", this.timeModel.getMeasurementTime());
       obx.getObx2_ValueType().setValue("NM");
-      MeasurementHelper.setObxField3ObservationId(obx, "160184^MDC_CONC_GLU_CAPILLARY_WHOLEBLOOD^MDC");
+      MeasurementHelper.setObxField3ObservationId(obx,
+          "160184^MDC_CONC_GLU_CAPILLARY_WHOLEBLOOD^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeVale(obx, builder.getHL7Message(), glucose);
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), glucose);
       MeasurementHelper.setObxField6Unit(obx, "264274^MDC_DIM_MILLI_G_PER_DL^MDC");
     }
   }
