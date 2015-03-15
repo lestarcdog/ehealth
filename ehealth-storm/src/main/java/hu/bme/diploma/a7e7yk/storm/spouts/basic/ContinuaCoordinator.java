@@ -1,19 +1,20 @@
-package hu.bme.diploma.a7e7yk.storm.spouts.continua;
+package hu.bme.diploma.a7e7yk.storm.spouts.basic;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import storm.trident.spout.ITridentSpout.BatchCoordinator;
 
-public class ContinuaCoordinator implements BatchCoordinator<Long>, Serializable {
+public class ContinuaCoordinator implements BatchCoordinator<List<Long>>, Serializable {
 
   private static final long serialVersionUID = 1L;
   private Long counter = 0L;
 
   @Override
-  public Long initializeTransaction(long txid, Long prevMetadata, Long currMetadata) {
-    System.out.println(String.format("Coordinator init %d : %d : %d", txid, prevMetadata,
-        currMetadata));
-    return counter++;
+  public List<Long> initializeTransaction(long txid, List<Long> prevMetadata,
+      List<Long> currMetadata) {
+    return new LinkedList<Long>();
   }
 
   @Override

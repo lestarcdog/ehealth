@@ -1,7 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.topology;
 
 import hu.bme.diploma.a7e7yk.storm.bolts.PrintLnBolt;
-import hu.bme.diploma.a7e7yk.storm.spouts.continua.ContinuaSpout;
+import hu.bme.diploma.a7e7yk.storm.spouts.basic.ContinuaSpout;
 import storm.trident.Stream;
 import storm.trident.TridentTopology;
 import backtype.storm.Config;
@@ -23,7 +23,7 @@ public class EhealthTopology {
       // local cluster
       LocalCluster cluster = new LocalCluster();
       cluster.submitTopology("LOCAL", config, topology.build());
-      Thread.sleep(4000);
+      Thread.sleep(3500);
       cluster.shutdown();
     } else {
       // distributed cluster
