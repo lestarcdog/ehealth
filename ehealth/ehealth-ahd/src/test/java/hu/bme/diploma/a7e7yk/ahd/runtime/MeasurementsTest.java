@@ -9,13 +9,21 @@ import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.PulseOxymeterMeasurement
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.ThermometerMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.WeightScaleMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
+import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureHelper;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.GlucoseValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.MeasurementTime;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeterValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScaleValue;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,7 +64,9 @@ public class MeasurementsTest {
   @Test
   public void glucoseTest() throws HL7Exception, IOException {
     GlucoseMeasurement t = new GlucoseMeasurement();
-    t.setGlucose(6.7);
+    GlucoseValue v = new GlucoseValue();
+    v.setGlucose(6.5);
+    t.setGlucoseValue(v);
     t.setMeasurementTime(mt);
 
     pcd_01builder(t);
@@ -65,9 +75,12 @@ public class MeasurementsTest {
   @Test
   public void activityMonitorTest() throws HL7Exception, IOException {
     ActivityMonitorMeasurement t = new ActivityMonitorMeasurement();
+    ActivityMonitorValue v = new ActivityMonitorValue();
     t.setMeasurementTime(mt);
-    t.setAltitude(3.2);
-    t.setSpeed(10.0);
+    v.setAltitude(3.2);
+    v.setSpeed(10.0);
+    v.setActivePeriod(5.0);
+    t.setValue(v);
 
     pcd_01builder(t);
   }
@@ -76,8 +89,10 @@ public class MeasurementsTest {
   @Test
   public void weightscaleTest() throws HL7Exception, IOException {
     WeightScaleMeasurement t = new WeightScaleMeasurement();
-    t.setWeight(117.0);
-    t.setHeight(192.0);
+    WeightScaleValue v = new WeightScaleValue();
+    v.setWeight(117.0);
+    v.setHeight(192.0);
+    t.setValue(v);
     t.setMeasurementTime(mt);
 
     pcd_01builder(t);
@@ -86,10 +101,12 @@ public class MeasurementsTest {
   @Test
   public void bloosPressureTest() throws HL7Exception, IOException {
     BloodPressureMeasurement t = new BloodPressureMeasurement();
+    BloodPressureValue v = new BloodPressureValue();
     t.setMeasurementTime(mt);
-    t.setDiastolic(95.0);
-    t.setSystolic(140.5);
-    t.setPulseRate(75.5);
+    v.setDiastolic(95.0);
+    v.setSystolic(140.5);
+    v.setPulseRate(75.5);
+    t.setValue(v);
 
     pcd_01builder(t);
   }
@@ -97,8 +114,10 @@ public class MeasurementsTest {
   @Test
   public void thermometerTest() throws HL7Exception, IOException {
     ThermometerMeasurement t = new ThermometerMeasurement();
+    ThermometerValue v = new ThermometerValue();
     t.setMeasurementTime(mt);
-    t.setTemp(35.69);
+    v.setTemp(35.69);
+    t.setValue(v);
 
     pcd_01builder(t);
   }
@@ -106,11 +125,20 @@ public class MeasurementsTest {
   @Test
   public void pulseOxyMeterTest() throws HL7Exception, IOException {
     PulseOxymeterMeasurement t = new PulseOxymeterMeasurement();
+    PulseOxyMeterValue v = new PulseOxyMeterValue();
     t.setMeasurementTime(mt);
-    t.setSpo2(80.9);
-    t.setPulseRate(72.3);
+    v.setSpo2(80.9);
+    v.setPulseRate(72.3);
+    t.setValue(v);
 
     pcd_01builder(t);
+  }
+
+  @Test
+  public void convertMdcIdAndBack() {
+    int x = NomenclatureHelper.getContinuaValueId(BloodPressureValue.MDC_VALUE);
+    Assert.assertEquals(BloodPressureValue.MDC_VALUE.getValue(),
+        NomenclatureHelper.getIdFromContinuaValue(x));
   }
 
   private void pcd_01builder(AbstractMeasurement mm) throws HL7Exception, IOException {
@@ -120,5 +148,7 @@ public class MeasurementsTest {
     String msg = parser.encode(m);
     System.err.println(msg);
   }
+
+
 
 }

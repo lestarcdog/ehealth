@@ -6,7 +6,7 @@ public class NomenclatureValue {
   private final String name;
   private final int value;
 
-  public NomenclatureValue(String name, int parentValue, int value) {
+  public NomenclatureValue(String name, int value, int parentValue) {
     this.parentValue = parentValue;
     this.name = name;
     this.value = value;
