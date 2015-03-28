@@ -5,6 +5,26 @@
 	<artifactId>ehealth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<properties>
+		<spring-version>4.1.6.RELEASE</spring-version>
+	</properties>
+	<developers>
+		<developer>
+			<id>csaba.lestar</id>
+			<name>Csaba Lestar</name>
+			<email>csaba.lestar@gmail.com</email>
+			<roles>
+				<role>Master of the Universe</role>
+				<role>SuperAdmin</role>
+			</roles>
+		</developer>
+	</developers>
+	<inceptionYear>2015</inceptionYear>
+	<scm>
+		<url>https://github.com/lestarcdog/ehealth</url>
+		<developerConnection>Csaba Lestár</developerConnection>
+		<tag>e-Health</tag>
+	</scm>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -69,6 +89,26 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>1.7.10</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -91,13 +131,13 @@
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>../ehealth-ahd</module>
-		<module>../ehealth-hbase</module>
-		<module>../ehealth-storm</module>
+		<module>ehealth-ahd</module>
+		<module>ehealth-hbase</module>
+		<module>ehealth-storm</module>
+		<module>ehealth-common</module>
 	</modules>
 	<name>E-Health Master Thesis</name>
 	<url>www.aut.bme.hu</url>
-	<description>This is the shiiiiiit</description>
 	<build>
 		<plugins>
 			<plugin>
