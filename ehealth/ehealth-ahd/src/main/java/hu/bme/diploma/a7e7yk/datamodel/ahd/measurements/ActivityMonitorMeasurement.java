@@ -1,19 +1,17 @@
 package hu.bme.diploma.a7e7yk.datamodel.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.SnomedConcept;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorValue;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
 public class ActivityMonitorMeasurement extends AbstractMeasurement {
 
-  private Double speed;
-  private Double altitude;
-  private Double activePeriod = 5.0;
+  private ActivityMonitorValue value;
 
 
   public ActivityMonitorMeasurement() {
-    super(new SnomedConcept("308516007", "Well adult monitoring call"));
+    super(ActivityMonitorValue.SNOMED_CONCEPT);
   }
 
   @Override
@@ -40,49 +38,45 @@ public class ActivityMonitorMeasurement extends AbstractMeasurement {
     // 68185^MDC_ATTR_TIME_PD_MSMT_ACTIVE^MDC
     MeasurementHelper.setObxField3ObservationId(obx, "68185^MDC_ATTR_TIME_PD_MSMT_ACTIVE^MDC");
     obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFifthId());
-    MeasurementHelper.setObxField5NMTypeValue(obx, this.builder.getHL7Message(), activePeriod);
+    MeasurementHelper.setObxField5NMTypeValue(obx, this.builder.getHL7Message(),
+        value.getActivePeriod());
     // 264320^MDC_DIM_SEC^MDC
     MeasurementHelper.setObxField6Unit(obx, "264320^MDC_DIM_SEC^MDC");
 
-    if (speed != null) {
+    if (value.getSpeed() != null) {
       obx = builder.provideOBX();
       MeasurementHelper.initObxSegment(obx, "R", measurementTime.getMeasurementTime());
       obx.getObx2_ValueType().setValue("NM");
       MeasurementHelper.setObxField3ObservationId(obx, "8454254^MDC_HF_SPEED^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeValue(obx, this.builder.getHL7Message(), speed);
+      MeasurementHelper
+          .setObxField5NMTypeValue(obx, this.builder.getHL7Message(), value.getSpeed());
       // 264320^MDC_DIM_SEC^MDC
       MeasurementHelper.setObxField6Unit(obx, "268704^MDC_DIM_M_PER_MIN^MDC");
     }
 
-    if (altitude != null) {
+    if (value.getAltitude() != null) {
       obx = builder.provideOBX();
       MeasurementHelper.initObxSegment(obx, "R", measurementTime.getMeasurementTime());
       obx.getObx2_ValueType().setValue("NM");
       MeasurementHelper.setObxField3ObservationId(obx, "8454246^MDC_HF_ALT^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeValue(obx, this.builder.getHL7Message(), altitude);
+      MeasurementHelper.setObxField5NMTypeValue(obx, this.builder.getHL7Message(),
+          value.getAltitude());
       // 264320^MDC_DIM_SEC^MDC
       MeasurementHelper.setObxField6Unit(obx, "263424^MDC_DIM_M^MDC");
     }
 
   }
 
-  public Double getSpeed() {
-    return speed;
+  public ActivityMonitorValue getValue() {
+    return value;
   }
 
-  public void setSpeed(Double speed) {
-    this.speed = speed;
+  public void setValue(ActivityMonitorValue value) {
+    this.value = value;
   }
 
-  public Double getAltitude() {
-    return altitude;
-  }
-
-  public void setAltitude(Double altitude) {
-    this.altitude = altitude;
-  }
 
 
 }

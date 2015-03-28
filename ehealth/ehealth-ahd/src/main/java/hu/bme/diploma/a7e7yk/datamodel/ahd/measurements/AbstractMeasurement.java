@@ -1,11 +1,10 @@
 package hu.bme.diploma.a7e7yk.datamodel.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.runtime.IMessageBuilder;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.RegistrationCertificateModel;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.helper.MeasurementHelper;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.interfaces.IMeasurement;
+import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.MeasurementTime;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.SnomedConcept;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -23,7 +22,6 @@ import com.google.common.base.Joiner;
 
 public abstract class AbstractMeasurement implements IMeasurement {
   protected MeasurementTime measurementTime;
-  private RegistrationCertificateModel registrationCertificateModel;
   private final SnomedConcept universalServiceIdentifier;
   protected IMessageBuilder builder;
   private boolean generateMDSSegments = false;
@@ -124,15 +122,6 @@ public abstract class AbstractMeasurement implements IMeasurement {
 
 
   // getter / setters
-
-  public RegistrationCertificateModel getRegistrationCertificateModel() {
-    return registrationCertificateModel;
-  }
-
-  public void setRegistrationCertificateModel(
-      RegistrationCertificateModel registrationCertificateModel) {
-    this.registrationCertificateModel = registrationCertificateModel;
-  }
 
   public SnomedConcept getUniversalServiceIdentifier() {
     return universalServiceIdentifier;

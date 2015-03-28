@@ -6,7 +6,7 @@ import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.ActivityMonitorMeasureme
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.BloodPressureMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.GlucoseMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.PulseOxymeterMeasurement;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.Thermometer;
+import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.ThermometerMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.WeightScaleMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.MeasurementTime;
@@ -96,7 +96,7 @@ public class MeasurementsTest {
 
   @Test
   public void thermometerTest() throws HL7Exception, IOException {
-    Thermometer t = new Thermometer();
+    ThermometerMeasurement t = new ThermometerMeasurement();
     t.setMeasurementTime(mt);
     t.setTemp(35.69);
 

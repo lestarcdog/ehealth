@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns;
+package hu.bme.diploma.a7e7yk.datamodel.health;
 
 public class SnomedConcept {
 	private final String snomedId;
