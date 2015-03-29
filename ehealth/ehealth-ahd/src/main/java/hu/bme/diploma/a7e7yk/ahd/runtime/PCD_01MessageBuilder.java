@@ -22,7 +22,7 @@ import ca.uhn.hl7v2.model.v26.segment.OBX;
 import ca.uhn.hl7v2.model.v26.segment.PID;
 
 public class PCD_01MessageBuilder implements IMessageBuilder {
-  private static final Logger _l = LoggerFactory.getLogger(PCD_01MessageBuilder.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PCD_01MessageBuilder.class);
   private int messageControlId = 0;
   private ORU_R01 msg;
   private ORU_R01_ORDER_OBSERVATION orderObservation;

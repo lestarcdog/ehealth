@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073;
+package hu.bme.diploma.a7e7yk.datamodel.ieee_11073;
 
 
 public class NomenclatureValue {

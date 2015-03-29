@@ -1,6 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq;
 
-import hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq.RabbitMqConsumer.RabbitMqMessage;
+import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqConsumer;
+import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqConsumer.RabbitMqMessage;
 
 import java.io.IOException;
 import java.util.Arrays;

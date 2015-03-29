@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.topology;
 
-import hu.bme.diploma.a7e7yk.storm.bolts.PrintLnBolt;
+import hu.bme.diploma.a7e7yk.storm.bolts.ContinuaMessageConverterBolt;
 import hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq.RabbitMqSpout;
 
 import java.io.IOException;
@@ -12,21 +12,29 @@ import storm.trident.Stream;
 import storm.trident.TridentTopology;
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
-import backtype.storm.tuple.Fields;
 
 public class EhealthTopology {
 
   private static final Logger LOG = LoggerFactory.getLogger(EhealthTopology.class);
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException, IOException {
     TridentTopology topology = new TridentTopology();
 
-    RabbitMqSpout rabbitMqSpout;
+    RabbitMqSpout rabbitMqSpout = new RabbitMqSpout();
+    ContinuaMessageConverterBolt continaBolt = new ContinuaMessageConverterBolt();
     try {
       rabbitMqSpout = new RabbitMqSpout();
 
       Stream inputStream = topology.newStream("stream", rabbitMqSpout);
-      inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, new PrintLnBolt(), new Fields("semmi"));
+      Stream realTimeStream =
+          inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt,
+              ContinuaMessageConverterBolt.OUTPUT_FIELDS_OK);
+      Stream persistStream =
+          inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt,
+              ContinuaMessageConverterBolt.OUTPUT_FIELDS_OK);
+      Stream reportToUserStrem =
+          inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt,
+              ContinuaMessageConverterBolt.OUTPUT_FIELDS_ERROR);
       inputStream.shuffle();
 
 
@@ -41,6 +49,7 @@ public class EhealthTopology {
 
     if (args.length == 0) {
       // local cluster
+
       LocalCluster cluster = new LocalCluster();
       cluster.submitTopology("LOCAL", config, topology.build());
       Thread.sleep(5500);

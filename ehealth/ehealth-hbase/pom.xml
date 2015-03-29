@@ -3,28 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase</artifactId>
-			<version>0.99.2</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-common</artifactId>
-			<version>0.99.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-client</artifactId>
-			<version>0.99.2</version>
-		</dependency>
-		<dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
 			<scope>system</scope>
 			<systemPath>C:\Program Files\Java\jdk1.8.0_31\lib\tools.jar</systemPath>
 			<version>1.8</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

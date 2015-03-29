@@ -5,10 +5,15 @@
 	<artifactId>ehealth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	
+	<!-- Properties -->
 	<properties>
 		<spring-version>4.1.6.RELEASE</spring-version>
 		<skipTests>true</skipTests>
+		<netty-version>5.0.0.Alpha2</netty-version>
+		<netty-socketio-version>1.7.7</netty-socketio-version>
 	</properties>
+	
 	<developers>
 		<developer>
 			<id>csaba.lestar</id>
@@ -60,7 +65,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
-				<artifactId>hbase</artifactId>
+				<artifactId>hbase-client</artifactId>
 				<version>1.0.0</version>
 			</dependency>
 
@@ -110,6 +115,12 @@
 				<artifactId>spring-test</artifactId>
 				<version>${spring-version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.corundumstudio.socketio</groupId>
+				<artifactId>netty-socketio</artifactId>
+				<version>${netty-socketio-version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>

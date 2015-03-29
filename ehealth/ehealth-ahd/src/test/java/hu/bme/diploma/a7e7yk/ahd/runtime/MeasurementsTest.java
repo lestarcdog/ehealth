@@ -9,7 +9,6 @@ import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.PulseOxymeterMeasurement
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.ThermometerMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.WeightScaleMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureHelper;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.GlucoseValue;
@@ -17,6 +16,7 @@ import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.MeasurementTime;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeterValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScaleValue;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureHelper;
 
 import java.io.IOException;
 import java.time.LocalDate;

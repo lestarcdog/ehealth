@@ -1,10 +1,10 @@
 package hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureConstants;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureValue;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureConstants;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureValue;
 
-public class BloodPressureValue {
+public class BloodPressureValue extends AbstractVitalSignValue {
   private Double systolic;
   private Double diastolic;
   private Double meanArterialPressure;
@@ -46,6 +46,16 @@ public class BloodPressureValue {
 
   public void setPulseRate(Double pulseRate) {
     this.pulseRate = pulseRate;
+  }
+
+  @Override
+  public SnomedConcept getSnomedConcept() {
+    return SNOMED_CONCEPT;
+  }
+
+  @Override
+  public NomenclatureValue getMdcMeasurementType() {
+    return MDC_VALUE;
   }
 
 }

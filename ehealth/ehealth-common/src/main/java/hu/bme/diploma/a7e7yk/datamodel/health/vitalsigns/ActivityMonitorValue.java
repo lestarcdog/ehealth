@@ -1,10 +1,10 @@
 package hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureConstants;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureValue;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureConstants;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureValue;
 
-public class ActivityMonitorValue {
+public class ActivityMonitorValue extends AbstractVitalSignValue {
   private Double speed;
   private Double altitude;
   private Double activePeriod;
@@ -37,5 +37,15 @@ public class ActivityMonitorValue {
 
   public void setActivePeriod(Double activePeriod) {
     this.activePeriod = activePeriod;
+  }
+
+  @Override
+  public SnomedConcept getSnomedConcept() {
+    return SNOMED_CONCEPT;
+  }
+
+  @Override
+  public NomenclatureValue getMdcMeasurementType() {
+    return MDC_VALUE;
   }
 }

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If
  * not, see <http://www.gnu.org/licenses/>.
  */
-package hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073;
+package hu.bme.diploma.a7e7yk.datamodel.ieee_11073;
 
 /*************************************************************************************************
  * This interface represents nomenclature codes This annex contains the nomenclature codes used in

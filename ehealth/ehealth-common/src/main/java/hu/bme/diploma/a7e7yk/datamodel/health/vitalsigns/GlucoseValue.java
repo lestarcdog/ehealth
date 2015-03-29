@@ -1,10 +1,10 @@
 package hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureConstants;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureValue;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureConstants;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureValue;
 
-public class GlucoseValue {
+public class GlucoseValue extends AbstractVitalSignValue {
   private Double glucose;
   public static final SnomedConcept SNOMED_CONCEPT = new SnomedConcept("359772000",
       "Glucose monitoring at home");
@@ -18,6 +18,16 @@ public class GlucoseValue {
 
   public void setGlucose(Double glucose) {
     this.glucose = glucose;
+  }
+
+  @Override
+  public SnomedConcept getSnomedConcept() {
+    return SNOMED_CONCEPT;
+  }
+
+  @Override
+  public NomenclatureValue getMdcMeasurementType() {
+    return MDC_VALUE;
   }
 
 }

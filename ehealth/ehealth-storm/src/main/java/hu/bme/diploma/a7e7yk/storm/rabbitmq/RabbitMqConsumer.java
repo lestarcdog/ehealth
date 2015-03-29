@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq;
+package hu.bme.diploma.a7e7yk.storm.rabbitmq;
 
 import java.io.IOException;
 

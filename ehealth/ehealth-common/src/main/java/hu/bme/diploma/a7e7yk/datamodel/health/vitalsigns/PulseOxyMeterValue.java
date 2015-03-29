@@ -1,10 +1,10 @@
 package hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureConstants;
-import hu.bme.diploma.a7e7yk.datamodel.health.ieee_11073.NomenclatureValue;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureConstants;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureValue;
 
-public class PulseOxyMeterValue {
+public class PulseOxyMeterValue extends AbstractVitalSignValue {
   private Double spo2;
   private Double spo2Accuracy;
   private String measurementStatus;
@@ -55,6 +55,16 @@ public class PulseOxyMeterValue {
 
   public void setPulsatileQuality(Double pulsatileQuality) {
     this.pulsatileQuality = pulsatileQuality;
+  }
+
+  @Override
+  public SnomedConcept getSnomedConcept() {
+    return SNOMED_CONCEPT;
+  }
+
+  @Override
+  public NomenclatureValue getMdcMeasurementType() {
+    return MDC_VALUE;
   }
 
 }
