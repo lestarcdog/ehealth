@@ -12,4 +12,8 @@ public class NomenclatureHelper {
     return (continuaValue & (BIT16 - 1));
   }
 
+  public static int getIdFromContinuaValue(String continuaValueString) {
+    return (Integer.parseInt(continuaValueString) & (BIT16 - 1));
+  }
+
 }

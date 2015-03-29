@@ -17,8 +17,8 @@ public class MeasurementHelper {
 
   private static final TimeZone GMT_ZONEID = TimeZone.getTimeZone("GMT");
 
-  public static void setObxField3ObservationId(OBX obx, String identifier, String text,
-      String codingSytem) throws DataTypeException {
+  public static void setObxField3ObservationId(OBX obx, String identifier, String text, String codingSytem)
+      throws DataTypeException {
     obx.getObx3_ObservationIdentifier().getCwe1_Identifier().setValue(identifier);
     obx.getObx3_ObservationIdentifier().getCwe2_Text().setValue(text);
     obx.getObx3_ObservationIdentifier().getCwe3_NameOfCodingSystem().setValue(codingSytem);
@@ -29,8 +29,7 @@ public class MeasurementHelper {
     setObxField3ObservationId(obx, s.get(0), s.get(1), s.get(2));
   }
 
-  public static void setObxField5NMTypeValue(OBX obx, Message msg, Double value)
-      throws DataTypeException {
+  public static void setObxField5NMTypeValue(OBX obx, Message msg, Double value) throws DataTypeException {
     obx.getObx5_ObservationValue(0).setData(new NM(msg) {
       {
         setValue(value.toString());
@@ -38,10 +37,12 @@ public class MeasurementHelper {
     });
   }
 
-  public static void setObxField5CWETypeValue(OBX obx, Message msg, String cweString)
-      throws DataTypeException {
+  public static void setObxField5CWETypeValue(OBX obx, Message msg, String cweString) throws DataTypeException {
     List<String> s = Splitter.on("^").splitToList(cweString);
     CWE cwe = new CWE(msg);
+    cwe.getCwe1_Identifier().setValue(s.get(0));
+    cwe.getCwe2_Text().setValue(s.get(1));
+    cwe.getCwe3_NameOfCodingSystem().setValue(s.get(2));
     obx.getObx5_ObservationValue(0).setData(cwe);
   }
 

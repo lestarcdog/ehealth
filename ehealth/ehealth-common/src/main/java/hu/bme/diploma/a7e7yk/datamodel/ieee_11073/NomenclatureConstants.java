@@ -235,5 +235,22 @@ public interface NomenclatureConstants {
   public static final int MDC_RET_CODE_STORE_EXH = 2000; /* Storage such as disk is full */
   public static final int MDC_RET_CODE_STORE_OFFLN = 2001; /* Storage such as disk is offline */
 
+  /*************************************************************************************************
+   * From Return Codes (MDC_PART_PHD_HF)
+   **************************************************************************************************/
+  public static final int MDC_HF_SESSION = 123;
+  public static final int MDC_HF_ACT_RUN = 1011;
+  public static final int MDC_HF_ACT_UNKNOWN = 1007;
+  public static final int MDC_HF_ALT = 102;
+  public static final int MDC_HF_DISTANCE = 103;
+  public static final int MDC_HF_ASC_TME_DIST = 104;
+  public static final int MDC_HF_DESC_TIME_DIST = 105;
+  public static final int MDC_HF_LATITUDE = 106;
+  public static final int MDC_HF_LONGITUDE = 107;
+  public static final int MDC_HF_PROGRAM_ID = 108;
+  public static final int MDC_HF_SLOPES = 109;
+  public static final int MDC_HF_SPEED = 110;
+
+
 
 }

@@ -23,14 +23,13 @@ public class BloodPressureMeasurement extends AbstractMeasurement {
     // 528391^MDC_DEV_SPEC_PROFILE_BP^MDC
     MeasurementHelper.setObxField3ObservationId(obx, "528391^MDC_DEV_SPEC_PROFILE_BP^MDC");
     obx.getObx4_ObservationSubID().setValue(this.getObservationalId().getFirstGroup());
-    obx.getObx18_EquipmentInstanceIdentifier(0).getEi1_EntityIdentifier()
-        .setValue("0123456789ABCDEF");
+    obx.getObx18_EquipmentInstanceIdentifier(0).getEi1_EntityIdentifier().setValue("0123456789ABCDEF");
     obx.getObx18_EquipmentInstanceIdentifier(0).getEi2_NamespaceID().setValue("EUI-64");
 
     // Systolic/Diastolic/MAP
     obx = builder.provideOBX();
     // 150020^MDC_PRESS_BLD_NONINV^MDC
-    MeasurementHelper.initObxSegment(obx, "x", this.measurementTime.getMeasurementTime());
+    MeasurementHelper.initObxSegment(obx, "X", this.measurementTime.getMeasurementTime());
     obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextThirdId());
     MeasurementHelper.setObxField3ObservationId(obx, "150020", "MDC_PRESS_BLD_NONINV", "MDC");
 
