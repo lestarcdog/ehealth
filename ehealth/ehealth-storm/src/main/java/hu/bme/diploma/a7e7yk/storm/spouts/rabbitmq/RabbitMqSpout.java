@@ -1,5 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq;
 
+import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqConsumer;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqConsumer.RabbitMqMessage;
 
@@ -24,7 +25,8 @@ public class RabbitMqSpout extends BaseRichSpout {
   private static final long serialVersionUID = 7843454057101302500L;
 
   private static final Logger LOG = LoggerFactory.getLogger(RabbitMqSpout.class);
-  public static final Fields OUTPUT_FIELDS = new Fields("ContinuaMsg");
+  public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
+      StormFieldsConstants.CONTINUA_MSG_FIELD);
 
   private SpoutOutputCollector collector;
   private final RabbitMqConsumer consumer;
@@ -45,8 +47,7 @@ public class RabbitMqSpout extends BaseRichSpout {
       RabbitMqMessage msg;
       msg = consumer.consume();
       collector.emit(Arrays.asList(msg.msg), msg.deliveryTag);
-    } catch (ShutdownSignalException | ConsumerCancelledException | IOException
-        | InterruptedException e) {
+    } catch (ShutdownSignalException | ConsumerCancelledException | IOException | InterruptedException e) {
       LOG.debug(null, e);
       collector.reportError(e);
     }
@@ -66,13 +67,11 @@ public class RabbitMqSpout extends BaseRichSpout {
 
   @Override
   public void ack(Object msgId) {
-    // TODO Auto-generated method stub
     super.ack(msgId);
   }
 
   @Override
   public void fail(Object msgId) {
-    // TODO Auto-generated method stub
     super.fail(msgId);
   }
 

@@ -1,4 +1,6 @@
-package hu.bme.diploma.a7e7yk.storm.bolts;
+package hu.bme.diploma.a7e7yk.storm.trident.bolts;
+
+import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 
 import java.util.Map;
 
@@ -19,13 +21,12 @@ public class PrintLnBolt extends BaseFunction {
   @Override
   public void execute(TridentTuple tuple, TridentCollector collector) {
 
-    System.err.println(txt + idx + " userid: " + tuple.getInteger(0));
+    System.err.println(txt + idx + " userid: " + tuple.getStringByField(StormFieldsConstants.USER_ID_FIELD));
   }
 
   @Override
   public void prepare(Map conf, TridentOperationContext context) {
     idx = context.getPartitionIndex();
-    super.prepare(conf, context);
   }
 
 }

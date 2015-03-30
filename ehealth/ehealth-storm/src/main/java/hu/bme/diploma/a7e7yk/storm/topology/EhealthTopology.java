@@ -1,8 +1,10 @@
 package hu.bme.diploma.a7e7yk.storm.topology;
 
-import hu.bme.diploma.a7e7yk.storm.bolts.ContinuaMessageConverterBolt;
-import hu.bme.diploma.a7e7yk.storm.bolts.PrintLnBolt;
+import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq.RabbitMqSpout;
+import hu.bme.diploma.a7e7yk.storm.trident.bolts.ContinuaMessageConverterTridentBolt;
+import hu.bme.diploma.a7e7yk.storm.trident.bolts.PrintLnBolt;
+import hu.bme.diploma.a7e7yk.storm.trident.filter.ErrorFilter;
 
 import java.io.IOException;
 
@@ -23,25 +25,28 @@ public class EhealthTopology {
     TridentTopology topology = new TridentTopology();
 
     RabbitMqSpout rabbitMqSpout = new RabbitMqSpout();
-    ContinuaMessageConverterBolt continaBolt = new ContinuaMessageConverterBolt();
+    ContinuaMessageConverterTridentBolt continaBolt = new ContinuaMessageConverterTridentBolt();
 
     Stream inputStream = topology.newStream("stream", rabbitMqSpout);
     Stream realTimeStream =
-        inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt,
-            ContinuaMessageConverterBolt.OUTPUT_FIELDS);
+        inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt, ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS)
+            .each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new ErrorFilter())
+            .partitionBy(new Fields(StormFieldsConstants.SENDER_ID_FIELD));
+
     Stream persistStream =
-        inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt,
-            ContinuaMessageConverterBolt.OUTPUT_FIELDS);
+        inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt, ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS)
+            .each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new ErrorFilter());
+
     Stream reportToUserStream =
-        inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt,
-            ContinuaMessageConverterBolt.OUTPUT_FIELDS);
+        inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt, ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS);
+
     // split
-    realTimeStream.each(ContinuaMessageConverterBolt.OUTPUT_FIELDS, new PrintLnBolt("realTime"),
+    realTimeStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("realTime"), new Fields(
+        "semmi"));
+    persistStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("persistStream"), new Fields(
+        "semmi"));
+    reportToUserStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("reportUserStream"),
         new Fields("semmi"));
-    persistStream.each(ContinuaMessageConverterBolt.OUTPUT_FIELDS,
-        new PrintLnBolt("persistStream"), new Fields("semmi"));
-    reportToUserStream.each(ContinuaMessageConverterBolt.OUTPUT_FIELDS, new PrintLnBolt(
-        "reportUserStream"), new Fields("semmi"));
 
     Config config = new Config();
     config.put(Config.TOPOLOGY_TRIDENT_BATCH_EMIT_INTERVAL_MILLIS, 200);

@@ -29,7 +29,7 @@ import ca.uhn.hl7v2.model.v26.segment.PID;
 public class Hl7MessageConverter {
 
   /**
-   * Extracts the vital signs from a Hl7v2.7 Continua specified message
+   * Extracts the vital signs from a Hl7v2.7 Continua specified messages and returns them as a list.
    * 
    * @param message contains health info
    * @return list of converted objects
@@ -49,18 +49,18 @@ public class Hl7MessageConverter {
       switch (valueId) {
         case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_HF_CARDIO:
           vitalSigns.add(convertToActivityMonitorValue(reader));
+          break;
         case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_BP:
           vitalSigns.add(convertToBloodPressureValue(reader));
+          break;
         case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_GLUCOSE:
-          vitalSigns.add(convertToBloodPressureValue(reader));
+          vitalSigns.add(convertToGlucoseValue(reader));
+          break;
         default:
           throw new HL7Exception("Invali parameter : " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
-
-
-
-    return null;
+    return vitalSigns;
   }
 
   /**
@@ -82,7 +82,7 @@ public class Hl7MessageConverter {
       m.setFamilyName(pid.getPid5_PatientName(0).getFamilyName().getFn1_Surname().getValue());
       m.setGivenName(pid.getPid5_PatientName(0).getGivenName().getValue());
     }
-    return null;
+    return m;
   }
 
   private static ActivityMonitorValue convertToActivityMonitorValue(ObxReader reader) throws HL7Exception {
@@ -96,6 +96,8 @@ public class Hl7MessageConverter {
         case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_HF_CARDIO:
           v.setMeasurementTime(getObx14AsZonedDateTime(obx));
           break;
+        case NomenclatureConstants.MDC_HF_SESSION:
+          break;
         case NomenclatureConstants.MDC_HF_ACT_UNKNOWN:
           break;
         case NomenclatureConstants.MDC_ATTR_TIME_PD_MSMT_ACTIVE:
@@ -108,7 +110,7 @@ public class Hl7MessageConverter {
           v.setAltitude(getObx5AsDouble(obx));
           break;
         default:
-          throw new HL7Exception("Invali parameter for Activity monitor: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invalid parameter for Activity monitor: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return v;
@@ -137,7 +139,7 @@ public class Hl7MessageConverter {
           v.setMeanArterialPressure(getObx5AsDouble(obx));
           break;
         default:
-          throw new HL7Exception("Invali parameter for Activity monitor: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invali parameter for blood pressure: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return v;
@@ -158,7 +160,7 @@ public class Hl7MessageConverter {
           v.setGlucose(getObx5AsDouble(obx));
           break;
         default:
-          throw new HL7Exception("Invali parameter for Activity monitor: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invali parameter for glucose meter: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return v;
@@ -203,7 +205,7 @@ public class Hl7MessageConverter {
 
   private static class ObxReader {
     private final ListIterator<ORU_R01_OBSERVATION> it;
-    private int majorGroup = -1;
+    private String majorGroup = "-1";
 
     public ObxReader(ListIterator<ORU_R01_OBSERVATION> iterator) {
       it = iterator;
@@ -215,7 +217,7 @@ public class Hl7MessageConverter {
         obx = it.next().getOBX();
         // break at next major group
         if (!obx.getObx4_ObservationSubID().getValue().contains(".")) {
-          majorGroup = Integer.parseInt(obx.getObx4_ObservationSubID().getValue());
+          majorGroup = obx.getObx4_ObservationSubID().getValue();
           it.previous();
           return obx;
         }
@@ -226,7 +228,8 @@ public class Hl7MessageConverter {
     public OBX nextObxInMajorGroup() {
       while (it.hasNext()) {
         OBX obx = it.next().getOBX();
-        if (obx.getObx4_ObservationSubID().getValue().contains(".")) {
+        String subId = obx.getObx4_ObservationSubID().getValue();
+        if (subId.equals(majorGroup) || obx.getObx4_ObservationSubID().getValue().contains(".")) {
           return obx;
         } else {
           it.previous();
