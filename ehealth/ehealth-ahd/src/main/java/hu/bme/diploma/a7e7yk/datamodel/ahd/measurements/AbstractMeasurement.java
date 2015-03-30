@@ -4,7 +4,6 @@ import hu.bme.diploma.a7e7yk.ahd.runtime.IMessageBuilder;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.helper.MeasurementHelper;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.interfaces.IMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.MeasurementTime;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -36,10 +35,8 @@ public abstract class AbstractMeasurement implements IMeasurement {
 
   private void generateMSH() throws DataTypeException {
     MSH msh = builder.provideMSH();
-    msh.getMsh3_SendingApplication().getHd1_NamespaceID()
-        .setValue(builder.getAhdModel().getSendingApplicationName());
-    msh.getMsh3_SendingApplication().getHd2_UniversalID()
-        .setValue(builder.getAhdModel().getSendingApplicationCode());
+    msh.getMsh3_SendingApplication().getHd1_NamespaceID().setValue(builder.getAhdModel().getSendingApplicationName());
+    msh.getMsh3_SendingApplication().getHd2_UniversalID().setValue(builder.getAhdModel().getSendingApplicationCode());
     msh.getMsh3_SendingApplication().getHd3_UniversalIDType()
         .setValue(builder.getAhdModel().getSendingApplicationFormat());
     msh.getMsh7_DateTimeOfMessage().setValue(
@@ -69,7 +66,7 @@ public abstract class AbstractMeasurement implements IMeasurement {
     }
     // OBR
     generateOBR();
-    // put the bitches other here
+    // put the other bitches here
     generateMeasurementOBXs();
   }
 
@@ -83,8 +80,7 @@ public abstract class AbstractMeasurement implements IMeasurement {
     id.getCx1_IDNumber().setValue(builder.getPersonModel().getSsn());
     id.getCx4_AssigningAuthority().getHd2_UniversalID().setValue("OEP");
     id.getCx5_IdentifierTypeCode().setValue("SSN");
-    pid.getPid5_PatientName(0).getFamilyName().getFn1_Surname()
-        .setValue(builder.getPersonModel().getFamilyName());
+    pid.getPid5_PatientName(0).getFamilyName().getFn1_Surname().setValue(builder.getPersonModel().getFamilyName());
     pid.getPid5_PatientName(0).getGivenName().setValue(builder.getPersonModel().getGivenName());
     Calendar c = Calendar.getInstance();
     LocalDate db = builder.getPersonModel().getBirthDate();
@@ -104,16 +100,14 @@ public abstract class AbstractMeasurement implements IMeasurement {
     ei.getEi2_NamespaceID().setValue(builder.getAhdModel().getSendingApplicationName());
     ei.getEi3_UniversalID().setValue(builder.getAhdModel().getSendingApplicationCode());
     ei.getEi4_UniversalIDType().setValue(builder.getAhdModel().getSendingApplicationFormat());
-    obr.getObr4_UniversalServiceIdentifier().getCwe1_Identifier()
-        .setValue(universalServiceIdentifier.getSnomedId());
-    obr.getObr4_UniversalServiceIdentifier().getCwe2_Text()
-        .setValue(universalServiceIdentifier.getSnomedName());
+    obr.getObr4_UniversalServiceIdentifier().getCwe1_Identifier().setValue(universalServiceIdentifier.getSnomedId());
+    obr.getObr4_UniversalServiceIdentifier().getCwe2_Text().setValue(universalServiceIdentifier.getSnomedName());
     obr.getObr4_UniversalServiceIdentifier().getCwe3_NameOfCodingSystem().setValue("SNOMED-CT");
     obr.getObr7_ObservationDateTime().setValue(
         MeasurementHelper.convertDateTimeToGMTCalendar(measurementTime.getMeasurementTime()));
     obr.getObr8_ObservationEndDateTime().setValue(
-        MeasurementHelper.convertDateTimeToGMTCalendar(measurementTime.getMeasurementTime().plus(1,
-            ChronoUnit.MINUTES)));
+        MeasurementHelper
+            .convertDateTimeToGMTCalendar(measurementTime.getMeasurementTime().plus(1, ChronoUnit.MINUTES)));
   }
 
   protected ObservationalId getObservationalId() {

@@ -163,10 +163,10 @@ public interface NomenclatureConstants {
    **************************************************************************************************/
   public static final int MDC_PULS_OXIM_PULS_RATE = 18458; /*                               */
   public static final int MDC_PULS_RATE_NON_INV = 18474; /*                               */
-  public static final int MDC_PRESS_BD_NONINV = 18948; /*                               */
-  public static final int MDC_PRESS_BD_NONINV_SYS = 18949; /*                               */
-  public static final int MDC_PRESS_BD_NONINV_DIA = 18950; /*                               */
-  public static final int MDC_PRESS_BD_NONINV_MEAN = 18951; /*                               */
+  public static final int MDC_PRESS_BLD_NONINV = 18948; /*                               */
+  public static final int MDC_PRESS_BLD_NONINV_SYS = 18949; /*                               */
+  public static final int MDC_PRESS_BLD_NONINV_DIA = 18950; /*                               */
+  public static final int MDC_PRESS_BLD_NONINV_MEAN = 18951; /*                               */
   public static final int MDC_SAT_O2_QUAL = 19248; /*                               */
   public static final int MDC_TEMP_BODY = 19292; /*                               */
   public static final int MDC_PULS_OXIM_PERF_REL = 19376; /*                               */
@@ -185,6 +185,7 @@ public interface NomenclatureConstants {
   public static final int MDC_MODALITY_FAST = 19508; /*                               */
   public static final int MDC_MODALITY_SLOW = 19512; /*                               */
   public static final int MDC_MODALITY_SPOT = 19516; /*                               */
+  public static final int MDC_CONC_GLU_CAPILLARY_WHOLEBLOOD = 29112;
 
   /*************************************************************************************************
    * From Dimensions (MDC_PART_DIM)

@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns;
+package hu.bme.diploma.a7e7yk.datamodel.ahd.measurements;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
