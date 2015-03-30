@@ -3,7 +3,7 @@ package hu.bme.diploma.a7e7yk.storm.topology;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq.RabbitMqSpout;
 import hu.bme.diploma.a7e7yk.storm.trident.bolts.ContinuaMessageConverterTridentBolt;
-import hu.bme.diploma.a7e7yk.storm.trident.bolts.PrintLnBolt;
+import hu.bme.diploma.a7e7yk.storm.trident.bolts.PrintLnTridentBolt;
 import hu.bme.diploma.a7e7yk.storm.trident.filter.ErrorFilter;
 
 import java.io.IOException;
@@ -41,11 +41,11 @@ public class EhealthTopology {
         inputStream.each(RabbitMqSpout.OUTPUT_FIELDS, continaBolt, ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS);
 
     // split
-    realTimeStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("realTime"), new Fields(
+    realTimeStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnTridentBolt("realTime"), new Fields(
         "semmi"));
-    persistStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("persistStream"), new Fields(
+    persistStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnTridentBolt("persistStream"), new Fields(
         "semmi"));
-    reportToUserStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("reportUserStream"),
+    reportToUserStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnTridentBolt("reportUserStream"),
         new Fields("semmi"));
 
     Config config = new Config();

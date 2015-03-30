@@ -1,9 +1,10 @@
 package topology;
 
+import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq.RabbitMqSpout;
 import hu.bme.diploma.a7e7yk.storm.topology.EhealthTopology;
 import hu.bme.diploma.a7e7yk.storm.trident.bolts.ContinuaMessageConverterTridentBolt;
-import hu.bme.diploma.a7e7yk.storm.trident.bolts.PrintLnBolt;
+import hu.bme.diploma.a7e7yk.storm.trident.bolts.PrintLnTridentBolt;
 import hu.bme.diploma.a7e7yk.storm.trident.filter.ErrorFilter;
 
 import java.io.IOException;
@@ -35,20 +36,20 @@ public class TridentTopologyTest {
             new ContinuaMessageConverterTridentBolt(), ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS);
     Stream errorFreeStream = inputStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new ErrorFilter());
 
-    Stream realTimeStream = errorFreeStream.partitionBy(new Fields(RabbitMqSpout.SENDER_ID_FIELD));
+    Stream realTimeStream = errorFreeStream.partitionBy(new Fields(StormFieldsConstants.SENDER_ID_FIELD));
     Stream persistStream = errorFreeStream;
     Fields reportInputFields =
-        new Fields(RabbitMqSpout.SENDER_ID_FIELD, ContinuaMessageConverterTridentBolt.USER_ID_FIELD,
-            ContinuaMessageConverterTridentBolt.ERROR_FIELD);
+        new Fields(StormFieldsConstants.SENDER_ID_FIELD, StormFieldsConstants.USER_ID_FIELD,
+            StormFieldsConstants.ERROR_FIELD);
     Stream reportToUserStream = inputStream;
 
 
     // split
-    realTimeStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("realTimeStream"), new Fields(
-        "semmi"));
-    persistStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnBolt("persistStream"),
+    realTimeStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnTridentBolt("realTimeStream"),
         new Fields("semmi"));
-    reportToUserStream.each(reportInputFields, new PrintLnBolt("reportToUserStream"), new Fields("semmi"));
+    persistStream.each(ContinuaMessageConverterTridentBolt.OUTPUT_FIELDS, new PrintLnTridentBolt("persistStream"), new Fields(
+        "semmi"));
+    reportToUserStream.each(reportInputFields, new PrintLnTridentBolt("reportToUserStream"), new Fields("semmi"));
 
     Config config = new Config();
     config.put(Config.TOPOLOGY_ENABLE_MESSAGE_TIMEOUTS, false);

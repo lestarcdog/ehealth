@@ -9,12 +9,12 @@ import storm.trident.operation.TridentCollector;
 import storm.trident.operation.TridentOperationContext;
 import storm.trident.tuple.TridentTuple;
 
-public class PrintLnBolt extends BaseFunction {
+public class PrintLnTridentBolt extends BaseFunction {
 
   String txt;
   int idx;
 
-  public PrintLnBolt(String message) {
+  public PrintLnTridentBolt(String message) {
     txt = message;
   }
 

@@ -29,8 +29,8 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
 
   private static final Logger LOG = LoggerFactory.getLogger(ContinuaMessageConverterBolt.class);
 
-  public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.USER_ID_FIELD,
-      StormFieldsConstants.MEASUREMENTS_FIELD, StormFieldsConstants.ERROR_FIELD);
+  public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
+      StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD, StormFieldsConstants.ERROR_FIELD);
 
   private Parser parser;
   private HapiContext ctx;
@@ -49,11 +49,11 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
     ORU_R01 message = new ORU_R01();
     try {
       parser.parse(message, msgTxt);
-      LOG.info(msgTxt);
       PersonModel personModel = Hl7MessageConverter.getPersonModel(message);
       List<AbstractVitalSignValue> vitalValues = Hl7MessageConverter.getVitalSignValues(message);
-      // emit userId = ssn and list of vitalsigns
-      collector.emit(input, new Values(personModel.getSsn(), vitalValues, null));
+      String senderId = input.getStringByField(StormFieldsConstants.SENDER_ID_FIELD);
+      collector.ack(input);
+      collector.emit(input, new Values(senderId, personModel.getSsn(), vitalValues, null));
     } catch (HL7Exception e) {
       LOG.info(null, e);
       collector.emit(Arrays.asList());
