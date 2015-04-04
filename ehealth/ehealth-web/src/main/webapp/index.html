@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>E-Health Web</title>
+<script type="text/javascript" src="js/framework/angular.js"></script>
+<script type="text/javascript" src="js/framework/angular-route.js"></script>
+<script type="text/javascript" src="js/apps/ehealthApp.js"></script>
+<script type="text/javascript" src="js/framework/socket.io.js"></script>
+</head>
+<body ng-app="ehealthApp">
+	<h1>{{ 2 + 5 }}</h1>
+	<div ng-controller="MainController as c">
+		<table border="1">
+			<tr ng-repeat="i in c.notes">
+				<td ng-bind="i.id"></td>
+				<td ng-bind="i.msg"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

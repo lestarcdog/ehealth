@@ -12,6 +12,7 @@
 		<skipTests>true</skipTests>
 		<netty-version>5.0.0.Alpha2</netty-version>
 		<netty-socketio-version>1.7.7</netty-socketio-version>
+		<atmosphere-version>2.2.6</atmosphere-version>
 	</properties>
 	
 	<developers>
@@ -120,6 +121,11 @@
 				<artifactId>netty-socketio</artifactId>
 				<version>${netty-socketio-version}</version>
 			</dependency>
+			<dependency>
+                <groupId>org.atmosphere</groupId>
+                <artifactId>atmosphere-runtime</artifactId>
+                <version>2.2.6</version>
+            </dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -147,6 +153,7 @@
 		<module>ehealth-hbase</module>
 		<module>ehealth-storm</module>
 		<module>ehealth-common</module>
+		<module>ehealth-web</module>
 	</modules>
 	<name>E-Health Master Thesis</name>
 	<url>www.aut.bme.hu</url>
