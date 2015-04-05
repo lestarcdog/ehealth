@@ -5,16 +5,14 @@
 	<artifactId>ehealth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	
+
 	<!-- Properties -->
 	<properties>
 		<spring-version>4.1.6.RELEASE</spring-version>
 		<skipTests>true</skipTests>
-		<netty-version>5.0.0.Alpha2</netty-version>
-		<netty-socketio-version>1.7.7</netty-socketio-version>
-		<atmosphere-version>2.2.6</atmosphere-version>
+		<nettospherre-version>2.2.1</nettospherre-version>
 	</properties>
-	
+
 	<developers>
 		<developer>
 			<id>csaba.lestar</id>
@@ -117,16 +115,20 @@
 				<version>${spring-version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.corundumstudio.socketio</groupId>
-				<artifactId>netty-socketio</artifactId>
-				<version>${netty-socketio-version}</version>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>0.4</version>
 			</dependency>
 			<dependency>
-                <groupId>org.atmosphere</groupId>
-                <artifactId>atmosphere-runtime</artifactId>
-                <version>2.2.6</version>
-            </dependency>
-
+				<groupId>org.atmosphere</groupId>
+				<artifactId>nettosphere</artifactId>
+				<version>2.2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>7.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>

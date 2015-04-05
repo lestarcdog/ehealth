@@ -15,16 +15,20 @@
   			<artifactId>maven-war-plugin</artifactId>
   			<version>2.6</version>
   			<configuration>
+  				
   				<warName>ehealth</warName>  				
   			</configuration>
   		</plugin>
-
   	</plugins>
   </build>
   <dependencies>
-  <dependency>
-  	<groupId>org.atmosphere</groupId>
-  	<artifactId>atmosphere-runtime</artifactId>
-  </dependency>
+  	<dependency>
+  		<groupId>javax</groupId>
+  		<artifactId>javaee-api</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>io.jsonwebtoken</groupId>
+  		<artifactId>jjwt</artifactId>
+  	</dependency>
   </dependencies>
 </project>
