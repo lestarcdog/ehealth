@@ -30,16 +30,17 @@ public class RealTimeDataWsHandler implements WebSocketHandler {
 
   @Override
   public void onTextMessage(WebSocket webSocket, String data) throws IOException {
-    System.out.println(data);
     try {
       CommandDto command = mapper.readValue(data, CommandDto.class);
       switch (command.getCommand()) {
         case CommandDto.COMMAND_SUBSCRIBE:
           WebSocketRegistry.get().addSubsriberToBroadcast(webSocket.resource(), command.getValue());
+          logger.info("command called: {}", command);
           break;
         case CommandDto.COMMAND_UNSUBSCRIBE:
           WebSocketRegistry.get().removeSubscriberFromBroadcast(webSocket.resource(),
               command.getValue());
+          logger.info("command called: {}", command);
           break;
         default:
           logger.warn("unspecified command: {}", command.getCommand());

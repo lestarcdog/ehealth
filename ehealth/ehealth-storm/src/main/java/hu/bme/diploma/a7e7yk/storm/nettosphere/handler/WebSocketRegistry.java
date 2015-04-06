@@ -7,10 +7,14 @@ import java.util.Set;
 import org.atmosphere.cpr.AtmosphereFramework;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.Broadcaster;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class WebSocketRegistry {
+  private static final Logger logger = LoggerFactory.getLogger(WebSocketRegistry.class);
   private static WebSocketRegistry wsr = null;
   private final AtmosphereFramework fw;
   private ObjectMapper mapper = new ObjectMapper();
@@ -19,7 +23,7 @@ public class WebSocketRegistry {
     this.fw = fw;
   }
 
-  public void init(AtmosphereFramework fw) {
+  public static void init(AtmosphereFramework fw) {
     wsr = new WebSocketRegistry(fw);
   }
 
@@ -30,17 +34,26 @@ public class WebSocketRegistry {
     return wsr;
   }
 
-  private Broadcaster getBroadcastById(String id) {
-    return fw.getBroadcasterFactory().lookup(id, true);
+  private Broadcaster getBroadcastById(String id, boolean createIfNew) {
+    return fw.getBroadcasterFactory().lookup(id, createIfNew);
   }
 
   public void sendMessageToId(RealTimeDataDto data, String id) {
-    String s = "";
-    getBroadcastById(id).broadcast(s);
+    try {
+      String s = mapper.writeValueAsString(data);
+      logger.info(s);
+      Broadcaster b = getBroadcastById(id, false);
+      if (b != null) {
+        b.broadcast(s);
+      }
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      logger.error(null, e);
+    }
   }
 
   public void addSubsriberToBroadcast(AtmosphereResource resource, String id) {
-    getBroadcastById(id).addAtmosphereResource(resource);
+    getBroadcastById(id, true).addAtmosphereResource(resource);
   }
 
   public void removeSubscriberFromBroadcast(AtmosphereResource resource, Set<String> ids) {

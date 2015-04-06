@@ -7,6 +7,10 @@ public class CommandDto {
   public static final String COMMAND_SUBSCRIBE = "subscribe";
   public static final String COMMAND_UNSUBSCRIBE = "unsubscribe";
 
+  public CommandDto() {
+
+  }
+
   public CommandDto(String command, String value) {
     this.command = command;
     this.value = value;
@@ -27,4 +31,11 @@ public class CommandDto {
   public void setValue(String value) {
     this.value = value;
   }
+
+  @Override
+  public String toString() {
+    return "CommandDto [command=" + command + ", value=" + value + "]";
+  }
+
+
 }
