@@ -7,6 +7,14 @@ public class RealTimeDataDto {
   private ZonedDateTime time;
   private Double value;
 
+  // public static final String TYPE = "RealTimeData";
+
+
+  public RealTimeDataDto(String type, String id, ZonedDateTime time, Double value) {
+    this.id = id;
+    this.time = time;
+    this.value = value;
+  }
 
   public String getId() {
     return id;

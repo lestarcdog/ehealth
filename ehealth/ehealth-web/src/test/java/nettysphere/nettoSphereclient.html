@@ -24,13 +24,16 @@
 		content.html($('<p>', {
 			text : 'Atmosphere connected using ' + response.transport
 		}));
+		setInterval(function () {
+			subSocket.push("client");
+		}, 3000);
 	};
 
 	request.onMessage = function(response) {
 		var message = response.responseBody;
 		try {
 			console.log(message);
-			content.html(message);
+			content.html(content.html() + message);
 
 		} catch (e) {
 			console.log('This does not look like a valid JSON: ', message.data);
@@ -43,6 +46,8 @@
 	};
 
 	var subSocket = socket.subscribe(request);
+
+	
 </script>
 
 
