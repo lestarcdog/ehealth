@@ -1,0 +1,1 @@
+xcopy /Y rabbitmq.conf %APPDATA%\RabbitMQ
