@@ -27,6 +27,8 @@ import ca.uhn.hl7v2.parser.Parser;
 
 public class ContinuaMessageConverterBolt extends BaseRichBolt {
 
+  private static final long serialVersionUID = -6196295171565912992L;
+
   private static final Logger LOG = LoggerFactory.getLogger(ContinuaMessageConverterBolt.class);
 
   public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
@@ -46,17 +48,18 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
   @Override
   public void execute(Tuple input) {
     String msgTxt = (String) input.getStringByField(StormFieldsConstants.CONTINUA_MSG_FIELD);
+    String senderId = input.getStringByField(StormFieldsConstants.SENDER_ID_FIELD);
     ORU_R01 message = new ORU_R01();
     try {
       parser.parse(message, msgTxt);
       PersonModel personModel = Hl7MessageConverter.getPersonModel(message);
       List<AbstractVitalSignValue> vitalValues = Hl7MessageConverter.getVitalSignValues(message);
-      String senderId = input.getStringByField(StormFieldsConstants.SENDER_ID_FIELD);
+
       collector.ack(input);
       collector.emit(input, new Values(senderId, personModel.getSsn(), vitalValues, null));
     } catch (HL7Exception e) {
       LOG.info(null, e);
-      collector.emit(Arrays.asList());
+      collector.emit(Arrays.asList(senderId, e));
       return;
     }
 

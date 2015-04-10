@@ -57,7 +57,7 @@ public class Hl7MessageConverter {
           vitalSigns.add(convertToGlucoseValue(reader));
           break;
         default:
-          throw new HL7Exception("Invali parameter : " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invalid parameter : " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return vitalSigns;

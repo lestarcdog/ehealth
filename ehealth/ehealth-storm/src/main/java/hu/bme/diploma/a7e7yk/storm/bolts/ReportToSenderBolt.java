@@ -8,31 +8,34 @@ import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
-import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
-import backtype.storm.tuple.Values;
+import ca.uhn.hl7v2.HL7Exception;
 
-public class ErrorFilterBolt extends BaseRichBolt {
+public class ReportToSenderBolt extends BaseRichBolt {
 
-  private static final long serialVersionUID = -6453854898995387951L;
   private OutputCollector collector;
 
   @Override
   public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
     this.collector = collector;
+
   }
 
   @Override
   public void execute(Tuple input) {
-    if (input.getValueByField(StormFieldsConstants.ERROR_FIELD) == null) {
-      collector.emit(new Values(input.getValueByField(StormFieldsConstants.USER_ID_FIELD), input
-          .getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD)));
+    collector.ack(input);
+    Object errorObject = input.getValueByField(StormFieldsConstants.ERROR_FIELD);
+    if (errorObject == null) {
+      // TODO send ack messag to rabbit mq
+    } else {
+      HL7Exception exception = (HL7Exception) errorObject;
+      // TODO send fail message to rabbit mq
+
     }
+
   }
 
   @Override
-  public void declareOutputFields(OutputFieldsDeclarer declarer) {
-    declarer.declare(new Fields(StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD));
-  }
+  public void declareOutputFields(OutputFieldsDeclarer declarer) {}
 
 }

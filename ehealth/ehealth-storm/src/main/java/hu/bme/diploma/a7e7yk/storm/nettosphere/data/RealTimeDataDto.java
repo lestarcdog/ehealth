@@ -3,6 +3,7 @@ package hu.bme.diploma.a7e7yk.storm.nettosphere.data;
 
 public class RealTimeDataDto {
   private String id;
+  private String measurement;
   private Long time;
   private Double value;
 
@@ -39,10 +40,20 @@ public class RealTimeDataDto {
     this.time = time;
   }
 
+  public String getMeasurement() {
+    return measurement;
+  }
+
+  public void setMeasurement(String measurement) {
+    this.measurement = measurement;
+  }
+
 
   @Override
   public String toString() {
-    return "RealTimeDataDto [id=" + id + ", time=" + time + ", value=" + value + "]";
+    return "RealTimeDataDto [id=" + id + ", measurement=" + measurement + ", time=" + time + ", value=" + value + "]";
   }
+
+
 
 }
