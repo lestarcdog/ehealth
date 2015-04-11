@@ -7,7 +7,8 @@ public class EhealthConstants {
   public static final String RABBITMQ_SERVER_ADDR = "127.0.0.1";
   public static final int RABBITMQ_AMQP_PORT = 5672;
   public static final int RABBITMQ_MQTT_PORT = 1883;
-  public static final String RABBITMQ_QUEUE_NAME = "ehealth.publish";
+  public static final String RABBITMQ_EXCHANGE_NAME = "ehealth.publish";
+  public static final String RABBITMQ_QUEUE_NAME = "ehealthQueue";
   public static final boolean RABBITMQ_REQUEUE = false;
   public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE =
       "mqtt-subscription-@senderId@qos1";

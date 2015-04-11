@@ -55,9 +55,4 @@ public class RabbitMqPublisher {
       LOG.error(null, e);
     }
   }
-
-  public class RabbitMqMessage {
-    public long deliveryTag;
-    public String msg;
-  }
 }

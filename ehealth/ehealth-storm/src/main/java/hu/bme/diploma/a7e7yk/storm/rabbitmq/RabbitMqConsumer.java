@@ -41,8 +41,8 @@ public class RabbitMqConsumer {
       ConsumerCancelledException, InterruptedException {
     QueueingConsumer.Delivery delivery = consumer.nextDelivery();
     RabbitMqMessage m = new RabbitMqMessage();
-    m.setSenderId(delivery.getProperties().getUserId());
     m.setDeliveryTag(delivery.getEnvelope().getDeliveryTag());
+    m.setSenderId(delivery.getEnvelope().getRoutingKey());
     m.setMsg(new String(delivery.getBody(), EhealthConstants.UTF8_CHARSET));
     return m;
   }
@@ -102,6 +102,12 @@ public class RabbitMqConsumer {
 
     public void setSenderId(String senderId) {
       this.senderId = senderId;
+    }
+
+    @Override
+    public String toString() {
+      return "RabbitMqMessage [deliveryTag=" + deliveryTag + ", msg=" + msg + ", senderId="
+          + senderId + "]";
     }
 
 

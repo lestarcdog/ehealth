@@ -14,7 +14,7 @@ public class MqttSenderTest {
   public void callRabbitMq() throws Exception {
     MqttCommunicatorCallback s =
         new MqttCommunicatorCallback("guest", "guest", new ReceiveMessageCallback());
-    // s.sendMessage("valami sadf asdf fasd ");
+    s.sendMessage("valami lófasz2".getBytes());
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String a = "";

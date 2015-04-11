@@ -2,7 +2,7 @@ package hu.bme.diploma.a7e7yk.datamodel.ahd;
 
 
 public class AHDModel {
-
+  private String senderId;
   private String sendingApplicationName;
   private String sendingApplicationCode;
   // 28-B2-BD-3A-8C-6B
@@ -55,9 +55,49 @@ public class AHDModel {
     this.registrationCertificateModel = registrationCertificateModel;
   }
 
+  public String getSenderId() {
+    return senderId;
+  }
+
+  public void setSenderId(String senderId) {
+    this.senderId = senderId;
+  }
+
+  public String getTimeSyncProtocol() {
+    return timeSyncProtocol;
+  }
+
+  public void setTimeSyncProtocol(String timeSyncProtocol) {
+    this.timeSyncProtocol = timeSyncProtocol;
+  }
+
+  public Double getTimeSyncAccuracy() {
+    return timeSyncAccuracy;
+  }
+
+  public void setTimeSyncAccuracy(Double timeSyncAccuracy) {
+    this.timeSyncAccuracy = timeSyncAccuracy;
+  }
+
+  public Double getTimeResolutionAbsolute() {
+    return timeResolutionAbsolute;
+  }
+
+  public void setTimeResolutionAbsolute(Double timeResolutionAbsolute) {
+    this.timeResolutionAbsolute = timeResolutionAbsolute;
+  }
+
+  public Double getTimeResolutionRelative() {
+    return timeResolutionRelative;
+  }
+
+  public void setTimeResolutionRelative(Double timeResolutionRelative) {
+    this.timeResolutionRelative = timeResolutionRelative;
+  }
+
   @Override
   public String toString() {
-    return "AHDModel [sendingApplicationName=" + sendingApplicationName
+    return "AHDModel [senderId=" + senderId + ", sendingApplicationName=" + sendingApplicationName
         + ", sendingApplicationCode=" + sendingApplicationCode + ", sendingApplicationFormat="
         + sendingApplicationFormat + ", companyName=" + companyName + ", timeSyncProtocol="
         + timeSyncProtocol + ", timeSyncAccuracy=" + timeSyncAccuracy + ", timeResolutionAbsolute="

@@ -17,16 +17,16 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
   private final Logger logger = LoggerFactory.getLogger(getClass());
   private static final String host = "127.0.0.1";
   private static final int port = 1883;
-  private static final String PUBLICH_TOPIC_NAME = "ehealth.publish";
   private static final Charset UTF_8_CHARSET = Charset.forName("UTF-8");
 
   private final CallbackConnection connection;
   private final IMqttMessageRecieveCallback receiveCallback;
-
+  private final String username;
   private final Topic[] topics;
 
   public MqttCommunicatorCallback(String username, String password,
       IMqttMessageRecieveCallback receiveCallback) throws Exception {
+    this.username = username;
     MQTT mqtt = new MQTT();
     mqtt.setHost(host, port);
     // create durable non-auto deletable topic
@@ -49,7 +49,7 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
    */
   @Override
   public void sendMessage(byte[] message) throws Exception {
-    connection.publish(PUBLICH_TOPIC_NAME, message, QoS.AT_LEAST_ONCE, false, new EmptyCallback());
+    connection.publish(username, message, QoS.AT_LEAST_ONCE, false, new EmptyCallback());
   }
 
   /**
