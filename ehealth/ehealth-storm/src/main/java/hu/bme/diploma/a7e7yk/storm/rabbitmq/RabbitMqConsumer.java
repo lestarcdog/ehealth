@@ -1,5 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.rabbitmq;
 
+import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
+
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -14,13 +16,9 @@ import com.rabbitmq.client.ShutdownSignalException;
 
 public class RabbitMqConsumer {
 
-  private static final Logger LOG = LoggerFactory.getLogger(RabbitMqConsumer.class);
+  private static final Logger logger = LoggerFactory.getLogger(RabbitMqConsumer.class);
   private String RMQ_USERNAME = "admin";
   private String RMQ_PASS = "admin";
-  private String QUEUE_NAME = "ehealth.publish";
-  private String HOST = "127.0.0.1";
-  private int PORT = 9999;
-  private boolean REQUEUE = true;
 
   private ConnectionFactory factory;
   private Channel channel;
@@ -29,31 +27,40 @@ public class RabbitMqConsumer {
 
   public RabbitMqConsumer() throws IOException {
     factory = new ConnectionFactory();
-    factory.setHost(HOST);
-    factory.setPort(PORT);
+    factory.setHost(EhealthConstants.RABBITMQ_SERVER_ADDR);
+    factory.setPort(EhealthConstants.RABBITMQ_AMQP_PORT);
     factory.setUsername(RMQ_USERNAME);
     factory.setPassword(RMQ_PASS);
     connection = factory.newConnection();
     channel = connection.createChannel();
     consumer = new QueueingConsumer(channel);
-    channel.basicConsume(QUEUE_NAME, false, consumer);
+    channel.basicConsume(EhealthConstants.RABBITMQ_QUEUE_NAME, false, consumer);
   }
 
   public RabbitMqMessage consume() throws IOException, ShutdownSignalException,
       ConsumerCancelledException, InterruptedException {
     QueueingConsumer.Delivery delivery = consumer.nextDelivery();
     RabbitMqMessage m = new RabbitMqMessage();
-    m.deliveryTag = delivery.getEnvelope().getDeliveryTag();
-    m.msg = new String(delivery.getBody());
+    m.setSenderId(delivery.getProperties().getUserId());
+    m.setDeliveryTag(delivery.getEnvelope().getDeliveryTag());
+    m.setMsg(new String(delivery.getBody(), EhealthConstants.UTF8_CHARSET));
     return m;
   }
 
-  public void ack(Long deliveryTag) throws IOException {
-    channel.basicAck(deliveryTag, false);
+  public void ack(Long deliveryTag) {
+    try {
+      channel.basicAck(deliveryTag, false);
+    } catch (IOException e) {
+      logger.error("Can't ack the message.", e);
+    }
   }
 
-  public void fail(Long deliveryTag) throws IOException {
-    channel.basicNack(deliveryTag, false, REQUEUE);
+  public void fail(Long deliveryTag) {
+    try {
+      channel.basicNack(deliveryTag, false, EhealthConstants.RABBITMQ_REQUEUE);
+    } catch (IOException e) {
+      logger.error("Can't ack the fail message.", e);
+    }
   }
 
   public void close() {
@@ -61,12 +68,42 @@ public class RabbitMqConsumer {
       channel.close();
       connection.close();
     } catch (IOException e) {
-      LOG.error(null, e);
+      logger.error(null, e);
     }
   }
 
-  public class RabbitMqMessage {
-    public long deliveryTag;
-    public String msg;
+  /**
+   * Dto class for rabbitMq messages fields.
+   */
+  public static class RabbitMqMessage {
+    private long deliveryTag;
+    private String msg;
+    private String senderId;
+
+    public long getDeliveryTag() {
+      return deliveryTag;
+    }
+
+    public void setDeliveryTag(long deliveryTag) {
+      this.deliveryTag = deliveryTag;
+    }
+
+    public String getMsg() {
+      return msg;
+    }
+
+    public void setMsg(String msg) {
+      this.msg = msg;
+    }
+
+    public String getSenderId() {
+      return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+      this.senderId = senderId;
+    }
+
+
   }
 }

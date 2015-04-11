@@ -1,5 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.rabbitmq;
 
+import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
+
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -9,28 +11,32 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class RabbitMqSender {
+public class RabbitMqPublisher {
 
-  private static final Logger LOG = LoggerFactory.getLogger(RabbitMqSender.class);
-  private String RMQ_USERNAME = "admin";
-  private String RMQ_PASS = "admin";
-  private String QUEUE_NAME = "ehealth.publish";
-  private String HOST = "127.0.0.1";
-  private int PORT = 9999;
-  private boolean REQUEUE = true;
+  private static final Logger LOG = LoggerFactory.getLogger(RabbitMqPublisher.class);
+  private static final String RMQ_USERNAME = "admin";
+  private static final String RMQ_PASS = "admin";
+
 
   private ConnectionFactory factory;
   private Channel channel;
   private Connection connection;
 
-  public RabbitMqSender() throws IOException {
+  public RabbitMqPublisher() throws IOException {
     factory = new ConnectionFactory();
-    factory.setHost(HOST);
-    factory.setPort(PORT);
+    factory.setHost(EhealthConstants.RABBITMQ_SERVER_ADDR);
+    factory.setPort(EhealthConstants.RABBITMQ_AMQP_PORT);
     factory.setUsername(RMQ_USERNAME);
     factory.setPassword(RMQ_PASS);
     connection = factory.newConnection();
     channel = connection.createChannel();
+  }
+
+  public void publish(String senderId, byte[] message) throws IOException {
+    String exchange =
+        EhealthConstants.RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE.replace(
+            EhealthConstants.RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE_VAR1, senderId);
+    channel.basicPublish(exchange, senderId, null, message);
   }
 
   public void ack(Long deliveryTag) throws IOException {
@@ -38,7 +44,7 @@ public class RabbitMqSender {
   }
 
   public void fail(Long deliveryTag) throws IOException {
-    channel.basicNack(deliveryTag, false, REQUEUE);
+    channel.basicNack(deliveryTag, false, EhealthConstants.RABBITMQ_REQUEUE);
   }
 
   public void close() {

@@ -46,8 +46,9 @@ public class RabbitMqSpout extends BaseRichSpout {
     try {
       RabbitMqMessage msg;
       msg = consumer.consume();
-      collector.emit(Arrays.asList(msg.msg), msg.deliveryTag);
-    } catch (ShutdownSignalException | ConsumerCancelledException | IOException | InterruptedException e) {
+      collector.emit(Arrays.asList(msg.getMsg()), msg.getDeliveryTag());
+    } catch (ShutdownSignalException | ConsumerCancelledException | IOException
+        | InterruptedException e) {
       LOG.debug(null, e);
       collector.reportError(e);
     }
@@ -67,6 +68,7 @@ public class RabbitMqSpout extends BaseRichSpout {
 
   @Override
   public void ack(Object msgId) {
+    consumer.ack((Long) msgId);
     super.ack(msgId);
   }
 

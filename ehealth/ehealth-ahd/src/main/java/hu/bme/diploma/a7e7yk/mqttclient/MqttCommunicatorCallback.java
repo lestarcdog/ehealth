@@ -65,7 +65,7 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
   // ---------
 
   /**
-   * It does exectly nothing
+   * It does exactly nothing
    *
    */
   private class EmptyCallback implements Callback<Void> {
