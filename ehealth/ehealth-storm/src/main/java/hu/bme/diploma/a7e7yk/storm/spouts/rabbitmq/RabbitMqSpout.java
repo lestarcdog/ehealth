@@ -26,7 +26,7 @@ public class RabbitMqSpout extends BaseRichSpout {
 
   private static final Logger LOG = LoggerFactory.getLogger(RabbitMqSpout.class);
   public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
-      StormFieldsConstants.CONTINUA_MSG_FIELD);
+      StormFieldsConstants.UNPARSED_CONTINUA_MSG_FIELD);
 
   private SpoutOutputCollector collector;
   private final RabbitMqConsumer consumer;

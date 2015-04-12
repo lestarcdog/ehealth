@@ -1,6 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm;
 
 import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.model.v26.message.ORU_R01;
 
 public class StormFieldsConstants {
   /**
@@ -26,5 +27,9 @@ public class StormFieldsConstants {
    * Unparsed string data of the HL7v2 message which should be parsable by the Continua
    * specification
    */
-  public static final String CONTINUA_MSG_FIELD = "ContinuaMsg";
+  public static final String UNPARSED_CONTINUA_MSG_FIELD = "UnparsedContinuaMsg";
+  /**
+   * Parsed HL7 v2 object type of {@link ORU_R01}
+   */
+  public static final String PARSED_CONTINUA_MSG_FIELD = "ParsedContinuaMsg";
 }

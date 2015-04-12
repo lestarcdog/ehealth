@@ -36,7 +36,7 @@ public class ContinuaMessageConverterTridentBolt extends BaseFunction {
 
   @Override
   public void execute(TridentTuple tuple, TridentCollector collector) {
-    String msgTxt = (String) tuple.getStringByField(StormFieldsConstants.CONTINUA_MSG_FIELD);
+    String msgTxt = (String) tuple.getStringByField(StormFieldsConstants.UNPARSED_CONTINUA_MSG_FIELD);
     ORU_R01 message = new ORU_R01();
     try {
       parser.parse(message, msgTxt);

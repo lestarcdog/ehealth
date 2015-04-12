@@ -2,6 +2,7 @@ package hu.bme.diploma.a7e7yk.storm.bolts;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+import hu.bme.diploma.a7e7yk.hl7conversion.HapiHl7Parser;
 import hu.bme.diploma.a7e7yk.hl7conversion.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 
@@ -19,11 +20,8 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.v26.message.ORU_R01;
-import ca.uhn.hl7v2.parser.Parser;
 
 public class ContinuaMessageConverterBolt extends BaseRichBolt {
 
@@ -32,34 +30,34 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
   private static final Logger LOG = LoggerFactory.getLogger(ContinuaMessageConverterBolt.class);
 
   public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
-      StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD, StormFieldsConstants.ERROR_FIELD);
+      StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD, StormFieldsConstants.ERROR_FIELD,
+      StormFieldsConstants.PARSED_CONTINUA_MSG_FIELD);
 
-  private Parser parser;
-  private HapiContext ctx;
   private OutputCollector collector;
+  private HapiHl7Parser parser;
 
   @Override
   public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
     this.collector = collector;
-    ctx = new DefaultHapiContext();
-    parser = ctx.getPipeParser();
+    parser = new HapiHl7Parser();
   }
 
   @Override
   public void execute(Tuple input) {
-    String msgTxt = (String) input.getStringByField(StormFieldsConstants.CONTINUA_MSG_FIELD);
+    String msgTxt = (String) input.getStringByField(StormFieldsConstants.UNPARSED_CONTINUA_MSG_FIELD);
     String senderId = input.getStringByField(StormFieldsConstants.SENDER_ID_FIELD);
-    ORU_R01 message = new ORU_R01();
+    ORU_R01 message;
     try {
-      parser.parse(message, msgTxt);
+      message = parser.parseMessage(msgTxt);
       PersonModel personModel = Hl7MessageConverter.getPersonModel(message);
       List<AbstractVitalSignValue> vitalValues = Hl7MessageConverter.getVitalSignValues(message);
 
       collector.ack(input);
-      collector.emit(input, new Values(senderId, personModel.getSsn(), vitalValues, null));
+      // sender , personId, measurements, error, parsed hl7 msg
+      collector.emit(input, new Values(senderId, personModel.getSsn(), vitalValues, null, message));
     } catch (HL7Exception e) {
       LOG.info(null, e);
-      collector.emit(Arrays.asList(senderId, e));
+      collector.emit(Arrays.asList(senderId, null, null, e, null));
       return;
     }
 
