@@ -16,4 +16,11 @@ public interface IMqttCommunicator {
    */
   public void disconnect();
 
+  /**
+   * Returns the received bytes from the subscription.
+   * 
+   * @return received bytes
+   */
+  public byte[] recieve();
+
 }

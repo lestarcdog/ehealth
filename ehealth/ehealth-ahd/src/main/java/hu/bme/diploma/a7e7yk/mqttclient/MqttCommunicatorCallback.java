@@ -1,7 +1,5 @@
 package hu.bme.diploma.a7e7yk.mqttclient;
 
-import java.nio.charset.Charset;
-
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;
 import org.fusesource.mqtt.client.Callback;
@@ -17,7 +15,6 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
   private final Logger logger = LoggerFactory.getLogger(getClass());
   private static final String host = "127.0.0.1";
   private static final int port = 1883;
-  private static final Charset UTF_8_CHARSET = Charset.forName("UTF-8");
 
   private final CallbackConnection connection;
   private final IMqttMessageRecieveCallback receiveCallback;
@@ -49,7 +46,8 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
    */
   @Override
   public void sendMessage(byte[] message) throws Exception {
-    connection.publish(username, message, QoS.AT_LEAST_ONCE, false, new EmptyCallback());
+    logger.debug("sending message: {}", new String(message));
+    connection.publish(username, message, QoS.AT_LEAST_ONCE, false, new PublishCallback());
   }
 
   /**
@@ -58,6 +56,11 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
   @Override
   public void disconnect() {
     connection.disconnect(new EmptyCallback());
+  }
+
+  @Override
+  public byte[] recieve() {
+    throw new UnsupportedOperationException("Use callback listener");
   }
 
   // ---------
@@ -78,6 +81,20 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
 
   }
 
+  private class PublishCallback implements Callback<Void> {
+
+    @Override
+    public void onSuccess(Void value) {
+      logger.debug("success");
+    }
+
+    @Override
+    public void onFailure(Throwable value) {
+      logger.debug("fail", value);
+    }
+
+  }
+
   /**
    * Initial connection callback
    *
@@ -87,7 +104,9 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
     @Override
     public void onSuccess(Void value) {
       connection.subscribe(topics, new Callback<byte[]>() {
-        public void onSuccess(byte[] qoses) {}
+        public void onSuccess(byte[] qoses) {
+          logger.debug("subscribe success: {}", new String(qoses));
+        }
 
         public void onFailure(Throwable value) {
           logger.error("Subscription is failed. Closing connection");
@@ -105,8 +124,6 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
 
   /**
    * Callback handler for incoming messages
-   * 
-   *
    */
   private class ListenerImpl implements Listener {
 

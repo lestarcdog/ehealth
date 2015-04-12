@@ -11,6 +11,7 @@
 		<spring-version>4.1.6.RELEASE</spring-version>
 		<skipTests>true</skipTests>
 		<nettospherre-version>2.2.1</nettospherre-version>
+		<hbase-version>1.0.0</hbase-version>
 	</properties>
 
 	<developers>
@@ -65,7 +66,7 @@
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-client</artifactId>
-				<version>1.0.0</version>
+				<version>${hbase-version}</version>
 			</dependency>
 
 			<dependency>

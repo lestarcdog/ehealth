@@ -1,5 +1,6 @@
 package hu.bme.diploma.a7e7yk.ahd.runtime;
 
+import hu.bme.diploma.a7e7yk.mqttclient.MqttCommunicatorBlocking;
 import hu.bme.diploma.a7e7yk.mqttclient.MqttCommunicatorCallback;
 import hu.bme.diploma.a7e7yk.mqttclient.ReceiveMessageCallback;
 
@@ -10,17 +11,21 @@ import org.junit.Test;
 
 public class MqttSenderTest {
 
-  @Test
+  // @Test
   public void callRabbitMq() throws Exception {
     MqttCommunicatorCallback s =
-        new MqttCommunicatorCallback("guest", "guest", new ReceiveMessageCallback());
-    s.sendMessage("valami lófasz2".getBytes());
-
+        new MqttCommunicatorCallback("jozsi", "jozsi", new ReceiveMessageCallback());
+    s.sendMessage("valami2".getBytes());
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String a = "";
-    while (!(a.equals("quit"))) {
-      a = br.readLine();
-    }
+    br.readLine();
+    s.disconnect();
+  }
+
+  @Test
+  public void blockRabbitMq() throws Exception {
+    MqttCommunicatorBlocking s = new MqttCommunicatorBlocking("jozsi", "jozsi");
+    s.sendMessage("valami2".getBytes());
+    System.out.println(new String(s.recieve()));
     s.disconnect();
   }
 }
