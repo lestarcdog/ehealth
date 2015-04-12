@@ -4,7 +4,6 @@ import org.fusesource.mqtt.client.BlockingConnection;
 import org.fusesource.mqtt.client.MQTT;
 import org.fusesource.mqtt.client.Message;
 import org.fusesource.mqtt.client.QoS;
-import org.fusesource.mqtt.client.Topic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,6 @@ public class MqttCommunicatorBlocking implements IMqttCommunicator {
 
   private final BlockingConnection connection;
   private final String username;
-  private final Topic[] topics;
 
   public MqttCommunicatorBlocking(String username, String password) throws Exception {
     this.username = username;
@@ -28,8 +26,6 @@ public class MqttCommunicatorBlocking implements IMqttCommunicator {
     // credentials
     mqtt.setUserName(username);
     mqtt.setPassword(password);
-    topics = new Topic[] {new Topic(username, QoS.AT_LEAST_ONCE)};
-
     connection = mqtt.blockingConnection();
     connection.connect();
   }
@@ -55,8 +51,11 @@ public class MqttCommunicatorBlocking implements IMqttCommunicator {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public byte[] recieve() {
+  public byte[] receive() {
     try {
       Message m = connection.receive();
       m.ack();

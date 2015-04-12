@@ -59,7 +59,7 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
   }
 
   @Override
-  public byte[] recieve() {
+  public byte[] receive() {
     throw new UnsupportedOperationException("Use callback listener");
   }
 

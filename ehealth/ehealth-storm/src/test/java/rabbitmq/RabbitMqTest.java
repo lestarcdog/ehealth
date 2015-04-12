@@ -1,17 +1,14 @@
 package rabbitmq;
 
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
+import hu.bme.diploma.a7e7yk.storm.rabbitmq.AbstractRabbitMq.RabbitMqMessage;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqConsumer;
-import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqConsumer.RabbitMqMessage;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqPublisher;
 
 import java.io.IOException;
 
+import org.junit.Assert;
 import org.junit.Test;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 
 public class RabbitMqTest {
 
@@ -25,25 +22,24 @@ public class RabbitMqTest {
 
   @Test
   public void consumeMessage() throws Exception {
+    publisher.publish("ehealth.publish", "jozsi-test", "this is sparta".getBytes());
     RabbitMqMessage m = consumer.consume();
-    System.out.println(m);
+    Assert.assertNotNull(m);
+    Assert.assertEquals("jozsi-test", m.getSenderId());
+    Assert.assertEquals("this is sparta", m.getMsg());
+    consumer.ack(m.getDeliveryTag());
   }
 
-  // @Test
-  public void amqTest() throws IOException {
-    ConnectionFactory factory;
-    Channel channel;
-    Connection connection;
-    factory = new ConnectionFactory();
-    factory.setHost(EhealthConstants.RABBITMQ_SERVER_ADDR);
-    factory.setPort(EhealthConstants.RABBITMQ_AMQP_PORT);
-    factory.setUsername("admin");
-    factory.setPassword("admin");
-    connection = factory.newConnection();
-    channel = connection.createChannel();
-    channel.basicPublish("amq.direct", "test", null, "lofasz".getBytes());
-    channel.close();
-    connection.close();
+  @Test
+  public void publishMessageToSenderTopic() throws IOException {
+    String queueName =
+        EhealthConstants.RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE.replace(
+            EhealthConstants.RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE_VAR1, "jozsi");
+    publisher.publishToUserQueue("jozsi", "test-message".getBytes());
+    RabbitMqMessage m = consumer.consumeFromQueue(queueName);
+    Assert.assertEquals("test-message", m.getMsg());
+    consumer.ack(m.getDeliveryTag());
   }
+
 
 }

@@ -21,6 +21,6 @@ public interface IMqttCommunicator {
    * 
    * @return received bytes
    */
-  public byte[] recieve();
+  public byte[] receive();
 
 }
