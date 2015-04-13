@@ -1,9 +1,10 @@
-package hu.bme.diploma.a7e7yk.datamodel.ahd.measurements;
+package hu.bme.diploma.a7e7yk.ahd.measurements;
 
-import hu.bme.diploma.a7e7yk.ahd.runtime.IMessageBuilder;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.interfaces.IMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
+import hu.bme.diploma.a7e7yk.ahd.measurements.interfaces.IMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.messagebuilder.IMessageBuilder;
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -19,8 +20,9 @@ import ca.uhn.hl7v2.model.v26.segment.PID;
 
 import com.google.common.base.Joiner;
 
-public abstract class AbstractMeasurement implements IMeasurement {
-  protected MeasurementTime measurementTime;
+public abstract class AbstractMeasurement<T extends AbstractVitalSignValue> implements IMeasurement {
+  // protected MeasurementTime measurementTime;
+  protected T value;
   private final SnomedConcept universalServiceIdentifier;
   protected IMessageBuilder builder;
   private boolean generateMDSSegments = false;
@@ -35,14 +37,12 @@ public abstract class AbstractMeasurement implements IMeasurement {
 
   private void generateMSH() throws DataTypeException {
     MSH msh = builder.provideMSH();
-    msh.getMsh3_SendingApplication().getHd1_NamespaceID()
-        .setValue(builder.getAhdModel().getSendingApplicationName());
-    msh.getMsh3_SendingApplication().getHd2_UniversalID()
-        .setValue(builder.getAhdModel().getSendingApplicationCode());
+    msh.getMsh3_SendingApplication().getHd1_NamespaceID().setValue(builder.getAhdModel().getSendingApplicationName());
+    msh.getMsh3_SendingApplication().getHd2_UniversalID().setValue(builder.getAhdModel().getSendingApplicationCode());
     msh.getMsh3_SendingApplication().getHd3_UniversalIDType()
         .setValue(builder.getAhdModel().getSendingApplicationFormat());
-    msh.getMsh7_DateTimeOfMessage().setValue(
-        MeasurementHelper.convertDateTimeToGMTCalendar(measurementTime.getMeasurementTime()));
+    msh.getMsh7_DateTimeOfMessage()
+        .setValue(MeasurementHelper.convertDateTimeToGMTCalendar(value.getMeasurementTime()));
     msh.getMsh15_AcceptAcknowledgmentType().setValue("NE");
     msh.getMsh16_ApplicationAcknowledgmentType().setValue("AL");
     // IHE PCD ORU-R012006^HL7^2.16.840.1.113883.9.n.m^HL7
@@ -55,7 +55,7 @@ public abstract class AbstractMeasurement implements IMeasurement {
 
   @Override
   public void generateMessage() throws DataTypeException {
-    Objects.requireNonNull(measurementTime);
+    Objects.requireNonNull(value);
     Objects.requireNonNull(builder.getPersonModel());
     Objects.requireNonNull(builder.getAhdModel());
     // MSH
@@ -84,8 +84,7 @@ public abstract class AbstractMeasurement implements IMeasurement {
     id.getCx4_AssigningAuthority().getHd2_UniversalID().setValue("OEP");
     id.getCx5_IdentifierTypeCode().setValue("SSN");
 
-    pid.getPid5_PatientName(0).getFamilyName().getFn1_Surname()
-        .setValue(builder.getPersonModel().getFamilyName());
+    pid.getPid5_PatientName(0).getFamilyName().getFn1_Surname().setValue(builder.getPersonModel().getFamilyName());
     pid.getPid5_PatientName(0).getGivenName().setValue(builder.getPersonModel().getGivenName());
     Calendar c = Calendar.getInstance();
     LocalDate db = builder.getPersonModel().getBirthDate();
@@ -105,16 +104,13 @@ public abstract class AbstractMeasurement implements IMeasurement {
     ei.getEi2_NamespaceID().setValue(builder.getAhdModel().getSendingApplicationName());
     ei.getEi3_UniversalID().setValue(builder.getAhdModel().getSendingApplicationCode());
     ei.getEi4_UniversalIDType().setValue(builder.getAhdModel().getSendingApplicationFormat());
-    obr.getObr4_UniversalServiceIdentifier().getCwe1_Identifier()
-        .setValue(universalServiceIdentifier.getSnomedId());
-    obr.getObr4_UniversalServiceIdentifier().getCwe2_Text()
-        .setValue(universalServiceIdentifier.getSnomedName());
+    obr.getObr4_UniversalServiceIdentifier().getCwe1_Identifier().setValue(universalServiceIdentifier.getSnomedId());
+    obr.getObr4_UniversalServiceIdentifier().getCwe2_Text().setValue(universalServiceIdentifier.getSnomedName());
     obr.getObr4_UniversalServiceIdentifier().getCwe3_NameOfCodingSystem().setValue("SNOMED-CT");
     obr.getObr7_ObservationDateTime().setValue(
-        MeasurementHelper.convertDateTimeToGMTCalendar(measurementTime.getMeasurementTime()));
+        MeasurementHelper.convertDateTimeToGMTCalendar(value.getMeasurementTime()));
     obr.getObr8_ObservationEndDateTime().setValue(
-        MeasurementHelper.convertDateTimeToGMTCalendar(measurementTime.getMeasurementTime().plus(1,
-            ChronoUnit.MINUTES)));
+        MeasurementHelper.convertDateTimeToGMTCalendar(value.getMeasurementTime().plus(1, ChronoUnit.MINUTES)));
   }
 
   protected ObservationalId getObservationalId() {
@@ -140,14 +136,13 @@ public abstract class AbstractMeasurement implements IMeasurement {
     this.generateMDSSegments = generateMDSSegments;
   }
 
-  public MeasurementTime getMeasurementTime() {
-    return measurementTime;
+  public T getValue() {
+    return value;
   }
 
-  public void setMeasurementTime(MeasurementTime measurementTime) {
-    this.measurementTime = measurementTime;
+  public void setValue(T value) {
+    this.value = value;
   }
-
 
   protected class ObservationalId {
     private int first;
@@ -192,7 +187,4 @@ public abstract class AbstractMeasurement implements IMeasurement {
     }
 
   }
-
-
-
 }

@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.mqttclient;
+package hu.bme.diploma.a7e7yk.ahd.mqttclient;
 
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;

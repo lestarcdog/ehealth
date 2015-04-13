@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.interfaces;
+package hu.bme.diploma.a7e7yk.ahd.measurements.interfaces;
 
 import ca.uhn.hl7v2.model.DataTypeException;
 

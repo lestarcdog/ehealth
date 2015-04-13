@@ -1,4 +1,6 @@
-package hu.bme.diploma.a7e7yk.mqttclient;
+package hu.bme.diploma.a7e7yk.ahd.mqttclient;
+
+import java.util.concurrent.TimeUnit;
 
 import org.fusesource.mqtt.client.BlockingConnection;
 import org.fusesource.mqtt.client.MQTT;
@@ -9,8 +11,9 @@ import org.slf4j.LoggerFactory;
 
 public class MqttCommunicatorBlocking implements IMqttCommunicator {
   private final Logger logger = LoggerFactory.getLogger(getClass());
-  private static final String host = "127.0.0.1";
-  private static final int port = 1883;
+  private static final String HOST = "127.0.0.1";
+  private static final int PORT = 1883;
+  private static final int RETRIVE_WAIT_TIMEOUT = 5000;
 
   private final BlockingConnection connection;
   private final String username;
@@ -18,7 +21,7 @@ public class MqttCommunicatorBlocking implements IMqttCommunicator {
   public MqttCommunicatorBlocking(String username, String password) throws Exception {
     this.username = username;
     MQTT mqtt = new MQTT();
-    mqtt.setHost(host, port);
+    mqtt.setHost(HOST, PORT);
     // create durable non-auto deletable topic
     mqtt.setCleanSession(false);
     // rabbmq id
@@ -57,9 +60,11 @@ public class MqttCommunicatorBlocking implements IMqttCommunicator {
   @Override
   public byte[] receive() {
     try {
-      Message m = connection.receive();
-      m.ack();
-      return m.getPayload();
+      Message m = connection.receive(RETRIVE_WAIT_TIMEOUT, TimeUnit.MILLISECONDS);
+      if (m != null) {
+        m.ack();
+        return m.getPayload();
+      }
     } catch (Exception e) {
       logger.warn(null, e);
     }

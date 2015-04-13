@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.ahd.runtime;
 
-import hu.bme.diploma.a7e7yk.mqttclient.MqttCommunicatorBlocking;
+import hu.bme.diploma.a7e7yk.ahd.mqttclient.MqttCommunicatorBlocking;
 
 import org.junit.Test;
 

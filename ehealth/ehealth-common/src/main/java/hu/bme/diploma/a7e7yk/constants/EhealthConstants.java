@@ -10,9 +10,6 @@ public class EhealthConstants {
   public static final String RABBITMQ_EXCHANGE_NAME = "ehealth.publish";
   public static final String RABBITMQ_QUEUE_NAME = "ehealthQueue";
   public static final boolean RABBITMQ_REQUEUE = false;
-  public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE =
-      "mqtt-subscription-@senderId@qos1";
+  public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE = "mqtt-subscription-@senderId@qos1";
   public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE_VAR1 = "@senderId@";
-
-
 }

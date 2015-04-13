@@ -1,13 +1,14 @@
-package hu.bme.diploma.a7e7yk.datamodel.ahd.measurements;
+package hu.bme.diploma.a7e7yk.ahd.measurements;
+
+import hu.bme.diploma.a7e7yk.ahd.AhdConstants;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class MeasurementTime {
-  public static final String TIME_ZONE = "Europe/Budapest";
 
   private ZonedDateTime measurementTime;
-  private ZoneId timeZone = ZoneId.of(TIME_ZONE);
+  private ZoneId timeZone = AhdConstants.TIME_ZONE_BUDAPEST;
 
   public ZonedDateTime getMeasurementTime() {
     return measurementTime;

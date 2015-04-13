@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.ahd.runtime;
+package hu.bme.diploma.a7e7yk.ahd.messagebuilder;
 
 import hu.bme.diploma.a7e7yk.datamodel.ahd.AHDModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;

@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.helper;
+package hu.bme.diploma.a7e7yk.ahd.measurements.helper;
 
 import java.time.ZonedDateTime;
 import java.util.Calendar;

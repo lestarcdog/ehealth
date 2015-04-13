@@ -1,14 +1,15 @@
 package hu.bme.diploma.a7e7yk.ahd.runtime;
 
+import hu.bme.diploma.a7e7yk.ahd.measurements.AbstractMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.measurements.ActivityMonitorMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.measurements.BloodPressureMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.measurements.GlucoseMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.measurements.MeasurementTime;
+import hu.bme.diploma.a7e7yk.ahd.measurements.PulseOxymeterMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.measurements.ThermometerMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.measurements.WeightScaleMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.messagebuilder.PCD_01MessageBuilder;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.AHDModel;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.AbstractMeasurement;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.ActivityMonitorMeasurement;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.BloodPressureMeasurement;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.GlucoseMeasurement;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.MeasurementTime;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.PulseOxymeterMeasurement;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.ThermometerMeasurement;
-import hu.bme.diploma.a7e7yk.datamodel.ahd.measurements.WeightScaleMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureValue;
@@ -66,8 +67,8 @@ public class MeasurementsTest {
     GlucoseMeasurement t = new GlucoseMeasurement();
     GlucoseValue v = new GlucoseValue();
     v.setGlucose(6.5);
-    t.setGlucoseValue(v);
-    t.setMeasurementTime(mt);
+    v.setMeasurementTime(ZonedDateTime.now());
+    t.setValue(v);
 
     pcd_01builder(t);
   }
@@ -76,10 +77,10 @@ public class MeasurementsTest {
   public void activityMonitorTest() throws HL7Exception, IOException {
     ActivityMonitorMeasurement t = new ActivityMonitorMeasurement();
     ActivityMonitorValue v = new ActivityMonitorValue();
-    t.setMeasurementTime(mt);
     v.setAltitude(3.2);
     v.setSpeed(10.0);
     v.setActivePeriod(5.0);
+    v.setMeasurementTime(ZonedDateTime.now());
     t.setValue(v);
 
     pcd_01builder(t);
@@ -92,9 +93,8 @@ public class MeasurementsTest {
     WeightScaleValue v = new WeightScaleValue();
     v.setWeight(117.0);
     v.setHeight(192.0);
+    v.setMeasurementTime(ZonedDateTime.now());
     t.setValue(v);
-    t.setMeasurementTime(mt);
-
     pcd_01builder(t);
   }
 
@@ -102,10 +102,10 @@ public class MeasurementsTest {
   public void bloosPressureTest() throws HL7Exception, IOException {
     BloodPressureMeasurement t = new BloodPressureMeasurement();
     BloodPressureValue v = new BloodPressureValue();
-    t.setMeasurementTime(mt);
     v.setDiastolic(95.0);
     v.setSystolic(140.5);
     v.setPulseRate(75.5);
+    v.setMeasurementTime(ZonedDateTime.now());
     t.setValue(v);
 
     pcd_01builder(t);
@@ -115,8 +115,8 @@ public class MeasurementsTest {
   public void thermometerTest() throws HL7Exception, IOException {
     ThermometerMeasurement t = new ThermometerMeasurement();
     ThermometerValue v = new ThermometerValue();
-    t.setMeasurementTime(mt);
     v.setTemp(35.69);
+    v.setMeasurementTime(ZonedDateTime.now());
     t.setValue(v);
 
     pcd_01builder(t);
@@ -126,9 +126,9 @@ public class MeasurementsTest {
   public void pulseOxyMeterTest() throws HL7Exception, IOException {
     PulseOxymeterMeasurement t = new PulseOxymeterMeasurement();
     PulseOxyMeterValue v = new PulseOxyMeterValue();
-    t.setMeasurementTime(mt);
     v.setSpo2(80.9);
     v.setPulseRate(72.3);
+    v.setMeasurementTime(ZonedDateTime.now());
     t.setValue(v);
 
     pcd_01builder(t);
@@ -137,8 +137,7 @@ public class MeasurementsTest {
   @Test
   public void convertMdcIdAndBack() {
     int x = NomenclatureHelper.getContinuaValueId(BloodPressureValue.MDC_VALUE);
-    Assert.assertEquals(BloodPressureValue.MDC_VALUE.getValue(),
-        NomenclatureHelper.getIdFromContinuaValue(x));
+    Assert.assertEquals(BloodPressureValue.MDC_VALUE.getValue(), NomenclatureHelper.getIdFromContinuaValue(x));
   }
 
   private void pcd_01builder(AbstractMeasurement mm) throws HL7Exception, IOException {
