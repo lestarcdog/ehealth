@@ -23,4 +23,11 @@ public interface IMqttCommunicator {
    */
   public byte[] receive();
 
+  /**
+   * Returns the Id of the sender who is connects to the server
+   * 
+   * @return Id of the sender
+   */
+  public String getSenderId();
+
 }

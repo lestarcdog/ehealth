@@ -70,4 +70,11 @@ public class MqttCommunicatorBlocking implements IMqttCommunicator {
     }
     return null;
   }
+
+  @Override
+  public String getSenderId() {
+    return username;
+  }
+
+
 }

@@ -21,8 +21,8 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
   private final String username;
   private final Topic[] topics;
 
-  public MqttCommunicatorCallback(String username, String password,
-      IMqttMessageRecieveCallback receiveCallback) throws Exception {
+  public MqttCommunicatorCallback(String username, String password, IMqttMessageRecieveCallback receiveCallback)
+      throws Exception {
     this.username = username;
     MQTT mqtt = new MQTT();
     mqtt.setHost(host, port);
@@ -148,4 +148,11 @@ public class MqttCommunicatorCallback implements IMqttCommunicator {
       logger.warn("Incoming message error", value);
     }
   }
+
+  @Override
+  public String getSenderId() {
+    return username;
+  }
+
+
 }
