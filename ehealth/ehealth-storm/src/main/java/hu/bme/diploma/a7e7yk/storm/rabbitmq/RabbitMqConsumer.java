@@ -3,32 +3,36 @@ package hu.bme.diploma.a7e7yk.storm.rabbitmq;
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.GetResponse;
 import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.ShutdownSignalException;
 
-public class RabbitMqConsumer extends AbstractRabbitMq {
+public class RabbitMqConsumer extends AbstractRabbitMq implements Serializable {
 
+  private static final long serialVersionUID = 8497315314436107787L;
   private QueueingConsumer consumer;
 
-  public RabbitMqConsumer() throws IOException {
+  public RabbitMqConsumer() throws IOException {}
+
+  public void init() throws IOException {
     consumer = new QueueingConsumer(channel);
     channel.basicConsume(EhealthConstants.RABBITMQ_QUEUE_NAME, false, consumer);
   }
 
-  public RabbitMqMessage consume() throws IOException, ShutdownSignalException,
-      ConsumerCancelledException, InterruptedException {
+  public RabbitMqMessage consume() throws IOException, ShutdownSignalException, ConsumerCancelledException,
+      InterruptedException {
     QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-    return new RabbitMqMessage(delivery.getEnvelope().getDeliveryTag(), new String(
-        delivery.getBody(), EhealthConstants.UTF8_CHARSET), delivery.getEnvelope().getRoutingKey());
+    return new RabbitMqMessage(delivery.getEnvelope().getDeliveryTag(), new String(delivery.getBody(),
+        EhealthConstants.UTF8_CHARSET), delivery.getEnvelope().getRoutingKey());
   }
 
   public RabbitMqMessage consumeFromQueue(String queueName) throws IOException {
     GetResponse r = channel.basicGet(queueName, true);
-    return new RabbitMqMessage(r.getEnvelope().getDeliveryTag(), new String(r.getBody(),
-        EhealthConstants.UTF8_CHARSET), r.getEnvelope().getRoutingKey());
+    return new RabbitMqMessage(r.getEnvelope().getDeliveryTag(),
+        new String(r.getBody(), EhealthConstants.UTF8_CHARSET), r.getEnvelope().getRoutingKey());
   }
 
   public void ack(Long deliveryTag) {

@@ -27,7 +27,7 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
 
   private static final long serialVersionUID = -6196295171565912992L;
 
-  private static final Logger LOG = LoggerFactory.getLogger(ContinuaMessageConverterBolt.class);
+  private static final Logger logger = LoggerFactory.getLogger(ContinuaMessageConverterBolt.class);
 
   public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
       StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD, StormFieldsConstants.ERROR_FIELD,
@@ -46,6 +46,7 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
   public void execute(Tuple input) {
     String msgTxt = (String) input.getStringByField(StormFieldsConstants.UNPARSED_CONTINUA_MSG_FIELD);
     String senderId = input.getStringByField(StormFieldsConstants.SENDER_ID_FIELD);
+    logger.debug("converting message of {}", senderId);
     ORU_R01 message;
     try {
       message = parser.parseMessage(msgTxt);
@@ -56,18 +57,16 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
       // sender , personId, measurements, error, parsed hl7 msg
       collector.emit(input, new Values(senderId, personModel.getSsn(), vitalValues, null, message));
     } catch (HL7Exception e) {
-      LOG.info(null, e);
+      // throw to error to the next ErrorFilter bolt
+      // and handle there
       collector.emit(Arrays.asList(senderId, null, null, e, null));
       return;
     }
-
-
   }
 
   @Override
   public void declareOutputFields(OutputFieldsDeclarer declarer) {
     declarer.declare(OUTPUT_FIELDS);
-
   }
 
 }

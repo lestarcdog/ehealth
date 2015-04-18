@@ -252,6 +252,8 @@ public interface NomenclatureConstants {
   public static final int MDC_HF_SLOPES = 109;
   public static final int MDC_HF_SPEED = 110;
 
+  public static final int MDC_LEN_BODY_ACTUAL = 57668;
+
 
 
 }

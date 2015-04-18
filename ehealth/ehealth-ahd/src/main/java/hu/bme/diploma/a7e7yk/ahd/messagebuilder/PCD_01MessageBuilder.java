@@ -3,6 +3,7 @@ package hu.bme.diploma.a7e7yk.ahd.messagebuilder;
 import hu.bme.diploma.a7e7yk.ahd.measurements.AbstractMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.AHDModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +12,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v26.group.ORU_R01_ORDER_OBSERVATION;
@@ -32,9 +35,9 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
   private String messageControl;
   private final AHDModel ahdModel;
   private final PersonModel personModel;
+  private final HapiContext hapiContext = new DefaultHapiContext();
 
-  public PCD_01MessageBuilder(AHDModel ahdModel, PersonModel personModel) throws HL7Exception,
-      IOException {
+  public PCD_01MessageBuilder(AHDModel ahdModel, PersonModel personModel) throws HL7Exception, IOException {
     this.ahdModel = ahdModel;
     this.personModel = personModel;
     resetBuilder();
@@ -51,12 +54,18 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
     orderObservation = msg.getPATIENT_RESULT().getORDER_OBSERVATION();
   }
 
-  public Message generateMessage(AbstractMeasurement measurement) throws DataTypeException {
+  public Message generateMessage(AbstractMeasurement<? extends AbstractVitalSignValue> measurement)
+      throws DataTypeException {
     measurement.setBuilder(this);
     // generateAHDSegments
     // generateMDSSegment
     measurement.generateMessage();
     return msg;
+  }
+
+  public String generateMessageAsString(AbstractMeasurement<? extends AbstractVitalSignValue> measurement)
+      throws HL7Exception {
+    return hapiContext.getPipeParser().encode(generateMessage(measurement));
   }
 
   @Override

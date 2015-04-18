@@ -4,6 +4,9 @@ import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
@@ -12,9 +15,11 @@ import backtype.storm.tuple.Tuple;
 
 public class PrintLnBolt extends BaseRichBolt {
 
+  private static final long serialVersionUID = 2611134353453228210L;
   private String txt;
   private OutputCollector collector;
   private int partition;
+  private static final Logger logger = LoggerFactory.getLogger(PrintLnBolt.class);
 
   public PrintLnBolt(String txt) {
     this.txt = txt;
@@ -29,12 +34,9 @@ public class PrintLnBolt extends BaseRichBolt {
 
   @Override
   public void execute(Tuple input) {
-    String si = input.getStringByField(StormFieldsConstants.SENDER_ID_FIELD);
     String ui = input.getStringByField(StormFieldsConstants.USER_ID_FIELD);
-    System.err.println(txt + partition + "_" + si + "_" + ui);
+    logger.debug(txt + partition + "_" + "_" + ui);
     collector.ack(input);
-    System.err.println();
-
   }
 
   @Override

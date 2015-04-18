@@ -58,6 +58,7 @@ public abstract class AbstractMeasurement<T extends AbstractVitalSignValue> impl
     Objects.requireNonNull(value);
     Objects.requireNonNull(builder.getPersonModel());
     Objects.requireNonNull(builder.getAhdModel());
+    Objects.requireNonNull(value.getMeasurementTime());
     // MSH
     generateMSH();
     // PID

@@ -8,10 +8,12 @@ import hu.bme.diploma.a7e7yk.ahd.measurements.GlucoseMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.measurements.PulseOxymeterMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.measurements.ThermometerMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.measurements.WeightScaleMeasurement;
+import hu.bme.diploma.a7e7yk.ahd.messagebuilder.PCD_01MessageBuilder;
 import hu.bme.diploma.a7e7yk.ahd.mqttclient.IMqttCommunicator;
 import hu.bme.diploma.a7e7yk.ahd.mqttclient.MqttCommunicatorBlocking;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.AHDModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.GlucoseValue;
@@ -20,6 +22,7 @@ import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerValue;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScaleValue;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -42,12 +45,12 @@ public class MessageGenerator {
   private static final double DIASTOLIC_BASELINE = 90;
   private static final double SYSTOLIC = 80;
   private static final double SYSTOLIC_BASELINE = 90;
-  private static final double SPO2_RATE = 30;
-  private static final double SPO2_BASELINE = 60;
+  private static final double PULSE_RATE = 70;
+  private static final double PULSE_RATE_BASELINE = 20;
+  private static final double SPO2_RATE = 90;
+  private static final double SPO2_BASELINE = 10;
   private static final double GLUCOSE = 2;
   private static final double GLUCOSE_BASELINE = 2;
-  private static final double PULSE_OXYMETER = 10;
-  private static final double PULSE_OXYMETER_BASELINE = 90;
   private static final double THERMOMETER = 90;
   private static final double THERMOMETER_BASELINE = 90;
   private static final double WEIGHT_SCALE = 2;
@@ -56,7 +59,8 @@ public class MessageGenerator {
   // ----------
 
   private static final Logger logger = LoggerFactory.getLogger(MessageGenerator.class);
-  private static final int SLEEP_TIME_MAX = 8000;
+  private static final int SLEEP_TIME_MAX = 4000;
+  private static final int SLEEP_TIME_BASE = 4000;
 
   private AHDModel ahdModel;
   private Map<String, PersonModel> personModels = new HashMap<>();
@@ -78,7 +82,8 @@ public class MessageGenerator {
     while (true) {
       generator.sendMessage();
       try {
-        Thread.sleep(sleep.nextInt(SLEEP_TIME_MAX));
+        logger.info("sleeping...");
+        Thread.sleep(SLEEP_TIME_BASE + sleep.nextInt(SLEEP_TIME_MAX));
       } catch (InterruptedException e) {
         logger.error(null, e);
       }
@@ -89,13 +94,21 @@ public class MessageGenerator {
     IMqttCommunicator mqtt = mqttCommunicators.get(rand.nextInt(mqttCommunicators.size()));
     PersonModel personModel = personModels.get(mqtt.getSenderId());
     ahdModel.setSenderId(mqtt.getSenderId());
+    PCD_01MessageBuilder builder;
+    logger.info("sending message to {}", mqtt.getSenderId());
+    try {
+      builder = new PCD_01MessageBuilder(ahdModel, personModel);
+      mqtt.sendMessage(builder.generateMessageAsString(selectRandomMeasurement()).getBytes());
+    } catch (Exception e) {
+      logger.error(null, e);
+    }
 
 
   }
 
   private AbstractMeasurement<?> selectRandomMeasurement() {
-    int i = rand.nextInt(7);
-    AbstractMeasurement<?> m = null;
+    int i = rand.nextInt(6);
+    AbstractMeasurement<? extends AbstractVitalSignValue> m = null;
     switch (i) {
       case 0:
         m = new ActivityMonitorMeasurement();
@@ -111,7 +124,7 @@ public class MessageGenerator {
         BloodPressureValue mm2 = new BloodPressureValue();
         mm2.setDiastolic(getRandomDouble(DIASTOLIC, DIASTOLIC_BASELINE));
         mm2.setSystolic(getRandomDouble(SYSTOLIC, SYSTOLIC_BASELINE));
-        mm2.setPulseRate(getRandomDouble(SPO2_RATE, PULSE_OXYMETER_BASELINE));
+        mm2.setPulseRate(getRandomDouble(PULSE_RATE, PULSE_RATE_BASELINE));
         ((BloodPressureMeasurement) m).setValue(mm2);
         break;
       case 2:
@@ -123,7 +136,7 @@ public class MessageGenerator {
       case 3:
         m = new PulseOxymeterMeasurement();
         PulseOxyMeterValue mm4 = new PulseOxyMeterValue();
-        mm4.setSpo2(getRandomDouble(PULSE_OXYMETER, PULSE_OXYMETER_BASELINE));
+        mm4.setSpo2(getRandomDouble(SPO2_RATE, SPO2_BASELINE));
         ((PulseOxymeterMeasurement) m).setValue(mm4);
         break;
       case 4:
@@ -141,15 +154,18 @@ public class MessageGenerator {
       default:
         throw new UnsupportedOperationException("Something is messed up with the indices");
     }
+    m.getValue().setMeasurementTime(ZonedDateTime.now(AhdConstants.TIME_ZONE_BUDAPEST));
     return m;
   }
 
   private double getRandomDouble(double maxBound, double baseline) {
-    return new BigDecimal((rand.nextDouble() * maxBound) + baseline).setScale(DOUBLE_PRESICION).doubleValue();
+    return new BigDecimal((rand.nextDouble() * maxBound) + baseline).setScale(DOUBLE_PRESICION, RoundingMode.HALF_DOWN)
+        .doubleValue();
   }
 
   private double getRandomDouble(double maxBound) {
-    return new BigDecimal(rand.nextDouble() * maxBound).setScale(DOUBLE_PRESICION).doubleValue();
+    return new BigDecimal(rand.nextDouble() * maxBound).setScale(DOUBLE_PRESICION, RoundingMode.HALF_DOWN)
+        .doubleValue();
   }
 
 

@@ -24,19 +24,22 @@ public class RabbitMqSpout extends BaseRichSpout {
 
   private static final long serialVersionUID = 7843454057101302500L;
 
-  private static final Logger LOG = LoggerFactory.getLogger(RabbitMqSpout.class);
+  private static final Logger logger = LoggerFactory.getLogger(RabbitMqSpout.class);
   public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
       StormFieldsConstants.UNPARSED_CONTINUA_MSG_FIELD);
 
   private SpoutOutputCollector collector;
-  private final RabbitMqConsumer consumer;
-
-  public RabbitMqSpout() throws IOException {
-    consumer = new RabbitMqConsumer();
-  }
+  private RabbitMqConsumer consumer;
 
   @Override
   public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
+    try {
+      consumer = new RabbitMqConsumer();
+      consumer.init();
+    } catch (IOException e) {
+      collector.reportError(e);
+    }
+
     this.collector = collector;
 
   }
@@ -46,10 +49,10 @@ public class RabbitMqSpout extends BaseRichSpout {
     try {
       RabbitMqMessage msg;
       msg = consumer.consume();
-      collector.emit(Arrays.asList(msg.getMsg()), msg.getDeliveryTag());
-    } catch (ShutdownSignalException | ConsumerCancelledException | IOException
-        | InterruptedException e) {
-      LOG.debug(null, e);
+      logger.debug("Reading message from {}", msg.getSenderId());
+      collector.emit(Arrays.asList(msg.getSenderId(), msg.getMsg()), msg.getDeliveryTag());
+    } catch (ShutdownSignalException | ConsumerCancelledException | IOException | InterruptedException e) {
+      logger.error(null, e);
       collector.reportError(e);
     }
   }

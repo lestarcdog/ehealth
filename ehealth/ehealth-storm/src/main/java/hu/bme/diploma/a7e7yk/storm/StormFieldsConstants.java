@@ -1,5 +1,9 @@
 package hu.bme.diploma.a7e7yk.storm;
 
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+
+import java.util.List;
+
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v26.message.ORU_R01;
 
@@ -9,7 +13,8 @@ public class StormFieldsConstants {
    */
   public static final String USER_ID_FIELD = "patientUserId";
   /**
-   * Contains a {@link List<AbstractVitalSignValue>} parsed data from the Continua message.
+   * Contains a {@link List} of {@link AbstractVitalSignValue} parsed data from the Continua
+   * message.
    */
   public static final String MEASUREMENTS_FIELD = "measurements";
   public static final String RETURN_MESSAGE_FIELD = "returnMessage";
