@@ -1,9 +1,9 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
+import hu.bme.diploma.a7e7yk.converter.hl7converter.HapiHl7Parser;
+import hu.bme.diploma.a7e7yk.converter.hl7converter.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
-import hu.bme.diploma.a7e7yk.hl7conversion.HapiHl7Parser;
-import hu.bme.diploma.a7e7yk.hl7conversion.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 
 import java.util.Arrays;

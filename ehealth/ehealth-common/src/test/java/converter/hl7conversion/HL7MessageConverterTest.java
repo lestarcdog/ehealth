@@ -1,8 +1,8 @@
-package hl7conversion;
+package converter.hl7conversion;
 
+import hu.bme.diploma.a7e7yk.converter.hl7converter.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
-import hu.bme.diploma.a7e7yk.hl7conversion.Hl7MessageConverter;
 
 import org.junit.Assert;
 import org.junit.Test;

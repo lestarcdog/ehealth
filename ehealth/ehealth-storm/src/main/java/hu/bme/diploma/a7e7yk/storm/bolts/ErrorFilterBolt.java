@@ -29,8 +29,8 @@ public class ErrorFilterBolt extends BaseRichBolt {
   @Override
   public void execute(Tuple input) {
     collector.ack(input);
-    logger.debug("Error filter of {}", input.getValueByField(StormFieldsConstants.ERROR_FIELD));
     if (input.getValueByField(StormFieldsConstants.ERROR_FIELD) == null) {
+      logger.debug("Error filter of {}", input.getValueByField(StormFieldsConstants.ERROR_FIELD));
       collector.emit(new Values(input.getValueByField(StormFieldsConstants.USER_ID_FIELD), input
           .getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD)));
     }
@@ -38,7 +38,8 @@ public class ErrorFilterBolt extends BaseRichBolt {
 
   @Override
   public void declareOutputFields(OutputFieldsDeclarer declarer) {
-    declarer.declare(new Fields(StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD));
+    declarer.declare(new Fields(StormFieldsConstants.USER_ID_FIELD,
+        StormFieldsConstants.MEASUREMENTS_FIELD));
   }
 
 }

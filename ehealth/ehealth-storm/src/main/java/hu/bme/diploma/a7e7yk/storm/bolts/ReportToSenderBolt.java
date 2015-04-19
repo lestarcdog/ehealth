@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
-import hu.bme.diploma.a7e7yk.hl7conversion.HapiHl7Parser;
+import hu.bme.diploma.a7e7yk.converter.hl7converter.HapiHl7Parser;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqPublisher;
 

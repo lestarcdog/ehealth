@@ -1,5 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.topology;
 
+import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.bolts.ContinuaMessageConverterBolt;
 import hu.bme.diploma.a7e7yk.storm.bolts.ErrorFilterBolt;
 import hu.bme.diploma.a7e7yk.storm.bolts.PrintLnBolt;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.topology.TopologyBuilder;
+import backtype.storm.tuple.Fields;
 
 public class StormEhealthTopology {
 
@@ -22,7 +24,8 @@ public class StormEhealthTopology {
     builder.setBolt("continua", new ContinuaMessageConverterBolt()).shuffleGrouping("rabbitSpout");
     builder.setBolt("errorFilter", new ErrorFilterBolt()).shuffleGrouping("continua");
     builder.setBolt("responseUser", new ReportToSenderBolt()).shuffleGrouping("continua");
-    builder.setBolt("realTime", new RealtimeBolt()).shuffleGrouping("errorFilter");
+    builder.setBolt("realTime", new RealtimeBolt()).fieldsGrouping("errorFilter",
+        new Fields(StormFieldsConstants.USER_ID_FIELD));
     builder.setBolt("persist", new PrintLnBolt("persist")).shuffleGrouping("errorFilter");
 
     Config config = new Config();

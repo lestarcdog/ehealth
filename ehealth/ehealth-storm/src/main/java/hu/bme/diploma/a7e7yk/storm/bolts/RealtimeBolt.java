@@ -1,5 +1,11 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
+import hu.bme.diploma.a7e7yk.converter.RealTimeDtoConverter;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.nettosphere.server.NettoSphereServer;
+
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -24,22 +30,35 @@ public class RealtimeBolt extends BaseRichBolt {
   private static final long serialVersionUID = -4086509759524403646L;
   private static final Logger logger = LoggerFactory.getLogger(RealtimeBolt.class);
   private OutputCollector collector;
+  private NettoSphereServer server;
+
 
   @Override
   public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
     this.collector = collector;
+    server = new NettoSphereServer();
 
   }
 
   @Override
   public void execute(Tuple input) {
-    // CEP -> Netty server
+    @SuppressWarnings("unchecked")
+    List<AbstractVitalSignValue> signValues =
+        (List<AbstractVitalSignValue>) input
+            .getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD);
+    String userId = (String) input.getValueByField(StormFieldsConstants.USER_ID_FIELD);
+    for (AbstractVitalSignValue v : signValues) {
+      server.sendMessageToId(RealTimeDtoConverter.convert(v), userId);
+    }
     collector.ack(input);
   }
 
   @Override
-  public void declareOutputFields(OutputFieldsDeclarer declarer) {
+  public void declareOutputFields(OutputFieldsDeclarer declarer) {}
 
+  @Override
+  public void cleanup() {
+    server.close();
   }
 
 }

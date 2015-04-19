@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.nettosphere.handler;
 
-import hu.bme.diploma.a7e7yk.storm.nettosphere.data.RealTimeDataDto;
+import hu.bme.diploma.a7e7yk.dto.RealTimeDataDto;
 
 import java.util.Set;
 
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class WebSocketRegistry {
+public class WebSocketRegistry implements IRealtimeMessageSender {
   private static final Logger logger = LoggerFactory.getLogger(WebSocketRegistry.class);
   private static WebSocketRegistry wsr = null;
   private final AtmosphereFramework fw;
@@ -23,7 +23,7 @@ public class WebSocketRegistry {
     this.fw = fw;
   }
 
-  public static void init(AtmosphereFramework fw) {
+  public synchronized static void init(AtmosphereFramework fw) {
     wsr = new WebSocketRegistry(fw);
   }
 
@@ -38,6 +38,7 @@ public class WebSocketRegistry {
     return fw.getBroadcasterFactory().lookup(id, createIfNew);
   }
 
+  @Override
   public void sendMessageToId(RealTimeDataDto data, String id) {
     try {
       String s = mapper.writeValueAsString(data);

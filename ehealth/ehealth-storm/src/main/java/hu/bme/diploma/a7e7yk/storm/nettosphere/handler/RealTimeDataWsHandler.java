@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebSocketHandlerService(path = "/test")
+@WebSocketHandlerService(path = "/measurements")
 public class RealTimeDataWsHandler implements WebSocketHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(RealTimeDataWsHandler.class);
@@ -55,7 +55,8 @@ public class RealTimeDataWsHandler implements WebSocketHandler {
 
   @Override
   public void onOpen(WebSocket webSocket) throws IOException {
-    System.out.println("connection");
+    // TODO JWT token check validation
+    logger.debug("WebSocket is connected {}", "no-name");
   }
 
   @Override
@@ -65,6 +66,8 @@ public class RealTimeDataWsHandler implements WebSocketHandler {
   }
 
   @Override
-  public void onError(WebSocket webSocket, WebSocketException t) {}
+  public void onError(WebSocket webSocket, WebSocketException t) {
+    logger.error("Websocket error", t);
+  }
 
 }

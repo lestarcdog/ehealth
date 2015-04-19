@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.hl7conversion;
+package hu.bme.diploma.a7e7yk.converter.hl7converter;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;

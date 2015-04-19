@@ -75,6 +75,13 @@ public class MessageGenerator {
     generator.setupPersonModel();
     generator.setupMqttCommunicators();
 
+    if (args.length == 1) {
+      Integer msgCount = Integer.valueOf(args[0]);
+      for (int i = 0; i < msgCount; ++i) {
+        generator.sendMessage();
+      }
+      System.exit(0);
+    }
 
     // start this thing
     System.out.println("Stop me with CTRL+C");
@@ -159,13 +166,13 @@ public class MessageGenerator {
   }
 
   private double getRandomDouble(double maxBound, double baseline) {
-    return new BigDecimal((rand.nextDouble() * maxBound) + baseline).setScale(DOUBLE_PRESICION, RoundingMode.HALF_DOWN)
-        .doubleValue();
+    return new BigDecimal((rand.nextDouble() * maxBound) + baseline).setScale(DOUBLE_PRESICION,
+        RoundingMode.HALF_DOWN).doubleValue();
   }
 
   private double getRandomDouble(double maxBound) {
-    return new BigDecimal(rand.nextDouble() * maxBound).setScale(DOUBLE_PRESICION, RoundingMode.HALF_DOWN)
-        .doubleValue();
+    return new BigDecimal(rand.nextDouble() * maxBound).setScale(DOUBLE_PRESICION,
+        RoundingMode.HALF_DOWN).doubleValue();
   }
 
 
