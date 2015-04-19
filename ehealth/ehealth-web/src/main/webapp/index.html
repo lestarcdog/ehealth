@@ -15,6 +15,8 @@
 <script type="text/javascript" src="js/framework/jquery/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="js/framework/angular/angular.js"></script>
 <script type="text/javascript"
+	src="js/framework/angular/angular-route.js"></script>
+<script type="text/javascript"
 	src="js/framework/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="js/framework/bootstrap/bootstrap-scripts.js"></script>
@@ -45,8 +47,8 @@
 					role="navigation">
 					<div data-spy="affix" data-offset-top="45" data-offset-bottom="90">
 						<ul class="nav" id="sidebar-nav">
-							<li><a href="#">Log in</a></li>
-							<li><a href="#section1">My patients</a></li>
+							<li><a href="#/login">Log in</a></li>
+							<li><a href="#/measurements">My patients</a></li>
 						</ul>
 					</div>
 				</div>
@@ -57,16 +59,17 @@
 					data-target="#sidebar-nav">
 					<div class="row">
 						<div class="col-sm-6">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3>Valami ide jön</h3>
+							<div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4>Canvas</h4>
+									</div>
+									<div class="panel-body">
+										<div id="#chartContent"></div>
+										<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+									</div>
 								</div>
-								<div class="panel-body">
-									<p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-                      Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-                      dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-                      Aliquam in felis sit amet augue.</p>
-								</div>
+
 							</div>
 						</div>
 					</div>
@@ -74,5 +77,6 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="js/apps/ehealthApp.js"></script>
 </body>
 </html>
