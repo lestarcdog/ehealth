@@ -2,7 +2,7 @@ package converter.hl7conversion;
 
 import hu.bme.diploma.a7e7yk.converter.hl7converter.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class HL7MessageConverterTest {
   public void testConversionBloodPressure() throws HL7Exception {
     for (String message : messagesList) {
       ORU_R01 m = parseMessage(message);
-      AbstractVitalSignValue v = Hl7MessageConverter.getVitalSignValues(m).get(0);
+      AbstractVitalSign v = Hl7MessageConverter.getVitalSignValues(m).get(0);
       Assert.assertNotNull(v.getMeasurementTime());
     }
   }

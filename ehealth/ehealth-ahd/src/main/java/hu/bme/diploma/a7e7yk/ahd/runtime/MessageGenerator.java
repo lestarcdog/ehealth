@@ -13,13 +13,13 @@ import hu.bme.diploma.a7e7yk.ahd.mqttclient.IMqttCommunicator;
 import hu.bme.diploma.a7e7yk.ahd.mqttclient.MqttCommunicatorBlocking;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.AHDModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.GlucoseValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeterValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScaleValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitor;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressure;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Glucose;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeter;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Thermometer;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScale;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -115,47 +115,47 @@ public class MessageGenerator {
 
   private AbstractMeasurement<?> selectRandomMeasurement() {
     int i = rand.nextInt(6);
-    AbstractMeasurement<? extends AbstractVitalSignValue> m = null;
+    AbstractMeasurement<? extends AbstractVitalSign> m = null;
     switch (i) {
       case 0:
         m = new ActivityMonitorMeasurement();
-        ActivityMonitorValue mm = new ActivityMonitorValue();
-        mm.setActivePeriod(5.0);
-        mm.setAltitude(getRandomDouble(ALTITUDE));
-        mm.setSpeed(getRandomDouble(SPEED));
+        ActivityMonitor mm = new ActivityMonitor();
+        mm.getActivePeriod().setValue(5.0);
+        mm.getAltitude().setValue(getRandomDouble(ALTITUDE));
+        mm.getSpeed().setValue(getRandomDouble(SPEED));
         mm.setMeasurementTime(getCurrentTime());
         ((ActivityMonitorMeasurement) m).setValue(mm);
         break;
       case 1:
         m = new BloodPressureMeasurement();
-        BloodPressureValue mm2 = new BloodPressureValue();
-        mm2.setDiastolic(getRandomDouble(DIASTOLIC, DIASTOLIC_BASELINE));
-        mm2.setSystolic(getRandomDouble(SYSTOLIC, SYSTOLIC_BASELINE));
-        mm2.setPulseRate(getRandomDouble(PULSE_RATE, PULSE_RATE_BASELINE));
+        BloodPressure mm2 = new BloodPressure();
+        mm2.getDiastolic().setValue(getRandomDouble(DIASTOLIC, DIASTOLIC_BASELINE));
+        mm2.getSystolic().setValue(getRandomDouble(SYSTOLIC, SYSTOLIC_BASELINE));
+        mm2.getPulseRate().setValue(getRandomDouble(PULSE_RATE, PULSE_RATE_BASELINE));
         ((BloodPressureMeasurement) m).setValue(mm2);
         break;
       case 2:
         m = new GlucoseMeasurement();
-        GlucoseValue mm3 = new GlucoseValue();
-        mm3.setGlucose(getRandomDouble(GLUCOSE, GLUCOSE_BASELINE));
+        Glucose mm3 = new Glucose();
+        mm3.getGlucose().setValue(getRandomDouble(GLUCOSE, GLUCOSE_BASELINE));
         ((GlucoseMeasurement) m).setValue(mm3);
         break;
       case 3:
         m = new PulseOxymeterMeasurement();
-        PulseOxyMeterValue mm4 = new PulseOxyMeterValue();
-        mm4.setSpo2(getRandomDouble(SPO2_RATE, SPO2_BASELINE));
+        PulseOxyMeter mm4 = new PulseOxyMeter();
+        mm4.getSpo2().setValue(getRandomDouble(SPO2_RATE, SPO2_BASELINE));
         ((PulseOxymeterMeasurement) m).setValue(mm4);
         break;
       case 4:
         m = new ThermometerMeasurement();
-        ThermometerValue mm5 = new ThermometerValue();
-        mm5.setTemp(getRandomDouble(THERMOMETER, THERMOMETER_BASELINE));
+        Thermometer mm5 = new Thermometer();
+        mm5.getTemp().setValue(getRandomDouble(THERMOMETER, THERMOMETER_BASELINE));
         ((ThermometerMeasurement) m).setValue(mm5);
         break;
       case 5:
         m = new WeightScaleMeasurement();
-        WeightScaleValue mm6 = new WeightScaleValue();
-        mm6.setWeight(getRandomDouble(WEIGHT_SCALE, WEIGHT_SCALE_BASELINE));
+        WeightScale mm6 = new WeightScale();
+        mm6.getWeight().setValue(getRandomDouble(WEIGHT_SCALE, WEIGHT_SCALE_BASELINE));
         ((WeightScaleMeasurement) m).setValue(mm6);
         break;
       default:
@@ -166,13 +166,13 @@ public class MessageGenerator {
   }
 
   private double getRandomDouble(double maxBound, double baseline) {
-    return new BigDecimal((rand.nextDouble() * maxBound) + baseline).setScale(DOUBLE_PRESICION,
-        RoundingMode.HALF_DOWN).doubleValue();
+    return new BigDecimal((rand.nextDouble() * maxBound) + baseline).setScale(DOUBLE_PRESICION, RoundingMode.HALF_DOWN)
+        .doubleValue();
   }
 
   private double getRandomDouble(double maxBound) {
-    return new BigDecimal(rand.nextDouble() * maxBound).setScale(DOUBLE_PRESICION,
-        RoundingMode.HALF_DOWN).doubleValue();
+    return new BigDecimal(rand.nextDouble() * maxBound).setScale(DOUBLE_PRESICION, RoundingMode.HALF_DOWN)
+        .doubleValue();
   }
 
 

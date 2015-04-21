@@ -4,7 +4,7 @@ import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
 import hu.bme.diploma.a7e7yk.ahd.measurements.interfaces.IMeasurement;
 import hu.bme.diploma.a7e7yk.ahd.messagebuilder.IMessageBuilder;
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -20,7 +20,12 @@ import ca.uhn.hl7v2.model.v26.segment.PID;
 
 import com.google.common.base.Joiner;
 
-public abstract class AbstractMeasurement<T extends AbstractVitalSignValue> implements IMeasurement {
+/**
+ * Abstract Continua measurement
+ *
+ * @param <T> specific measurement type
+ */
+public abstract class AbstractMeasurement<T extends AbstractVitalSign> implements IMeasurement {
   // protected MeasurementTime measurementTime;
   protected T value;
   private final SnomedConcept universalServiceIdentifier;

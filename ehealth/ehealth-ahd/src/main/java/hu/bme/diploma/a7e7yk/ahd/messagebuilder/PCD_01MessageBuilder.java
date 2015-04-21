@@ -3,7 +3,7 @@ package hu.bme.diploma.a7e7yk.ahd.messagebuilder;
 import hu.bme.diploma.a7e7yk.ahd.measurements.AbstractMeasurement;
 import hu.bme.diploma.a7e7yk.datamodel.ahd.AHDModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
     orderObservation = msg.getPATIENT_RESULT().getORDER_OBSERVATION();
   }
 
-  public Message generateMessage(AbstractMeasurement<? extends AbstractVitalSignValue> measurement)
+  public Message generateMessage(AbstractMeasurement<? extends AbstractVitalSign> measurement)
       throws DataTypeException {
     measurement.setBuilder(this);
     // generateAHDSegments
@@ -63,7 +63,7 @@ public class PCD_01MessageBuilder implements IMessageBuilder {
     return msg;
   }
 
-  public String generateMessageAsString(AbstractMeasurement<? extends AbstractVitalSignValue> measurement)
+  public String generateMessageAsString(AbstractMeasurement<? extends AbstractVitalSign> measurement)
       throws HL7Exception {
     return hapiContext.getPipeParser().encode(generateMessage(measurement));
   }

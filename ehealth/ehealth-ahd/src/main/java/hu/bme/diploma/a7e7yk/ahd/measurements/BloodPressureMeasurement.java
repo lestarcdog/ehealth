@@ -1,14 +1,14 @@
 package hu.bme.diploma.a7e7yk.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressure;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
-public class BloodPressureMeasurement extends AbstractMeasurement<BloodPressureValue> {
+public class BloodPressureMeasurement extends AbstractMeasurement<BloodPressure> {
 
   public BloodPressureMeasurement() {
-    super(BloodPressureValue.SNOMED_CONCEPT);
+    super(BloodPressure.SNOMED_CONCEPT);
   }
 
   @Override
@@ -30,39 +30,39 @@ public class BloodPressureMeasurement extends AbstractMeasurement<BloodPressureV
     obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextThirdId());
     MeasurementHelper.setObxField3ObservationId(obx, "150020", "MDC_PRESS_BLD_NONINV", "MDC");
 
-    if (value.getSystolic() != null) {
+    if (value.getSystolic().getValue() != null) {
       obx = builder.provideOBX();
       MeasurementHelper.initObxSegment(obx, "R", value.getMeasurementTime());
       obx.getObx2_ValueType().setValue("NM");
       // 150021^MDC_PRESS_BLD_NONINV_SYS^MDC
       MeasurementHelper.setObxField3ObservationId(obx, "150021", "MDC_PRESS_BLD_NONINV_SYS", "MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getSystolic());
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getSystolic().getValue());
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "266016", "MDC_DIM_MMHG", "MDC");
     }
 
-    if (value.getDiastolic() != null) {
+    if (value.getDiastolic().getValue() != null) {
       obx = builder.provideOBX();
       MeasurementHelper.initObxSegment(obx, "R", value.getMeasurementTime());
       obx.getObx2_ValueType().setValue("NM");
       // 150022^MDC_PRESS_BLD_NONINV_DIA^MDC
       MeasurementHelper.setObxField3ObservationId(obx, "150022^MDC_PRESS_BLD_NONINV_DIA^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getDiastolic());
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getDiastolic().getValue());
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "266016^MDC_DIM_MMHG^MDC");
 
     }
 
-    if (value.getPulseRate() != null) {
+    if (value.getPulseRate().getValue() != null) {
       obx = builder.provideOBX();
       MeasurementHelper.initObxSegment(obx, "R", value.getMeasurementTime());
       obx.getObx2_ValueType().setValue("NM");
       MeasurementHelper.setObxField3ObservationId(obx, "149546^MDC_PULS_RATE_NON_INV^MDC");
       getObservationalId().restartCounters();
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getPulseRate());
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getPulseRate().getValue());
       // 266016^MDC_DIM_MMHG^MDC
       MeasurementHelper.setObxField6Unit(obx, "264864^MDC_DIM_BEAT_PER_MIN^MDC");
     }

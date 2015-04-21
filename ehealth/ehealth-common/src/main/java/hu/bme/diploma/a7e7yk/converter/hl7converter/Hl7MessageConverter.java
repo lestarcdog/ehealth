@@ -1,14 +1,14 @@
 package hu.bme.diploma.a7e7yk.converter.hl7converter;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.GlucoseValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeterValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerValue;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScaleValue;
-import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureConstants;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitor;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressure;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Glucose;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeter;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Thermometer;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScale;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.MdcNomenclatureConstants;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureHelper;
 
 import java.time.Instant;
@@ -38,34 +38,34 @@ public class Hl7MessageConverter {
    * @return list of converted objects
    * @throws HL7Exception can't convert to the domain object
    */
-  public static List<AbstractVitalSignValue> getVitalSignValues(ORU_R01 message) throws HL7Exception {
+  public static List<AbstractVitalSign> getVitalSignValues(ORU_R01 message) throws HL7Exception {
     List<ORU_R01_OBSERVATION> observations = message.getPATIENT_RESULT().getORDER_OBSERVATION().getOBSERVATIONAll();
     if (observations == null || observations.isEmpty()) {
       throw new HL7Exception("Observation can not be empty", ErrorCode.REQUIRED_FIELD_MISSING);
     }
     ObxReader reader = new ObxReader(observations.listIterator());
-    List<AbstractVitalSignValue> vitalSigns = new ArrayList<>();
+    List<AbstractVitalSign> vitalSigns = new ArrayList<>();
     OBX obx;
     Integer valueId;
     while ((obx = reader.advanceIteratorToNewMajorGroup()) != null) {
       valueId = getObx3AsInteger(obx);
       switch (valueId) {
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_HF_CARDIO:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_HF_CARDIO:
           vitalSigns.add(convertToActivityMonitorValue(reader));
           break;
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_BP:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_BP:
           vitalSigns.add(convertToBloodPressureValue(reader));
           break;
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_GLUCOSE:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_GLUCOSE:
           vitalSigns.add(convertToGlucoseValue(reader));
           break;
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_PULS_OXIM:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_PULS_OXIM:
           vitalSigns.add(convertToPulseOxymeterValue(reader));
           break;
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_TEMP:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_TEMP:
           vitalSigns.add(convertToThermometerValue(reader));
           break;
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_SCALE:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_SCALE:
           vitalSigns.add(convertToWeighScaleValue(reader));
           break;
         default:
@@ -98,21 +98,21 @@ public class Hl7MessageConverter {
     return m;
   }
 
-  private static AbstractVitalSignValue convertToWeighScaleValue(ObxReader reader) throws HL7Exception {
-    WeightScaleValue v = new WeightScaleValue();
+  private static AbstractVitalSign convertToWeighScaleValue(ObxReader reader) throws HL7Exception {
+    WeightScale v = new WeightScale();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
       valueId = getObx3AsInteger(obx);
       switch (valueId) {
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_SCALE:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_SCALE:
           v.setMeasurementTime(getObx14AsZonedDateTime(obx));
           break;
-        case NomenclatureConstants.MDC_MASS_BODY_ACTUAL:
-          v.setWeight(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_MASS_BODY_ACTUAL:
+          v.getWeight().setValue(getObx5AsDouble(obx));
           break;
-        case NomenclatureConstants.MDC_LEN_BODY_ACTUAL:
-          v.setHeight(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_LEN_BODY_ACTUAL:
+          v.getHeight().setValue(getObx5AsDouble(obx));
         default:
           break;
       }
@@ -120,21 +120,21 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static AbstractVitalSignValue convertToPulseOxymeterValue(ObxReader reader) throws HL7Exception {
-    PulseOxyMeterValue v = new PulseOxyMeterValue();
+  private static AbstractVitalSign convertToPulseOxymeterValue(ObxReader reader) throws HL7Exception {
+    PulseOxyMeter v = new PulseOxyMeter();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
       valueId = getObx3AsInteger(obx);
       switch (valueId) {
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_PULS_OXIM:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_PULS_OXIM:
           v.setMeasurementTime(getObx14AsZonedDateTime(obx));
           break;
-        case NomenclatureConstants.MDC_PULS_OXIM_SAT_O2:
-          v.setSpo2(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_PULS_OXIM_SAT_O2:
+          v.getSpo2().setValue(getObx5AsDouble(obx));
           break;
-        case NomenclatureConstants.MDC_PULS_OXIM_PULS_RATE:
-          v.setPulseRate(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_PULS_OXIM_PULS_RATE:
+          v.getPulseRate().setValue(getObx5AsDouble(obx));
         default:
           break;
       }
@@ -142,18 +142,18 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static AbstractVitalSignValue convertToThermometerValue(ObxReader reader) throws HL7Exception {
-    ThermometerValue v = new ThermometerValue();
+  private static AbstractVitalSign convertToThermometerValue(ObxReader reader) throws HL7Exception {
+    Thermometer v = new Thermometer();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
       valueId = getObx3AsInteger(obx);
       switch (valueId) {
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_TEMP:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_TEMP:
           v.setMeasurementTime(getObx14AsZonedDateTime(obx));
           break;
-        case NomenclatureConstants.MDC_TEMP_BODY:
-          v.setTemp(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_TEMP_BODY:
+          v.getTemp().setValue(getObx5AsDouble(obx));
         default:
           break;
       }
@@ -161,29 +161,29 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static ActivityMonitorValue convertToActivityMonitorValue(ObxReader reader) throws HL7Exception {
-    ActivityMonitorValue v = new ActivityMonitorValue();
+  private static ActivityMonitor convertToActivityMonitorValue(ObxReader reader) throws HL7Exception {
+    ActivityMonitor v = new ActivityMonitor();
 
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
       valueId = getObx3AsInteger(obx);
       switch (valueId) {
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_HF_CARDIO:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_HF_CARDIO:
           v.setMeasurementTime(getObx14AsZonedDateTime(obx));
           break;
-        case NomenclatureConstants.MDC_HF_SESSION:
+        case MdcNomenclatureConstants.MDC_HF_SESSION:
           break;
-        case NomenclatureConstants.MDC_HF_ACT_UNKNOWN:
+        case MdcNomenclatureConstants.MDC_HF_ACT_UNKNOWN:
           break;
-        case NomenclatureConstants.MDC_ATTR_TIME_PD_MSMT_ACTIVE:
-          v.setActivePeriod(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_ATTR_TIME_PD_MSMT_ACTIVE:
+          v.getActivePeriod().setValue(getObx5AsDouble(obx));
           break;
-        case NomenclatureConstants.MDC_HF_SPEED:
-          v.setSpeed(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_HF_SPEED:
+          v.getSpeed().setValue(getObx5AsDouble(obx));
           break;
-        case NomenclatureConstants.MDC_HF_ALT:
-          v.setAltitude(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_HF_ALT:
+          v.getAltitude().setValue(getObx5AsDouble(obx));
           break;
         default:
           throw new HL7Exception("Invalid parameter for Activity monitor: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
@@ -192,27 +192,27 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static BloodPressureValue convertToBloodPressureValue(ObxReader reader) throws HL7Exception {
-    BloodPressureValue v = new BloodPressureValue();
+  private static BloodPressure convertToBloodPressureValue(ObxReader reader) throws HL7Exception {
+    BloodPressure v = new BloodPressure();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
       valueId = getObx3AsInteger(obx);
 
       switch (valueId) {
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_BP:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_BP:
           v.setMeasurementTime(getObx14AsZonedDateTime(obx));
           break;
-        case NomenclatureConstants.MDC_PRESS_BLD_NONINV:
+        case MdcNomenclatureConstants.MDC_PRESS_BLD_NONINV:
           break;
-        case NomenclatureConstants.MDC_PRESS_BLD_NONINV_SYS:
-          v.setSystolic(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_PRESS_BLD_NONINV_SYS:
+          v.getSystolic().setValue(getObx5AsDouble(obx));
           break;
-        case NomenclatureConstants.MDC_PRESS_BLD_NONINV_DIA:
-          v.setDiastolic(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_PRESS_BLD_NONINV_DIA:
+          v.getDiastolic().setValue(getObx5AsDouble(obx));
           break;
-        case NomenclatureConstants.MDC_PULS_RATE_NON_INV:
-          v.setMeanArterialPressure(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_PULS_RATE_NON_INV:
+          v.getPulseRate().setValue(getObx5AsDouble(obx));
           break;
         default:
           throw new HL7Exception("Invali parameter for blood pressure: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
@@ -221,19 +221,19 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static GlucoseValue convertToGlucoseValue(ObxReader reader) throws HL7Exception {
-    GlucoseValue v = new GlucoseValue();
+  private static Glucose convertToGlucoseValue(ObxReader reader) throws HL7Exception {
+    Glucose v = new Glucose();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
       valueId = getObx3AsInteger(obx);
       switch (valueId) {
-        case NomenclatureConstants.MDC_DEV_SPEC_PROFILE_GLUCOSE:
+        case MdcNomenclatureConstants.MDC_DEV_SPEC_PROFILE_GLUCOSE:
           v.setMeasurementTime(getObx14AsZonedDateTime(obx));
           break;
 
-        case NomenclatureConstants.MDC_CONC_GLU_CAPILLARY_WHOLEBLOOD:
-          v.setGlucose(getObx5AsDouble(obx));
+        case MdcNomenclatureConstants.MDC_CONC_GLU_CAPILLARY_WHOLEBLOOD:
+          v.getGlucose().setValue(getObx5AsDouble(obx));
           break;
         default:
           throw new HL7Exception("Invalid parameter for glucose meter: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);

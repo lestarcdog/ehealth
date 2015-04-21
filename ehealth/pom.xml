@@ -44,11 +44,6 @@
 				<version>4.12</version>
 			</dependency>
 			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>18.0</version>
-			</dependency>
-			<dependency>
 				<groupId>org.fusesource.mqtt-client</groupId>
 				<artifactId>mqtt-client</artifactId>
 				<version>1.10</version>
@@ -65,15 +60,35 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase</artifactId>
+				<version>${hbase-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-common</artifactId>
+				<version>${hbase-version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.google.guava</groupId>
+						<artifactId>guava</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-client</artifactId>
 				<version>${hbase-version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.drools</groupId>
 				<artifactId>drools-bom</artifactId>
 				<version>6.2.0.Final</version>
 				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>18.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.rabbitmq</groupId>
@@ -164,6 +179,10 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 	</dependencies>
 	<modules>

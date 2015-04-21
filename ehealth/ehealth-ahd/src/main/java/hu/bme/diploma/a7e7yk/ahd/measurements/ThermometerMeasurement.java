@@ -1,14 +1,14 @@
 package hu.bme.diploma.a7e7yk.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Thermometer;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
-public class ThermometerMeasurement extends AbstractMeasurement<ThermometerValue> {
+public class ThermometerMeasurement extends AbstractMeasurement<Thermometer> {
 
   public ThermometerMeasurement() {
-    super(ThermometerValue.SNOMED_CONCEPT);
+    super(Thermometer.SNOMED_CONCEPT);
 
   }
 
@@ -29,7 +29,7 @@ public class ThermometerMeasurement extends AbstractMeasurement<ThermometerValue
       obx.getObx2_ValueType().setValue("NM");
       MeasurementHelper.setObxField3ObservationId(obx, "150364^MDC_TEMP_BODY^MDC");
       obx.getObx4_ObservationSubID().setValue(getObservationalId().getNextFourthId());
-      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getTemp());
+      MeasurementHelper.setObxField5NMTypeValue(obx, builder.getHL7Message(), value.getTemp().getValue());
       MeasurementHelper.setObxField6Unit(obx, "268192^MDC_DIM_DEGC^MDC");
     }
   }

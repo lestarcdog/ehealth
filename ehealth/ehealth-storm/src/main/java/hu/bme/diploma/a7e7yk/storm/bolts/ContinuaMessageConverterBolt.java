@@ -3,7 +3,7 @@ package hu.bme.diploma.a7e7yk.storm.bolts;
 import hu.bme.diploma.a7e7yk.converter.hl7converter.HapiHl7Parser;
 import hu.bme.diploma.a7e7yk.converter.hl7converter.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 
 import java.util.Arrays;
@@ -51,7 +51,7 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
     try {
       message = parser.parseMessage(msgTxt);
       PersonModel personModel = Hl7MessageConverter.getPersonModel(message);
-      List<AbstractVitalSignValue> vitalValues = Hl7MessageConverter.getVitalSignValues(message);
+      List<AbstractVitalSign> vitalValues = Hl7MessageConverter.getVitalSignValues(message);
 
       collector.ack(input);
       // sender , personId, measurements, error, parsed hl7 msg

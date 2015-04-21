@@ -1,7 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
 import hu.bme.diploma.a7e7yk.converter.RealTimeDtoConverter;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.server.NettoSphereServer;
 
@@ -43,11 +43,11 @@ public class RealtimeBolt extends BaseRichBolt {
   @Override
   public void execute(Tuple input) {
     @SuppressWarnings("unchecked")
-    List<AbstractVitalSignValue> signValues =
-        (List<AbstractVitalSignValue>) input
+    List<AbstractVitalSign> signValues =
+        (List<AbstractVitalSign>) input
             .getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD);
     String userId = (String) input.getValueByField(StormFieldsConstants.USER_ID_FIELD);
-    for (AbstractVitalSignValue v : signValues) {
+    for (AbstractVitalSign v : signValues) {
       server.sendMessageToId(RealTimeDtoConverter.convert(v), userId);
     }
     collector.ack(input);

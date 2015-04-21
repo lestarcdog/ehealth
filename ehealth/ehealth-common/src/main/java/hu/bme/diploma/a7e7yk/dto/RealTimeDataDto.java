@@ -1,7 +1,7 @@
 package hu.bme.diploma.a7e7yk.dto;
 
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSignValue;
-import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureConstants;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.MdcNomenclatureConstants;
 
 /**
  * Dto class for measurement data transport via {@link WebSocket} between the client and server.
@@ -9,7 +9,7 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureConstants;
  */
 public class RealTimeDataDto {
   /**
-   * MDC Id of the measurement type {@link NomenclatureConstants}
+   * MDC Id of the measurement type {@link MdcNomenclatureConstants}
    */
   private Integer mdcMeasurementId;
   /**
@@ -19,7 +19,7 @@ public class RealTimeDataDto {
   /**
    * Value of the measurements.
    */
-  private AbstractVitalSignValue value;
+  private AbstractVitalSign value;
 
   public RealTimeDataDto() {}
 
@@ -28,7 +28,7 @@ public class RealTimeDataDto {
     this.time = time;
   }
 
-  public RealTimeDataDto(Integer mdcMeasurementId, Long time, AbstractVitalSignValue value) {
+  public RealTimeDataDto(Integer mdcMeasurementId, Long time, AbstractVitalSign value) {
     this.mdcMeasurementId = mdcMeasurementId;
     this.time = time;
     this.value = value;
@@ -51,11 +51,11 @@ public class RealTimeDataDto {
     this.mdcMeasurementId = mdcMeasurementId;
   }
 
-  public AbstractVitalSignValue getValue() {
+  public AbstractVitalSign getValue() {
     return value;
   }
 
-  public void setValue(AbstractVitalSignValue value) {
+  public void setValue(AbstractVitalSign value) {
     this.value = value;
   }
 
