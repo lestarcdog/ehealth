@@ -12,6 +12,7 @@
 		<skipTests>true</skipTests>
 		<nettospherre-version>2.2.1</nettospherre-version>
 		<hbase-version>1.0.0</hbase-version>
+		<guava-version>18.0</guava-version>
 	</properties>
 
 	<developers>
@@ -60,12 +61,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
-				<artifactId>hbase</artifactId>
-				<version>${hbase-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.hbase</groupId>
-				<artifactId>hbase-common</artifactId>
+				<artifactId>hbase-client</artifactId>
 				<version>${hbase-version}</version>
 				<exclusions>
 					<exclusion>
@@ -73,11 +69,6 @@
 						<artifactId>guava</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.hbase</groupId>
-				<artifactId>hbase-client</artifactId>
-				<version>${hbase-version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.drools</groupId>
@@ -183,6 +174,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
+			<version>${guava-version}</version>
 		</dependency>
 	</dependencies>
 	<modules>
