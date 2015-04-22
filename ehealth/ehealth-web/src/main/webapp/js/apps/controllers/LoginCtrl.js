@@ -1,3 +1,3 @@
-app.controller("LoginCtrl", function($http) {
+app.controller("LoginCtrl", function($scope) {
 	console.log("Login controller init");
 })

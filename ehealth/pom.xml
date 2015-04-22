@@ -13,6 +13,7 @@
 		<nettospherre-version>2.2.1</nettospherre-version>
 		<hbase-version>1.0.0</hbase-version>
 		<guava-version>18.0</guava-version>
+		<jetty-version>9.3.0.M2</jetty-version>
 	</properties>
 
 	<developers>
@@ -151,6 +152,11 @@
 				<artifactId>jackson-annotations</artifactId>
 				<version>2.5.1</version>
 			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-server</artifactId>
+				<version>${jetty-version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -190,6 +196,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -198,6 +205,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
 				<configuration>
 					<skipTests>${skipTests}</skipTests>
 				</configuration>
