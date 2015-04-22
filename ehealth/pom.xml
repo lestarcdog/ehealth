@@ -12,6 +12,7 @@
 		<skipTests>true</skipTests>
 		<nettospherre-version>2.2.1</nettospherre-version>
 		<hbase-version>1.0.0</hbase-version>
+		<jetty-version>8.1.16.v20140903</jetty-version>
 	</properties>
 
 	<developers>
@@ -160,6 +161,11 @@
 				<artifactId>jackson-annotations</artifactId>
 				<version>2.5.1</version>
 			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-server</artifactId>
+				<version>${jetty-version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -191,6 +197,7 @@
 		<module>ehealth-storm</module>
 		<module>ehealth-common</module>
 		<module>ehealth-web</module>
+		<module>ehealth-ear</module>
 	</modules>
 	<name>E-Health Master Thesis</name>
 	<url>www.aut.bme.hu</url>
