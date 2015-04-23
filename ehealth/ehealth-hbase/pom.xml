@@ -24,6 +24,10 @@
 			<artifactId>ehealth-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -44,4 +48,5 @@
 		<artifactId>ehealth</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	<packaging>ejb</packaging>
 </project>

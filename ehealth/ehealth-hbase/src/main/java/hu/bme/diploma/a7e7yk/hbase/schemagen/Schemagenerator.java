@@ -19,34 +19,21 @@ public class Schemagenerator {
   public void createMeasurements() {
     try {
       try (Admin admin = ConnectionFactory.createConnection(HbaseConstants.UBUNTU_LOCAL_CONF).getAdmin()) {
-        admin.deleteTable(HbaseConstants.MEASUREMENTS_TABLENAME);
+        logger.info("Deleting table {}", HbaseConstants.MEASUREMENTS_TABLENAME.getNameAsString());
+        if (admin.tableExists(HbaseConstants.MEASUREMENTS_TABLENAME)) {
+          admin.disableTable(HbaseConstants.MEASUREMENTS_TABLENAME);
+          admin.deleteTable(HbaseConstants.MEASUREMENTS_TABLENAME);
+        }
         HTableDescriptor tableDescriptor = new HTableDescriptor(HbaseConstants.MEASUREMENTS_TABLENAME);
         HColumnDescriptor column = new HColumnDescriptor(HbaseConstants.MEASUREMENTS_CF);
         tableDescriptor.addFamily(column);
+        logger.info("Creating table {}", HbaseConstants.MEASUREMENTS_TABLENAME.getNameAsString());
         admin.createTable(tableDescriptor);
-        admin.flush(HbaseConstants.MEASUREMENTS_TABLENAME);
       }
     } catch (TableNotFoundException e) {
       logger.error("table not found", e);
     } catch (IOException e) {
-      logger.error(null, e);
+      logger.error("ioexception", e);
     }
   }
-
-  public void createMeasurementsNewApi() {
-    try {
-      try (Admin admin = ConnectionFactory.createConnection(HbaseConstants.UBUNTU_LOCAL_CONF).getAdmin()) {
-        admin.deleteTable(HbaseConstants.MEASUREMENTS_TABLENAME);
-        HTableDescriptor tableDescriptor = admin.getTableDescriptor(HbaseConstants.MEASUREMENTS_TABLENAME);
-        tableDescriptor.addFamily(tableDescriptor.getFamily(HbaseConstants.MEASUREMENTS_CF));
-        admin.createTable(tableDescriptor);
-        admin.flush(HbaseConstants.MEASUREMENTS_TABLENAME);
-      }
-    } catch (TableNotFoundException e) {
-      logger.error("table not found", e);
-    } catch (IOException e) {
-      logger.error(null, e);
-    }
-  }
-
 }
