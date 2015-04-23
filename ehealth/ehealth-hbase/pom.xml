@@ -19,6 +19,11 @@
 			<artifactId>guava</artifactId>
 			<version>16.0</version>
 		</dependency>
+		<dependency>
+			<groupId>hu.bme.diploma.a7e7yk</groupId>
+			<artifactId>ehealth-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

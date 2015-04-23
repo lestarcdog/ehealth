@@ -1,15 +1,15 @@
 package hu.bme.diploma.a7e7yk.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeter;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeterVitalSign;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.datatype.NM;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
-public class PulseOxymeterMeasurement extends AbstractMeasurement<PulseOxyMeter> {
+public class PulseOxymeterMeasurement extends AbstractMeasurement<PulseOxyMeterVitalSign> {
 
   public PulseOxymeterMeasurement() {
-    super(PulseOxyMeter.SNOMED_CONCEPT);
+    super(PulseOxyMeterVitalSign.SNOMED_CONCEPT);
   }
 
   @Override

@@ -1,14 +1,14 @@
 package hu.bme.diploma.a7e7yk.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Thermometer;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerVitalSign;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
-public class ThermometerMeasurement extends AbstractMeasurement<Thermometer> {
+public class ThermometerMeasurement extends AbstractMeasurement<ThermometerVitalSign> {
 
   public ThermometerMeasurement() {
-    super(Thermometer.SNOMED_CONCEPT);
+    super(ThermometerVitalSign.SNOMED_CONCEPT);
 
   }
 

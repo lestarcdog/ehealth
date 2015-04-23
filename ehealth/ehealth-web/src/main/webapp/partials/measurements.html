@@ -3,6 +3,32 @@
 		<h4>Measurements</h4>
 	</div>
 	<div class="panel-body">
-	
+		<div id="chartContainer" style="width: 100%; height: 280px"></div>
 	</div>
+	<script type="text/javascript">
+		var dps = [ {
+			y : 10
+		}, {
+			y : 4
+		}, {
+			y : 18
+		}, {
+			y : 8
+		} ];
+		var chart = new CanvasJS.Chart("chartContainer", {
+			title : {
+				text : "Dummy - values"
+			},
+			axisX : {
+				title : "X Axis Title",
+				valueFormatString : "HH:mm:ss",
+			},
+			data : [ {
+				type : "line",
+				dataPoints : dps
+			} ]
+		});
+
+		chart.render();
+	</script>
 </div>

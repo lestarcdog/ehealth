@@ -9,7 +9,7 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_PERCENT;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PULS_OXIM_PULS_RATE;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PULS_OXIM_SAT_O2;
 
-public class PulseOxyMeter extends AbstractVitalSign {
+public class PulseOxyMeterVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> spo2 = VitalSignValue.valueOf(MDC_PULS_OXIM_SAT_O2.get(), MDC_DIM_PERCENT.get());
   private final VitalSignValue<Double> spo2Accuracy = null;
   private final VitalSignValue<String> measurementStatus = null;

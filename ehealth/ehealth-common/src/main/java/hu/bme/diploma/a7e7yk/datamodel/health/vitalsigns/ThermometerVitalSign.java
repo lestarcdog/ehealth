@@ -7,7 +7,7 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DEV_SPEC_PROFILE
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_DEGC;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_TEMP_BODY;
 
-public class Thermometer extends AbstractVitalSign {
+public class ThermometerVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> temp = VitalSignValue.valueOf(MDC_TEMP_BODY.get(), MDC_DIM_DEGC.get());
   public static final SnomedConcept SNOMED_CONCEPT =
       new SnomedConcept("133879001", "Monitoring of patient temperature");

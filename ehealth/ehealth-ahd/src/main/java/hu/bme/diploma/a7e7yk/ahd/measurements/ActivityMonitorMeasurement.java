@@ -1,14 +1,14 @@
 package hu.bme.diploma.a7e7yk.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitor;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorVitalSign;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
-public class ActivityMonitorMeasurement extends AbstractMeasurement<ActivityMonitor> {
+public class ActivityMonitorMeasurement extends AbstractMeasurement<ActivityMonitorVitalSign> {
 
   public ActivityMonitorMeasurement() {
-    super(ActivityMonitor.SNOMED_CONCEPT);
+    super(ActivityMonitorVitalSign.SNOMED_CONCEPT);
   }
 
   @Override

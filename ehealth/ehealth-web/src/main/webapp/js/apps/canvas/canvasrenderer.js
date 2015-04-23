@@ -10,8 +10,6 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	data : [ {
 		type : "line",
 		dataPoints : dps
-	// dataPoints : [ {x: 10 , y: 50, label: "valami"},{x: 20 , y: 70, label:
-	// "valami2"}]
 	} ]
 });
 

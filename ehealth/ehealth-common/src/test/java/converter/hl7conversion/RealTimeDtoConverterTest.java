@@ -2,7 +2,7 @@ package converter.hl7conversion;
 
 import hu.bme.diploma.a7e7yk.converter.RealTimeDtoConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressure;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
 
 import java.time.ZonedDateTime;
 
@@ -17,7 +17,7 @@ public class RealTimeDtoConverterTest {
   @Test
   public void conversion() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    BloodPressure v = new BloodPressure();
+    BloodPressureVitalSign v = new BloodPressureVitalSign();
     v.setMeasurementTime(ZonedDateTime.now());
     v.getDiastolic().setValue(120.0);
     v.getSystolic().setValue(110.5);

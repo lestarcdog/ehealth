@@ -1,14 +1,14 @@
 package hu.bme.diploma.a7e7yk.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressure;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
-public class BloodPressureMeasurement extends AbstractMeasurement<BloodPressure> {
+public class BloodPressureMeasurement extends AbstractMeasurement<BloodPressureVitalSign> {
 
   public BloodPressureMeasurement() {
-    super(BloodPressure.SNOMED_CONCEPT);
+    super(BloodPressureVitalSign.SNOMED_CONCEPT);
   }
 
   @Override

@@ -10,7 +10,7 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PRESS_BLD_NONINV
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PRESS_BLD_NONINV_SYS;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PULS_RATE_NON_INV;
 
-public class BloodPressure extends AbstractVitalSign {
+public class BloodPressureVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> systolic = VitalSignValue.valueOf(MDC_PRESS_BLD_NONINV_SYS.get(),
       MDC_DIM_MMHG.get());
   private final VitalSignValue<Double> diastolic = VitalSignValue.valueOf(MDC_PRESS_BLD_NONINV_DIA.get(),

@@ -2,12 +2,12 @@ package hu.bme.diploma.a7e7yk.converter.hl7converter;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitor;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressure;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Glucose;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeter;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.Thermometer;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScale;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.GlucoseVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.PulseOxyMeterVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerVitalSign;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScaleVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.MdcNomenclatureConstants;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.NomenclatureHelper;
 
@@ -99,7 +99,7 @@ public class Hl7MessageConverter {
   }
 
   private static AbstractVitalSign convertToWeighScaleValue(ObxReader reader) throws HL7Exception {
-    WeightScale v = new WeightScale();
+    WeightScaleVitalSign v = new WeightScaleVitalSign();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
@@ -121,7 +121,7 @@ public class Hl7MessageConverter {
   }
 
   private static AbstractVitalSign convertToPulseOxymeterValue(ObxReader reader) throws HL7Exception {
-    PulseOxyMeter v = new PulseOxyMeter();
+    PulseOxyMeterVitalSign v = new PulseOxyMeterVitalSign();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
@@ -143,7 +143,7 @@ public class Hl7MessageConverter {
   }
 
   private static AbstractVitalSign convertToThermometerValue(ObxReader reader) throws HL7Exception {
-    Thermometer v = new Thermometer();
+    ThermometerVitalSign v = new ThermometerVitalSign();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
@@ -161,8 +161,8 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static ActivityMonitor convertToActivityMonitorValue(ObxReader reader) throws HL7Exception {
-    ActivityMonitor v = new ActivityMonitor();
+  private static ActivityMonitorVitalSign convertToActivityMonitorValue(ObxReader reader) throws HL7Exception {
+    ActivityMonitorVitalSign v = new ActivityMonitorVitalSign();
 
     OBX obx;
     int valueId;
@@ -192,8 +192,8 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static BloodPressure convertToBloodPressureValue(ObxReader reader) throws HL7Exception {
-    BloodPressure v = new BloodPressure();
+  private static BloodPressureVitalSign convertToBloodPressureValue(ObxReader reader) throws HL7Exception {
+    BloodPressureVitalSign v = new BloodPressureVitalSign();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {
@@ -221,8 +221,8 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static Glucose convertToGlucoseValue(ObxReader reader) throws HL7Exception {
-    Glucose v = new Glucose();
+  private static GlucoseVitalSign convertToGlucoseValue(ObxReader reader) throws HL7Exception {
+    GlucoseVitalSign v = new GlucoseVitalSign();
     OBX obx;
     int valueId;
     while ((obx = reader.nextObxInMajorGroup()) != null) {

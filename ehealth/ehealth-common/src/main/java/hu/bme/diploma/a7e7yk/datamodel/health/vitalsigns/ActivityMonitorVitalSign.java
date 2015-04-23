@@ -11,7 +11,7 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_X_M;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_HF_ALT;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_HF_SPEED;
 
-public class ActivityMonitor extends AbstractVitalSign {
+public class ActivityMonitorVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> speed = VitalSignValue.valueOf(MDC_HF_SPEED.get(), MDC_DIM_MIN.get());
 
   private final VitalSignValue<Double> altitude = VitalSignValue.valueOf(MDC_HF_ALT.get(), MDC_DIM_X_M.get());

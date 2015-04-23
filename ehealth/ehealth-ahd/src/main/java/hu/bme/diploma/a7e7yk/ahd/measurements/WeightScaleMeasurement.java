@@ -2,11 +2,11 @@ package hu.bme.diploma.a7e7yk.ahd.measurements;
 
 import hu.bme.diploma.a7e7yk.ahd.measurements.helper.MeasurementHelper;
 import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScale;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.WeightScaleVitalSign;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v26.segment.OBX;
 
-public class WeightScaleMeasurement extends AbstractMeasurement<WeightScale> {
+public class WeightScaleMeasurement extends AbstractMeasurement<WeightScaleVitalSign> {
 
   public WeightScaleMeasurement() {
     super(new SnomedConcept("307818003", "Weight monitoring"));

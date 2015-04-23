@@ -9,7 +9,7 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_KILO_G;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_LEN_BODY_ACTUAL;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_MASS_BODY_ACTUAL;
 
-public class WeightScale extends AbstractVitalSign {
+public class WeightScaleVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> weight = VitalSignValue
       .valueOf(MDC_MASS_BODY_ACTUAL.get(), MDC_DIM_KILO_G.get());
   private final VitalSignValue<Double> height = VitalSignValue
