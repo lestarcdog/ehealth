@@ -16,10 +16,6 @@
   </dependency>
   <dependency>
   	<groupId>org.apache.storm</groupId>
-  	<artifactId>storm-hbase</artifactId>
-  </dependency>
-  <dependency>
-  	<groupId>org.apache.storm</groupId>
   	<artifactId>storm-core</artifactId>
   </dependency>
   <dependency>
@@ -54,6 +50,12 @@
   <dependency>
   	<groupId>com.fasterxml.jackson.core</groupId>
   	<artifactId>jackson-core</artifactId>
+  </dependency>
+  <dependency>
+  	<groupId>hu.bme.diploma.a7e7yk</groupId>
+  	<artifactId>ehealth-hbase</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<type>ejb</type>
   </dependency>
   </dependencies>
 </project>

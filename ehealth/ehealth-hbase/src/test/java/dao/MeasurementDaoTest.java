@@ -20,14 +20,14 @@ import org.junit.Test;
 
 import schemagen.HbaseTestConstants;
 
-public class MeasurementDaoTest {
+public class MeasurementDaoTest extends AbstractEjbAwareTest {
 
   @EJB
-  static MeasurementsDao measurementsDao;
+  MeasurementsDao measurementsDao;
 
   @BeforeClass
   public static void init() throws IOException {
-    measurementsDao = new MeasurementsDao(HbaseTestConstants.MEASUREMENTS_TESTTABLE);
+    // measurementsDao = new MeasurementsDao(HbaseTestConstants.MEASUREMENTS_TESTTABLE);
     Schemagenerator.createMeasurements(HbaseTestConstants.MEASUREMENTS_TESTTABLE);
   }
 

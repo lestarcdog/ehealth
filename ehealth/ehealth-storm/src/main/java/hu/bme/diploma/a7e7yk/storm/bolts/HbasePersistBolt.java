@@ -1,5 +1,13 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
+import hu.bme.diploma.a7e7yk.dao.MeasurementsDao;
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
+import hu.bme.diploma.a7e7yk.exceptions.EhealthException;
+import hu.bme.diploma.a7e7yk.exceptions.UndefinedMdcTypeException;
+import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,16 +23,36 @@ public class HbasePersistBolt extends BaseRichBolt {
 
   private static final Logger logger = LoggerFactory.getLogger(HbasePersistBolt.class);
 
-  OutputCollector collector;
+  private OutputCollector collector;
+  private MeasurementsDao measurementsDao;
 
   @Override
   public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
     this.collector = collector;
+    try {
+      measurementsDao = new MeasurementsDao();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
   public void execute(Tuple input) {
+    String userId = input.getStringByField(StormFieldsConstants.USER_ID_FIELD);
+    List<AbstractVitalSign> vitalSigns =
+        (List<AbstractVitalSign>) input.getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD);
 
+    for (AbstractVitalSign vitalSign : vitalSigns) {
+      try {
+        measurementsDao.persistMeasurement(userId, vitalSign);
+        collector.ack(input);
+      } catch (UndefinedMdcTypeException e) {
+        logger.error("Programming error", e);
+        throw new RuntimeException(e);
+      } catch (EhealthException e2) {
+        logger.error(null, e2);
+      }
+    }
 
   }
 

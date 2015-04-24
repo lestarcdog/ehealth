@@ -5,7 +5,7 @@ import hu.bme.diploma.a7e7yk.hbase.schemagen.Schemagenerator;
 
 import org.junit.Test;
 
-public class SchemagenTest {
+public class SchemaGeneratorTest {
 
   @Test
   public void createHbaseSchema() {

@@ -30,8 +30,6 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 /**
  * Dao for {@link AbstractVitalSign} objects
- * 
- *
  */
 @Stateless
 @Local
@@ -44,6 +42,30 @@ public class MeasurementsDao {
 
   public MeasurementsDao(TableName measurementsTable) throws IOException {
     commonDao = new HbaseCommonDao(measurementsTable);
+  }
+
+  public void persistMeasurement(String userId, AbstractVitalSign vitalSign) throws EhealthException {
+    if (vitalSign instanceof ActivityMonitorVitalSign) {
+      persistMeasurement(userId, (ActivityMonitorVitalSign) vitalSign);
+
+    } else if (vitalSign instanceof GlucoseVitalSign) {
+      persistMeasurement(userId, (GlucoseVitalSign) vitalSign);
+
+    } else if (vitalSign instanceof BloodPressureVitalSign) {
+      persistMeasurement(userId, (BloodPressureVitalSign) vitalSign);
+
+    } else if (vitalSign instanceof PulseOxyMeterVitalSign) {
+      persistMeasurement(userId, (PulseOxyMeterVitalSign) vitalSign);
+
+    } else if (vitalSign instanceof ThermometerVitalSign) {
+      persistMeasurement(userId, (ThermometerVitalSign) vitalSign);
+
+    } else if (vitalSign instanceof WeightScaleVitalSign) {
+      persistMeasurement(userId, (WeightScaleVitalSign) vitalSign);
+
+    } else {
+      throw new UndefinedMdcTypeException(vitalSign.getMdcMeasurementType());
+    }
   }
 
   public void persistMeasurement(String userId, ActivityMonitorVitalSign vitalSign) throws EhealthException {

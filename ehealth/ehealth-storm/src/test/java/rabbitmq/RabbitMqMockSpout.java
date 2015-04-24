@@ -56,7 +56,7 @@ public class RabbitMqMockSpout extends BaseRichSpout {
     Integer senderId = rand.nextInt(tuples.size());
     String s = tuples.get(senderId);
     try {
-      Thread.sleep(200);
+      Thread.sleep(1000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
