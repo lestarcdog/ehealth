@@ -215,7 +215,7 @@ public class Hl7MessageConverter {
           v.getPulseRate().setValue(getObx5AsDouble(obx));
           break;
         default:
-          throw new HL7Exception("Invali parameter for blood pressure: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invalid parameter for blood pressure: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return v;

@@ -10,7 +10,6 @@ public class RealTimeDtoConverter {
     RealTimeDataDto dto =
         new RealTimeDataDto(value.getMdcMeasurementType().getId(), value.getMeasurementTime().toInstant()
             .toEpochMilli(), value);
-    dto.getValue().setMeasurementTime(null);
     return dto;
 
   }

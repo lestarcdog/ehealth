@@ -22,4 +22,10 @@ public abstract class AbstractVitalSign {
   public void setMeasurementTime(ZonedDateTime measurementTime) {
     this.measurementTime = measurementTime;
   }
+
+  @Override
+  public String toString() {
+    return "AbstractVitalSign [getMdcMeasurementType()=" + getMdcMeasurementType() + ", getMeasurementTime()="
+        + getMeasurementTime() + "]";
+  }
 }

@@ -44,14 +44,16 @@ public class HbasePersistBolt extends BaseRichBolt {
 
     for (AbstractVitalSign vitalSign : vitalSigns) {
       try {
+        logger.info("Persist to hbase: {}", vitalSign);
+
         measurementsDao.persistMeasurement(userId, vitalSign);
-        collector.ack(input);
       } catch (UndefinedMdcTypeException e) {
         logger.error("Programming error", e);
         throw new RuntimeException(e);
       } catch (EhealthException e2) {
         logger.error(null, e2);
       }
+      collector.ack(input);
     }
 
   }

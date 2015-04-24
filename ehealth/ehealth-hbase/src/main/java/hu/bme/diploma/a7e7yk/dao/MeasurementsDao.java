@@ -45,6 +45,10 @@ public class MeasurementsDao {
   }
 
   public void persistMeasurement(String userId, AbstractVitalSign vitalSign) throws EhealthException {
+    if (vitalSign.getMeasurementTime() == null) {
+      throw new EhealthException("vitalSign.getMeasurementTime() cannot be null");
+    }
+
     if (vitalSign instanceof ActivityMonitorVitalSign) {
       persistMeasurement(userId, (ActivityMonitorVitalSign) vitalSign);
 
@@ -68,7 +72,7 @@ public class MeasurementsDao {
     }
   }
 
-  public void persistMeasurement(String userId, ActivityMonitorVitalSign vitalSign) throws EhealthException {
+  private void persistMeasurement(String userId, ActivityMonitorVitalSign vitalSign) throws EhealthException {
     Put p = createPut(userId, vitalSign);
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getActivePeriod());
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getSpeed());
@@ -76,13 +80,13 @@ public class MeasurementsDao {
     commonDao.putInMeasurementsTable(p);
   }
 
-  public void persistMeasurement(String userId, GlucoseVitalSign vitalSign) throws EhealthException {
+  private void persistMeasurement(String userId, GlucoseVitalSign vitalSign) throws EhealthException {
     Put p = createPut(userId, vitalSign);
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getGlucose());
     commonDao.putInMeasurementsTable(p);
   }
 
-  public void persistMeasurement(String userId, BloodPressureVitalSign vitalSign) throws EhealthException {
+  private void persistMeasurement(String userId, BloodPressureVitalSign vitalSign) throws EhealthException {
     Put p = createPut(userId, vitalSign);
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getDiastolic());
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getPulseRate());
@@ -90,20 +94,20 @@ public class MeasurementsDao {
     commonDao.putInMeasurementsTable(p);
   }
 
-  public void persistMeasurement(String userId, PulseOxyMeterVitalSign vitalSign) throws EhealthException {
+  private void persistMeasurement(String userId, PulseOxyMeterVitalSign vitalSign) throws EhealthException {
     Put p = createPut(userId, vitalSign);
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getPulseRate());
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getSpo2());
     commonDao.putInMeasurementsTable(p);
   }
 
-  public void persistMeasurement(String userId, ThermometerVitalSign vitalSign) throws EhealthException {
+  private void persistMeasurement(String userId, ThermometerVitalSign vitalSign) throws EhealthException {
     Put p = createPut(userId, vitalSign);
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getTemp());
     commonDao.putInMeasurementsTable(p);
   }
 
-  public void persistMeasurement(String userId, WeightScaleVitalSign vitalSign) throws EhealthException {
+  private void persistMeasurement(String userId, WeightScaleVitalSign vitalSign) throws EhealthException {
     Put p = createPut(userId, vitalSign);
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getHeight());
     addColumnToPut(p, vitalSign.getMeasurementTime(), vitalSign.getWeight());

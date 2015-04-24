@@ -44,8 +44,7 @@ public class RealtimeBolt extends BaseRichBolt {
   public void execute(Tuple input) {
     @SuppressWarnings("unchecked")
     List<AbstractVitalSign> signValues =
-        (List<AbstractVitalSign>) input
-            .getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD);
+        (List<AbstractVitalSign>) input.getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD);
     String userId = (String) input.getValueByField(StormFieldsConstants.USER_ID_FIELD);
     for (AbstractVitalSign v : signValues) {
       server.sendMessageToId(RealTimeDtoConverter.convert(v), userId);

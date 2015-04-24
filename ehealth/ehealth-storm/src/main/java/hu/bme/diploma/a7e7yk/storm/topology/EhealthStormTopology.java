@@ -33,7 +33,7 @@ public class EhealthStormTopology {
     Config config = new Config();
     LocalCluster cluster = new LocalCluster();
     cluster.submitTopology("eHealthStormTest", config, builder.createTopology());
-    Thread.sleep(7000);
+    Thread.sleep(30000);
     cluster.killTopology("eHealthStormTest");
     cluster.shutdown();
 

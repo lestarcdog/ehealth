@@ -4,6 +4,7 @@ import hu.bme.diploma.a7e7yk.converter.hl7converter.HapiHl7Parser;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +24,18 @@ public class ReportToSenderMockBolt extends BaseRichBolt {
 
   private OutputCollector collector;
   private HapiHl7Parser parser;
+  private AtomicInteger i;
 
   @Override
   public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
     this.collector = collector;
+    i = new AtomicInteger();
 
   }
 
   @Override
   public void execute(Tuple input) {
+    System.err.println("ReportToSenderMockBolt executed:" + i.getAndIncrement());
     collector.ack(input);
     Object errorObject = input.getValueByField(StormFieldsConstants.ERROR_FIELD);
     String senderId = (String) input.getValueByField(StormFieldsConstants.SENDER_ID_FIELD);
