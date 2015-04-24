@@ -14,4 +14,9 @@ public class EhealthConstants {
   public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE = "mqtt-subscription-@senderId@qos1";
   public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE_VAR1 = "@senderId@";
   public static final ZoneId DEFAULT_BUDAPEST_ZONEID = ZoneId.of("Europe/Budapest");
+  /**
+   * From the epoch in seconds time 1 hour split point for rowkey and column field
+   */
+  public static final long TIMEBASE_PART_DIVIDER = 3600;
+  public static final long TIMEBASE_PRECISION_DIVIDER = 1000;
 }

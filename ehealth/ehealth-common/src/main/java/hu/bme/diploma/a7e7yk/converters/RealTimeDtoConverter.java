@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.converter;
+package hu.bme.diploma.a7e7yk.converters;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.dto.RealTimeDataDto;

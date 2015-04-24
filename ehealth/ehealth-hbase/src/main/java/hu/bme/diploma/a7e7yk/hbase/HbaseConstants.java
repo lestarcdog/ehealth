@@ -12,10 +12,6 @@ public class HbaseConstants {
   public static final byte[] MEASUREMENTS_CF = "m".getBytes();
   public static final Configuration UBUNTU_LOCAL_CONF = HBaseConfiguration.create();
   private static final String UBUNTU_IP = "192.168.2.104";
-  /**
-   * From the epoch in seconds time 1 hour split point for rowkey and column field
-   */
-  public static final int BASE_PART_MODULUS = 3600;
   public static final String ROWKEY_SEPARATOR = "^";
   public static final byte[] ROWKEY_SEPARATOR_AS_BYTE = Bytes.toBytes("^");
 

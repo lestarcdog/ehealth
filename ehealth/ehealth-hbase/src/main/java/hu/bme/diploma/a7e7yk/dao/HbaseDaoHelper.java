@@ -1,11 +1,13 @@
 package hu.bme.diploma.a7e7yk.dao;
 
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
-import hu.bme.diploma.a7e7yk.hbase.HbaseConstants;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.util.Bytes;
 
 public class HbaseDaoHelper {
   private HbaseDaoHelper() {}
@@ -40,8 +42,13 @@ public class HbaseDaoHelper {
    * @return reversed integer
    */
   public static int getRowKeyTimePart(long millis) {
-    long seconds = millis / 1000;
-    return reverse((int) (seconds / HbaseConstants.BASE_PART_MODULUS));
+    long seconds = millis / EhealthConstants.TIMEBASE_PRECISION_DIVIDER;
+    return reverse((int) (seconds / EhealthConstants.TIMEBASE_PART_DIVIDER));
+  }
+
+  public static int getUnreversedRowKeyTimePart(long millis) {
+    long seconds = millis / EhealthConstants.TIMEBASE_PRECISION_DIVIDER;
+    return (int) (seconds / EhealthConstants.TIMEBASE_PART_DIVIDER);
   }
 
   /**
@@ -51,8 +58,8 @@ public class HbaseDaoHelper {
    * @return timestamp part
    */
   public static int getColumnTimePart(long millis) {
-    long seconds = millis / 1000;
-    return (int) (seconds % HbaseConstants.BASE_PART_MODULUS);
+    long seconds = millis / EhealthConstants.TIMEBASE_PRECISION_DIVIDER;
+    return (int) (seconds % EhealthConstants.TIMEBASE_PART_DIVIDER);
   }
 
   /**
@@ -62,9 +69,9 @@ public class HbaseDaoHelper {
    * @return
    */
   public static TimeParts getTimeParts(long millis) {
-    long seconds = millis / 1000;
-    int rk = reverse((int) (seconds / HbaseConstants.BASE_PART_MODULUS));
-    int cp = (int) (seconds % HbaseConstants.BASE_PART_MODULUS);
+    long seconds = millis / EhealthConstants.TIMEBASE_PRECISION_DIVIDER;
+    int rk = reverse((int) (seconds / EhealthConstants.TIMEBASE_PART_DIVIDER));
+    int cp = (int) (seconds % EhealthConstants.TIMEBASE_PART_DIVIDER);
     return new TimeParts(rk, cp);
   }
 
@@ -72,27 +79,66 @@ public class HbaseDaoHelper {
     return Integer.MAX_VALUE - time;
   }
 
+  /**
+   * Creates a {@link ZonedDateTime} from the input parts. Thee returned value is in second
+   * precision
+   * 
+   * @param rowkeyPart unreversed timebase
+   * @param columnPart second part of the timebase
+   * @return
+   */
+  public static ZonedDateTime mergeTimeparts(int rowkeyPart, int columnPart) {
+    return mergeTimeparts(rowkeyPart, columnPart, EhealthConstants.DEFAULT_BUDAPEST_ZONEID);
+  }
+
+  public static ZonedDateTime mergeTimeparts(ZonedDateTime date, int columnPart) {
+    return mergeTimeparts(getUnreversedRowKeyTimePart(date.toInstant().toEpochMilli()), columnPart,
+        EhealthConstants.DEFAULT_BUDAPEST_ZONEID);
+  }
+
+  public static byte[] getColumnQualifierFromCell(Cell cell) {
+    return Bytes.copy(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength());
+  }
+
+  public static byte[] getColumnValueFromCell(Cell cell) {
+    return Bytes.copy(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+  }
+
+  public static double getColumnValueFromCellAsDouble(Cell cell) {
+    return Bytes.toDouble(getColumnValueFromCell(cell));
+  }
+
+  public static String getColumnValueFromCellAsString(Cell cell) {
+    return Bytes.toString(getColumnValueFromCell(cell));
+  }
+
+
+  public static ZonedDateTime mergeTimeparts(int rowkeyPart, int columnPart, ZoneId zoneId) {
+    long l = (long) rowkeyPart * EhealthConstants.TIMEBASE_PART_DIVIDER + (long) columnPart;
+    Instant i = Instant.ofEpochSecond(l);
+    return ZonedDateTime.ofInstant(i, zoneId);
+  }
 
   /**
    * Dto class for time conversion. The divided timeparts stored in the respective fields. The
-   * {@link TimeParts#rowkeyPart} is reversed.
+   * {@link TimeParts#rowkeyTimepart} is reversed.
    *
    */
   public static class TimeParts {
-    private final int rowkeyPart;
-    private final int columnPart;
+    private final int rowkeyTimepart;
+    private final int columnTimepart;
 
     public TimeParts(int rowkeyPart, int columnPart) {
-      this.rowkeyPart = rowkeyPart;
-      this.columnPart = columnPart;
+      this.rowkeyTimepart = rowkeyPart;
+      this.columnTimepart = columnPart;
     }
 
-    public int getRowkeyPart() {
-      return rowkeyPart;
+    public int getRowkeyTimepart() {
+      return rowkeyTimepart;
     }
 
-    public int getColumnPart() {
-      return columnPart;
+    public int getColumnTimepart() {
+      return columnTimepart;
     }
 
   }

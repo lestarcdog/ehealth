@@ -1,6 +1,6 @@
 package converter.hl7conversion;
 
-import hu.bme.diploma.a7e7yk.converter.RealTimeDtoConverter;
+import hu.bme.diploma.a7e7yk.converters.RealTimeDtoConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
 

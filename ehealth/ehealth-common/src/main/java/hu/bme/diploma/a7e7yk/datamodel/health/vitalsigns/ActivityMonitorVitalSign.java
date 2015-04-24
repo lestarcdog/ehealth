@@ -21,6 +21,7 @@ public class ActivityMonitorVitalSign extends AbstractVitalSign {
 
   public static final SnomedConcept SNOMED_CONCEPT = new SnomedConcept("308516007", "Well adult monitoring call");
   public static final MdcNomenclatureValue MDC_VALUE = MDC_DEV_SPEC_PROFILE_PULS_OXIM.get();
+  public static final int MDC_VALUE_ID = MDC_VALUE.getId();
 
 
   @Override

@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
-import hu.bme.diploma.a7e7yk.converter.RealTimeDtoConverter;
+import hu.bme.diploma.a7e7yk.converters.RealTimeDtoConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.server.NettoSphereServer;
