@@ -52,15 +52,15 @@
   	<artifactId>jackson-core</artifactId>
   </dependency>
   <dependency>
-  	<groupId>hu.bme.diploma.a7e7yk</groupId>
-  	<artifactId>ehealth-hbase</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
-  	<type>ejb</type>
-  </dependency>
-  <dependency>
   	<groupId>com.google.guava</groupId>
   	<artifactId>guava</artifactId>
   	<version>16.0</version>
+  </dependency>
+  <dependency>
+  	<groupId>hu.bme.diploma.a7e7yk</groupId>
+  	<artifactId>ehealth-services</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<type>ejb</type>
   </dependency>
   </dependencies>
 </project>

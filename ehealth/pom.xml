@@ -127,6 +127,11 @@
 				<version>${spring-version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
+			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt</artifactId>
 				<version>0.4</version>
@@ -161,6 +166,13 @@
 				<artifactId>jetty-server</artifactId>
 				<version>${jetty-version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.1-api</artifactId>
+				<version>1.0.0.Final</version>
+			</dependency>
+
+
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -184,10 +196,11 @@
 	</dependencies>
 	<modules>
 		<module>ehealth-ahd</module>
-		<module>ehealth-hbase</module>
+		<module>ehealth-services</module>
 		<module>ehealth-storm</module>
 		<module>ehealth-common</module>
 		<module>ehealth-web</module>
+		<module>ehealth-ear</module>
 	</modules>
 	<name>E-Health Master Thesis</name>
 	<url>www.aut.bme.hu</url>
