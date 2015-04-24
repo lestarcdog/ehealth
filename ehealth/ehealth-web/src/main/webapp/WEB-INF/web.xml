@@ -9,6 +9,6 @@
 
     <servlet-mapping>
         <servlet-name>spring-servlet</servlet-name>
-        <url-pattern>/ehealth/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 </web-app>

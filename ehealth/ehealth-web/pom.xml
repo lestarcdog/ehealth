@@ -19,21 +19,6 @@
 					<warName>ehealth</warName>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty-version}</version>
-				<configuration>
-					<httpConnector>
-						<port>9999</port>
-					</httpConnector>
-					<webApp>
-						<contextPath>/ehealth</contextPath>
-						<defaultsDescriptor>${basedir}/src/main/resources/webdefault.xml</defaultsDescriptor>
-					</webApp>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -51,7 +36,49 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>jetty-dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<version>${jetty-version}</version>
+						<configuration>
+							<httpConnector>
+								<port>9999</port>
+							</httpConnector>
+							<webApp>
+								<contextPath>/*</contextPath>
+								<defaultsDescriptor>${basedir}/src/main/resources/webdefault.xml</defaultsDescriptor>
+							</webApp>
+							<scanIntervalSeconds>10</scanIntervalSeconds>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
