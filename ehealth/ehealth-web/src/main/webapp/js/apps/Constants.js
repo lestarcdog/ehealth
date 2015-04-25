@@ -1,2 +1,2 @@
 var WebConstants = {};
-ConWebConstantsREMENTS_URL = "/measurements";
+WebConstants.MEASUREMENTS_URL = "/measurements";

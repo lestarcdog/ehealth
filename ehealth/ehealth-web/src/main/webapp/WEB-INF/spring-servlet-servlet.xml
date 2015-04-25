@@ -6,5 +6,11 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="hu.bme.diploma.a7e7yk.web" />
+    <context:component-scan base-package="hu.bme.diploma.a7e7yk.dao.web" >
+    	<context:include-filter type="annotation" expression="javax.ejb.Stateless"/>
+    	<context:include-filter type="annotation" expression="javax.ejb.Stateful"/>
+    	<context:include-filter type="annotation" expression="javax.ejb.Singleton"/>
+    </context:component-scan>
+    
+    <context:component-scan base-package="hu.bme.diploma.a7e7yk.web" />
 </beans>

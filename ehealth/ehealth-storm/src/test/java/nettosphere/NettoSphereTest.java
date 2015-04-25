@@ -1,6 +1,6 @@
 package nettosphere;
 
-import hu.bme.diploma.a7e7yk.dto.RealTimeDataDto;
+import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.server.NettoSphereServer;
 
 import java.io.IOException;

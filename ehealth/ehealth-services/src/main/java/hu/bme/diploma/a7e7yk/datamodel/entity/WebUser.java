@@ -1,12 +1,16 @@
-package hu.bme.diploma.a7e7yk.web.dto;
+package hu.bme.diploma.a7e7yk.datamodel.entity;
 
-public class UserDto {
+public class WebUser {
+  private Integer id;
   private String username;
   private String password;
 
-  public UserDto(String username, String password) {
-    this.username = username;
-    this.password = password;
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getUsername() {
@@ -24,4 +28,12 @@ public class UserDto {
   public void setPassword(String password) {
     this.password = password;
   }
+
+
+  @Override
+  public String toString() {
+    return "WebUser [id=" + id + ", username=" + username + ", password=" + password + "]";
+  }
+
+
 }

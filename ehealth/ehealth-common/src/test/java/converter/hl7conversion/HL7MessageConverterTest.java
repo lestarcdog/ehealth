@@ -1,6 +1,6 @@
 package converter.hl7conversion;
 
-import hu.bme.diploma.a7e7yk.converter.hl7converter.Hl7MessageConverter;
+import hu.bme.diploma.a7e7yk.converters.hl7converter.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 

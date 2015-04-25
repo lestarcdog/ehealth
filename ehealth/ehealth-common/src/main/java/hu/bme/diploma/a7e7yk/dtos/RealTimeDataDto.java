@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.dto;
+package hu.bme.diploma.a7e7yk.dtos;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.MdcNomenclatureConstants;

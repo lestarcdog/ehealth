@@ -11,3 +11,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 		redirectTo : "/login"
 	});
 } ]);
+
+app.config(["$httpProvider" , function($httpProvider) {
+	$httpProvider.interceptors.push("AuthTokenInterceptor");
+}]);

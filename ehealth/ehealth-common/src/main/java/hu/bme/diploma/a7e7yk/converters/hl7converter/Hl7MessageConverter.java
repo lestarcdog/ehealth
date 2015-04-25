@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.converter.hl7converter;
+package hu.bme.diploma.a7e7yk.converters.hl7converter;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;

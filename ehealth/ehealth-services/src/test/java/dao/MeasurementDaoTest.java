@@ -1,7 +1,7 @@
 package dao;
 
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
-import hu.bme.diploma.a7e7yk.dao.MeasurementsDao;
+import hu.bme.diploma.a7e7yk.dao.hbase.MeasurementsDao;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ThermometerVitalSign;
 import hu.bme.diploma.a7e7yk.exceptions.EhealthException;

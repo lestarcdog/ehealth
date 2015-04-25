@@ -1,4 +1,4 @@
-package hu.bme.diploma.a7e7yk.dao;
+package hu.bme.diploma.a7e7yk.dao.hbase;
 
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
 

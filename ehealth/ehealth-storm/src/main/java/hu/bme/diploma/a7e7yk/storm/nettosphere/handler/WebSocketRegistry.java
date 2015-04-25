@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.nettosphere.handler;
 
-import hu.bme.diploma.a7e7yk.dto.RealTimeDataDto;
+import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
 
 import java.util.Set;
 

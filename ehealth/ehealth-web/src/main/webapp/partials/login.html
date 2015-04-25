@@ -1,12 +1,25 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h4>Log in</h4>
-	</div>
-	<div class="panel-body">
-	<form action="POST">
-		<input type="text" name="username" ></input>
-		<input type="password" name="password" ></input>
-		<input type="button" name="submit" value="Login"></input>
-	</form>
+<div class="col-lg-5">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h4>Log in</h4>
+		</div>
+		<div class="panel-body">
+			<p>{{message}}</p>
+			<form name="login-form" class="form">
+				<div class="input-group text-center">
+					<input type="text" placeholder="login name"
+						ng-model="loginUser.username" />
+				</div>
+				<div class="input-group text-center">
+					<input type="password" placeholder="password"
+						ng-model="loginUser.password" />
+				</div>
+				<div class="input-group text-center">
+					<input type="button" class="btn btn-primary" value="Login"
+						ng-click="login()" />
+				</div>
+
+			</form>
+		</div>
 	</div>
 </div>

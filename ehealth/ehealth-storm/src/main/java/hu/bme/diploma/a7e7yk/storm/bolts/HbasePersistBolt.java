@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
-import hu.bme.diploma.a7e7yk.dao.MeasurementsDao;
+import hu.bme.diploma.a7e7yk.dao.hbase.MeasurementsDao;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.exceptions.EhealthException;
 import hu.bme.diploma.a7e7yk.exceptions.UndefinedMdcTypeException;

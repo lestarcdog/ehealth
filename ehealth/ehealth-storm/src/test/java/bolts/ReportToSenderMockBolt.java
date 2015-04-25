@@ -1,6 +1,6 @@
 package bolts;
 
-import hu.bme.diploma.a7e7yk.converter.hl7converter.HapiHl7Parser;
+import hu.bme.diploma.a7e7yk.converters.hl7converter.HapiHl7Parser;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
 
 import java.util.Map;

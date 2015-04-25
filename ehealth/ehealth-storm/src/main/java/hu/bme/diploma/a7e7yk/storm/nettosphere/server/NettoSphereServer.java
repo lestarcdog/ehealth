@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.nettosphere.server;
 
-import hu.bme.diploma.a7e7yk.dto.RealTimeDataDto;
+import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.IRealtimeMessageSender;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.RealTimeDataWsHandler;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.WebSocketRegistry;

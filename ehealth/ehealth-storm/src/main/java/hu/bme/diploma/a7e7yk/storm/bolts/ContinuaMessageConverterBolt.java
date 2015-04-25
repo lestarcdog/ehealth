@@ -1,7 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
-import hu.bme.diploma.a7e7yk.converter.hl7converter.HapiHl7Parser;
-import hu.bme.diploma.a7e7yk.converter.hl7converter.Hl7MessageConverter;
+import hu.bme.diploma.a7e7yk.converters.hl7converter.HapiHl7Parser;
+import hu.bme.diploma.a7e7yk.converters.hl7converter.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;

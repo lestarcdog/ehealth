@@ -1,8 +1,8 @@
 package dao;
 
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
-import hu.bme.diploma.a7e7yk.dao.HbaseDaoHelper;
-import hu.bme.diploma.a7e7yk.dao.HbaseDaoHelper.TimeParts;
+import hu.bme.diploma.a7e7yk.dao.hbase.HbaseDaoHelper;
+import hu.bme.diploma.a7e7yk.dao.hbase.HbaseDaoHelper.TimeParts;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
