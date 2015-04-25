@@ -10,8 +10,12 @@ import javax.ejb.Stateless;
 public class UserDao extends CommonDao {
 
   public WebUser findWebUserByName(String username) {
-    WebUser wu = new WebUser();
-    wu.setUsername(username);
-    return wu;
+    if (username.equals("jozsi")) {
+      WebUser wu = new WebUser();
+      wu.setUsername(username);
+      wu.setPassword("jozsi");
+      return wu;
+    }
+    return null;
   }
 }

@@ -15,3 +15,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 app.config(["$httpProvider" , function($httpProvider) {
 	$httpProvider.interceptors.push("AuthTokenInterceptor");
 }]);
+
+app.run(function($rootScope) {
+	$rootScope.user = {};
+})

@@ -133,9 +133,9 @@
 				<version>${spring-version}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.jsonwebtoken</groupId>
-				<artifactId>jjwt</artifactId>
-				<version>0.4</version>
+				<groupId>org.bitbucket.b_c</groupId>
+				<artifactId>jose4j</artifactId>
+				<version>0.4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.atmosphere</groupId>

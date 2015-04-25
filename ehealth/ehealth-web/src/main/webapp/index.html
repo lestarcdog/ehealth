@@ -14,10 +14,14 @@
 <!-- scripts -->
 <script type="text/javascript" src="js/framework/jquery/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="js/framework/angular/angular.js"></script>
-<script type="text/javascript" src="js/framework/angular/angular-route.js"></script>
-<script type="text/javascript" src="js/framework/bootstrap/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/framework/bootstrap/bootstrap-scripts.js"></script>
-<script type="text/javascript" src="js/framework/atmosphere/atmosphere.jquery.js"></script>
+<script type="text/javascript"
+	src="js/framework/angular/angular-route.js"></script>
+<script type="text/javascript"
+	src="js/framework/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="js/framework/bootstrap/bootstrap-scripts.js"></script>
+<script type="text/javascript"
+	src="js/framework/atmosphere/atmosphere.jquery.js"></script>
 <script type="text/javascript" src="js/framework/canvasjs/canvasjs.js"></script>
 
 
@@ -38,7 +42,8 @@
 					role="navigation">
 					<div data-spy="affix" data-offset-top="45" data-offset-bottom="90">
 						<ul class="nav" id="sidebar-nav">
-							<li><a href="#/login">Log in</a></li>
+							<li><a href="#/login">Login</a></li>
+							<li><a href="#/home">Dashboard</a></li>
 							<li><a href="#/measurements">My patients</a></li>
 						</ul>
 					</div>
@@ -46,8 +51,7 @@
 				<!-- /sidebar -->
 
 				<!--main-->
-				<div class="col-lg-10" data-spy="scroll"
-					data-target="#sidebar-nav">
+				<div class="col-lg-10" data-spy="scroll" data-target="#sidebar-nav">
 					<div class="row">
 						<div class="col-lg-10">
 							<div ng-view></div>
@@ -59,10 +63,13 @@
 	</div>
 	<script type="text/javascript" src="js/apps/Constants.js"></script>
 	<script type="text/javascript" src="js/apps/ehealthApp.js"></script>
-	<script type="text/javascript" src="js/apps/interceptors/AuthTokenInterceptor.js" ></script>
-	<script type="text/javascript" src="js/apps/services/RealtimeDataService.js"></script>
+	<script type="text/javascript"
+		src="js/apps/interceptors/AuthTokenInterceptor.js"></script>
+	<script type="text/javascript"
+		src="js/apps/services/RealtimeDataService.js"></script>
 	<script type="text/javascript" src="js/apps/services/LoginService.js"></script>
 	<script type="text/javascript" src="js/apps/controllers/LoginCtrl.js"></script>
-	<script type="text/javascript" src="js/apps/controllers/MeasurementCtrl.js"></script>
+	<script type="text/javascript"
+		src="js/apps/controllers/MeasurementCtrl.js"></script>
 </body>
 </html>
