@@ -1,33 +1,53 @@
-<div class="col-lg-2">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h4>Patients</h4>
-		</div>
-		<div class="panel-body">
-			<table class="table table-hover ">
-				<thead>
-					<tr>
-						<th>Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-click="selectPatient(patient)"
-						ng-repeat="patient in mypatients">
-						<td style="cursor: pointer;">{{patient.name}}</td>
-					</tr>
-				</tbody>
-			</table>
+<div class="row">
+	<div class="col-lg-2">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Patients</h4>
+			</div>
+			<div class="panel-body" style="height: 300px">
+				<table class="table table-hover ">
+					<thead>
+						<tr>
+							<th>Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-click="selectPatient(patient)" ng-repeat="patient in mypatients">
+							<td style="cursor: pointer;">{{patient.name}}</td>
+						</tr>
+					</tbody>
+				</table>
 
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Measurements</h4>
+			</div>
+			<div class="panel-body" ng-show="selectedPatient.subjectId != null">
+				<div id="chartContainer" style="width: 100%; height: 270px"></div>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="col-lg-10">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h4>Measurements</h4>
-		</div>
-		<div class="panel-body" ng-show="selectedPatient.subjectId != null">
-			<div id="chartContainer" style="width: 100%; height: 280px"></div>
+
+
+<div class="row">
+	<div class="col-lg-2">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Vital signs</h4>
+			</div>
+			<div class="panel-body">
+				<form class="form">
+					<label ng-repeat="(mdcId,value) in vitalSigns"> <input type="radio" name="vitalsigngroup" ng-model="$parent.selectedVitalSign"
+						ng-value="value" />{{value.name}}
+					</label>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
