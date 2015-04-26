@@ -10,7 +10,7 @@
 	<properties>
 		<spring-version>4.1.6.RELEASE</spring-version>
 		<skipTests>true</skipTests>
-		<nettospherre-version>2.2.1</nettospherre-version>
+		<nettospherre-version>2.3.0</nettospherre-version>
 		<hbase-version>1.0.0</hbase-version>
 		<guava-version>18.0</guava-version>
 		<jetty-version>9.3.0.M2</jetty-version>

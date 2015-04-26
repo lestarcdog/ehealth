@@ -24,6 +24,7 @@ public class NettoSphereTest {
       System.in.read();
       s.sendMessageToObservers(generateBloodpressureVitalSign());
     }
+    // s.close();
   }
 
 

@@ -30,6 +30,7 @@ public class RealTimeDataWebSocketHandler implements WebSocketHandler {
 
   @Override
   public void onTextMessage(WebSocket webSocket, String data) {
+    System.out.println("call on text: " + data);
     try {
       CommandDto command = mapper.readValue(data, CommandDto.class);
       switch (command.getCommand()) {
@@ -49,8 +50,6 @@ public class RealTimeDataWebSocketHandler implements WebSocketHandler {
           break;
       }
     } catch (IOException e) {
-      logger.warn("Cannot parse incoming message: {} from {}@{}", data, webSocket.resource()
-          .getRequest().getLocalAddr(), observerId);
     }
 
 
@@ -69,7 +68,7 @@ public class RealTimeDataWebSocketHandler implements WebSocketHandler {
     // } catch (IOException e1) {
     // }
     // }
-    logger.info("WebSocket is connected for user {}", observerId.toString());
+    System.err.println("onOpen");
   }
 
   @Override
@@ -82,7 +81,7 @@ public class RealTimeDataWebSocketHandler implements WebSocketHandler {
 
   @Override
   public void onError(WebSocket webSocket, WebSocketException t) {
-    logger.error("Websocket error", t);
+    // logger.error("Websocket error", t);
   }
 
 }
