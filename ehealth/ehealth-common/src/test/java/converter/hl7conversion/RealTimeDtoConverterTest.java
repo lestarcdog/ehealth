@@ -3,6 +3,7 @@ package converter.hl7conversion;
 import hu.bme.diploma.a7e7yk.converters.RealTimeDtoConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
+import hu.bme.diploma.a7e7yk.dtos.CommandDto;
 
 import java.time.ZonedDateTime;
 
@@ -25,5 +26,14 @@ public class RealTimeDtoConverterTest {
     mapper.enable(SerializationFeature.INDENT_OUTPUT);
     AbstractVitalSign vv = v;
     System.out.println(mapper.writeValueAsString(RealTimeDtoConverter.convert(vv)));
+  }
+
+  @Test
+  public void commandDto() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    CommandDto cmd = new CommandDto(CommandDto.Commands.SUBSCRIBE, "patient1");
+    String s = mapper.writeValueAsString(cmd);
+    System.out.println(s);
   }
 }

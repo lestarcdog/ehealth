@@ -34,17 +34,17 @@ public class WebSocketRegistry implements IRealtimeMessageSender {
     return wsr;
   }
 
-  private Broadcaster getBroadcastById(String id, boolean createIfNew) {
-    return fw.getBroadcasterFactory().lookup(id, createIfNew);
+  private Broadcaster getBroadcastById(Object observerId, boolean createIfNew) {
+    return fw.getBroadcasterFactory().lookup(observerId, createIfNew);
   }
 
   @Override
-  public void sendMessageToId(RealTimeDataDto data, String id) {
+  public void sendMessageToObservers(RealTimeDataDto data) {
     try {
-      String s = mapper.writeValueAsString(data);
-      logger.info(s);
-      Broadcaster b = getBroadcastById(id, false);
+      Broadcaster b = getBroadcastById(data.getSubjectId(), false);
       if (b != null) {
+        String s = mapper.writeValueAsString(data);
+        logger.debug("Sending the message {}", s);
         b.broadcast(s);
       }
     } catch (JsonProcessingException e) {
@@ -53,16 +53,16 @@ public class WebSocketRegistry implements IRealtimeMessageSender {
     }
   }
 
-  public void addSubsriberToBroadcast(AtmosphereResource resource, String id) {
-    getBroadcastById(id, true).addAtmosphereResource(resource);
+  public void addObserverToBroadcast(AtmosphereResource resource, Object observerId) {
+    getBroadcastById(observerId, true).addAtmosphereResource(resource);
   }
 
-  public void removeSubscriberFromBroadcast(AtmosphereResource resource, Set<String> ids) {
-    ids.stream().forEach(l -> removeSubscriberFromBroadcast(resource, l));
+  public void removeObserverFromBroadcast(AtmosphereResource resource, Set<Object> ids) {
+    ids.stream().forEach(l -> removeObserverFromBroadcast(resource, l));
   }
 
-  public void removeSubscriberFromBroadcast(AtmosphereResource resource, String id) {
-    fw.getBroadcasterFactory().lookup(id).removeAtmosphereResource(resource);
+  public void removeObserverFromBroadcast(AtmosphereResource resource, Object observerId) {
+    fw.getBroadcasterFactory().lookup(observerId).removeAtmosphereResource(resource);
   }
 
 

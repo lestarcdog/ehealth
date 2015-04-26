@@ -27,6 +27,7 @@ public class EhealthConstants {
   public static final long TIMEBASE_PRECISION_DIVIDER = 1000;
 
   // ----- JWT TOKEN----
+  public static final String AUTH_TOKEN_HEADER_NAME = "Auth-token";
   public static final int JWT_EXPIRATION_TIME = 30;
   public static final Key JWT_KEY = new AesKey("bullshitbullshit".getBytes());
   public static final String JWT_KEY_MANAGEMENT_ALGORITHM =

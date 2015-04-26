@@ -1,7 +1,13 @@
-app.factory("RealtimeDataService", function() {
+app.factory("RealtimeDataService", ["$http",function($http) {
 	s = {};
-	s.get = function() {
-		return "valami";
+	s.getMyPatients = function(userId) {
+		return [ {
+			subjectId : "patient1",
+			name : "Kiss János"
+		}, {
+			subjectId : "patient2",
+			name : "Másik János"
+		} ];
 	}
 	return s;
-});
+}]);

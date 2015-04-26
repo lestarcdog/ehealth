@@ -8,7 +8,7 @@ app.controller("LoginCtrl", [ "$scope", "$rootScope", "LoginService", function($
 		loginService.login($scope.loginUser).success(function(data, status, headers, config) {
 			console.log(status);
 			$rootScope.user.token = headers("Auth-token");
-			$rootScope.user.username = $scope.loginUser.username;
+			$rootScope.user.userId = $scope.loginUser.userId;
 			$scope.message = "Login succeeded";
 			delete $scope.loginUser;
 		}).error(function(data, status, headers, config) {

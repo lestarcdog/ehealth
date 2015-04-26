@@ -47,7 +47,7 @@ public class RealtimeBolt extends BaseRichBolt {
         (List<AbstractVitalSign>) input.getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD);
     String userId = (String) input.getValueByField(StormFieldsConstants.USER_ID_FIELD);
     for (AbstractVitalSign v : signValues) {
-      server.sendMessageToId(RealTimeDtoConverter.convert(v), userId);
+      server.sendMessageToObservers(RealTimeDtoConverter.convert(v, userId));
     }
     collector.ack(input);
   }

@@ -9,11 +9,15 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.MdcNomenclatureConstants;
  */
 public class RealTimeDataDto {
   /**
+   * Identifier of the patient who emits the measurements data
+   */
+  private Object subjectId;
+  /**
    * MDC Id of the measurement type {@link MdcNomenclatureConstants}
    */
   private Integer mdcMeasurementId;
   /**
-   * Time of the measurement in milliseconds
+   * Time of the measurement in seconds
    */
   private Long time;
   /**
@@ -34,6 +38,15 @@ public class RealTimeDataDto {
     this.value = value;
   }
 
+  public RealTimeDataDto(Object subjectId, Integer mdcMeasurementId, Long time,
+      AbstractVitalSign value) {
+    super();
+    this.subjectId = subjectId;
+    this.mdcMeasurementId = mdcMeasurementId;
+    this.time = time;
+    this.value = value;
+  }
+
   public Long getTime() {
     return time;
   }
@@ -41,7 +54,6 @@ public class RealTimeDataDto {
   public void setTime(Long time) {
     this.time = time;
   }
-
 
   public Integer getMdcMeasurementId() {
     return mdcMeasurementId;
@@ -59,9 +71,17 @@ public class RealTimeDataDto {
     this.value = value;
   }
 
+  public Object getSubjectId() {
+    return subjectId;
+  }
+
+  public void setSubjectId(Object subjectId) {
+    this.subjectId = subjectId;
+  }
+
   @Override
   public String toString() {
-    return "RealTimeDataDto [mdcMeasurementId=" + mdcMeasurementId + ", time=" + time + ", value="
-        + value + "]";
+    return "RealTimeDataDto [subjectId=" + subjectId + ", mdcMeasurementId=" + mdcMeasurementId
+        + ", time=" + time + ", value=" + value + "]";
   }
 }

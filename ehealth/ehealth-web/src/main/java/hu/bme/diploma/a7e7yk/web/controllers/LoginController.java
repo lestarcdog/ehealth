@@ -1,9 +1,9 @@
 package hu.bme.diploma.a7e7yk.web.controllers;
 
+import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
 import hu.bme.diploma.a7e7yk.dao.web.UserDao;
 import hu.bme.diploma.a7e7yk.datamodel.entity.WebUser;
 import hu.bme.diploma.a7e7yk.dtos.WebUserDto;
-import hu.bme.diploma.a7e7yk.web.WebConstants;
 
 import java.util.UUID;
 
@@ -28,19 +28,19 @@ public class LoginController {
       produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
   public void login(@RequestBody WebUserDto user, HttpServletRequest request,
       HttpServletResponse response) {
-
-    if (user == null || user.getUsername() == null || user.getPassword() == null
-        || user.getUsername().trim().isEmpty() || user.getPassword().trim().isEmpty()) {
+    if (user == null || user.getUserId() == null || user.getPassword() == null
+        || user.getUserId().trim().isEmpty() || user.getPassword().trim().isEmpty()) {
       response.setStatus(HttpStatus.UNAUTHORIZED.value());
       return;
     }
+
     // get user from database
-    WebUser webUser = userDao.findWebUserByName(user.getUsername());
+    WebUser webUser = userDao.findWebUserByName(user.getUserId());
     if (webUser == null || !user.getPassword().equals(webUser.getPassword())) {
       response.setStatus(HttpStatus.UNAUTHORIZED.value());
       return;
     }
-    response.addHeader(WebConstants.AUTH_TOKEN_HEADER_NAME, UUID.randomUUID().toString());
+    response.addHeader(EhealthConstants.AUTH_TOKEN_HEADER_NAME, UUID.randomUUID().toString());
     return;
   }
 }

@@ -8,7 +8,6 @@ public interface IRealtimeMessageSender {
    * specified by the {@code userid}
    * 
    * @param data data to send
-   * @param userId user who recieves the message
    */
-  public void sendMessageToId(RealTimeDataDto data, String userId);
+  public void sendMessageToObservers(RealTimeDataDto data);
 }

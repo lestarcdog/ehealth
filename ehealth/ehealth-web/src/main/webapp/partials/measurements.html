@@ -1,34 +1,48 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h4>Measurements</h4>
-	</div>
-	<div class="panel-body">
-		<div id="chartContainer" style="width: 100%; height: 280px"></div>
-	</div>
-	<script type="text/javascript">
-		var dps = [ {
-			y : 10
-		}, {
-			y : 4
-		}, {
-			y : 18
-		}, {
-			y : 8
-		} ];
-		var chart = new CanvasJS.Chart("chartContainer", {
-			title : {
-				text : "Dummy - values"
-			},
-			axisX : {
-				title : "X Axis Title",
-				valueFormatString : "HH:mm:ss",
-			},
-			data : [ {
-				type : "line",
-				dataPoints : dps
-			} ]
-		});
+<div class="col-lg-2">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4>Patients</h4>
+		</div>
+		<div class="panel-body">
+			<table class="table table-hover ">
+				<thead>
+					<tr>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-click="selectPatient(patient)"
+						ng-repeat="patient in mypatients">
+						<td style="cursor: pointer;">{{patient.name}}</td>
+					</tr>
+				</tbody>
+			</table>
 
-		chart.render();
-	</script>
+		</div>
+	</div>
 </div>
+<div class="col-lg-10">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4>Measurements</h4>
+		</div>
+		<div class="panel-body" ng-show="selectedPatient.subjectId != null">
+			<div id="chartContainer" style="width: 100%; height: 280px"></div>
+		</div>
+	</div>
+</div>
+
+<div id="errorModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Error</h4>
+			</div>
+			<div class="modal-body">
+				<h4 ng-bind="errorMessage"></h4>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/apps/canvas/canvasrenderer.js"></script>

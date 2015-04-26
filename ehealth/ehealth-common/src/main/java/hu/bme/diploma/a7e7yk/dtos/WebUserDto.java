@@ -1,22 +1,22 @@
 package hu.bme.diploma.a7e7yk.dtos;
 
 public class WebUserDto {
-  private String username;
+  private String userId;
   private String password;
 
   public WebUserDto() {}
 
   public WebUserDto(String username, String password) {
-    this.username = username;
+    this.userId = username;
     this.password = password;
   }
 
-  public String getUsername() {
-    return username;
+  public String getUserId() {
+    return userId;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserId(String username) {
+    this.userId = username;
   }
 
   public String getPassword() {
@@ -29,6 +29,6 @@ public class WebUserDto {
 
   @Override
   public String toString() {
-    return "UserDto [username=" + username + ", password=" + password + "]";
+    return "UserDto [username=" + userId + ", password=" + password + "]";
   }
 }

@@ -8,9 +8,16 @@ public class RealTimeDtoConverter {
 
   public static RealTimeDataDto convert(AbstractVitalSign value) {
     RealTimeDataDto dto =
-        new RealTimeDataDto(value.getMdcMeasurementType().getId(), value.getMeasurementTime().toInstant()
-            .toEpochMilli(), value);
+        new RealTimeDataDto(value.getMdcMeasurementType().getId(), value.getMeasurementTime()
+            .toInstant().toEpochMilli(), value);
     return dto;
+  }
 
+  public static RealTimeDataDto convert(AbstractVitalSign value, String userId) {
+    RealTimeDataDto dto =
+        new RealTimeDataDto(value.getMdcMeasurementType().getId(), value.getMeasurementTime()
+            .toInstant().toEpochMilli(), value);
+    dto.setSubjectId(userId);
+    return dto;
   }
 }
