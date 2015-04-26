@@ -1,7 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 
 import java.util.List;
 import java.util.Map;
@@ -36,19 +36,19 @@ public class ErrorFilterBolt extends BaseRichBolt {
   public void execute(Tuple input) {
     System.err.println("ErrorFilter executed:" + i.getAndIncrement());
     collector.ack(input);
-    if (input.getValueByField(StormFieldsConstants.ERROR_FIELD) == null) {
+    if (input.getValueByField(StormConstants.ERROR_FIELD) == null) {
       logger.debug("Passing along {} messages",
-          ((List<AbstractVitalSign>) input.getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD)).size());
-      collector.emit(new Values(input.getValueByField(StormFieldsConstants.USER_ID_FIELD), input
-          .getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD)));
+          ((List<AbstractVitalSign>) input.getValueByField(StormConstants.MEASUREMENTS_FIELD)).size());
+      collector.emit(new Values(input.getValueByField(StormConstants.USER_ID_FIELD), input
+          .getValueByField(StormConstants.MEASUREMENTS_FIELD)));
     } else {
-      logger.debug("Error filter of {}", input.getValueByField(StormFieldsConstants.ERROR_FIELD));
+      logger.debug("Error filter of {}", input.getValueByField(StormConstants.ERROR_FIELD));
     }
   }
 
   @Override
   public void declareOutputFields(OutputFieldsDeclarer declarer) {
-    declarer.declare(new Fields(StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD));
+    declarer.declare(new Fields(StormConstants.USER_ID_FIELD, StormConstants.MEASUREMENTS_FIELD));
   }
 
 }

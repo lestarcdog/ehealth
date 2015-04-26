@@ -7,14 +7,13 @@ import java.util.List;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v26.message.ORU_R01;
 
-public class StormFieldsConstants {
+public class StormConstants {
   /**
    * Patient identification, could be SSN or any specific identification
    */
   public static final String USER_ID_FIELD = "patientUserId";
   /**
-   * Contains a {@link List} of {@link AbstractVitalSign} parsed data from the Continua
-   * message.
+   * Contains a {@link List} of {@link AbstractVitalSign} parsed data from the Continua message.
    */
   public static final String MEASUREMENTS_FIELD = "measurements";
   public static final String RETURN_MESSAGE_FIELD = "returnMessage";

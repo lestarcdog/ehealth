@@ -4,7 +4,7 @@ import hu.bme.diploma.a7e7yk.converters.hl7converter.HapiHl7Parser;
 import hu.bme.diploma.a7e7yk.converters.hl7converter.Hl7MessageConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.PersonModel;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,9 +29,9 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
 
   private static final Logger logger = LoggerFactory.getLogger(ContinuaMessageConverterBolt.class);
 
-  public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
-      StormFieldsConstants.USER_ID_FIELD, StormFieldsConstants.MEASUREMENTS_FIELD, StormFieldsConstants.ERROR_FIELD,
-      StormFieldsConstants.PARSED_CONTINUA_MSG_FIELD);
+  public static final Fields OUTPUT_FIELDS = new Fields(StormConstants.SENDER_ID_FIELD,
+      StormConstants.USER_ID_FIELD, StormConstants.MEASUREMENTS_FIELD, StormConstants.ERROR_FIELD,
+      StormConstants.PARSED_CONTINUA_MSG_FIELD);
 
   private OutputCollector collector;
   private HapiHl7Parser parser;
@@ -44,8 +44,8 @@ public class ContinuaMessageConverterBolt extends BaseRichBolt {
 
   @Override
   public void execute(Tuple input) {
-    String msgTxt = (String) input.getStringByField(StormFieldsConstants.UNPARSED_CONTINUA_MSG_FIELD);
-    String senderId = input.getStringByField(StormFieldsConstants.SENDER_ID_FIELD);
+    String msgTxt = (String) input.getStringByField(StormConstants.UNPARSED_CONTINUA_MSG_FIELD);
+    String senderId = input.getStringByField(StormConstants.SENDER_ID_FIELD);
     logger.debug("converting message of {}", senderId);
     ORU_R01 message;
     try {

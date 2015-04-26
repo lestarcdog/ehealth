@@ -7,11 +7,19 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_CONC_GLU_CAPILLA
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DEV_SPEC_PROFILE_GLUCOSE;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_MILLI_G_PER_DL;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class GlucoseVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> glucose = VitalSignValue.valueOf(MDC_CONC_GLU_CAPILLARY_WHOLEBLOOD.get(),
       MDC_DIM_MILLI_G_PER_DL.get());
   public static final SnomedConcept SNOMED_CONCEPT = new SnomedConcept("359772000", "Glucose monitoring at home");
   public static final MdcNomenclatureValue MDC_VALUE = MDC_DEV_SPEC_PROFILE_GLUCOSE.get();
+
+  @Override
+  public List<VitalSignValue<Double>> getAllDoubleVitalSignValues() {
+    return Arrays.asList(glucose);
+  }
 
   @Override
   public SnomedConcept getSnomedConcept() {
@@ -26,5 +34,7 @@ public class GlucoseVitalSign extends AbstractVitalSign {
   public VitalSignValue<Double> getGlucose() {
     return glucose;
   }
+
+
 
 }

@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq;
 
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.AbstractRabbitMq.RabbitMqMessage;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqConsumer;
 
@@ -25,8 +25,8 @@ public class RabbitMqSpout extends BaseRichSpout {
   private static final long serialVersionUID = 7843454057101302500L;
 
   private static final Logger logger = LoggerFactory.getLogger(RabbitMqSpout.class);
-  public static final Fields OUTPUT_FIELDS = new Fields(StormFieldsConstants.SENDER_ID_FIELD,
-      StormFieldsConstants.UNPARSED_CONTINUA_MSG_FIELD);
+  public static final Fields OUTPUT_FIELDS = new Fields(StormConstants.SENDER_ID_FIELD,
+      StormConstants.UNPARSED_CONTINUA_MSG_FIELD);
 
   private SpoutOutputCollector collector;
   private RabbitMqConsumer consumer;

@@ -4,7 +4,7 @@ import hu.bme.diploma.a7e7yk.dao.hbase.MeasurementsDao;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.exceptions.EhealthException;
 import hu.bme.diploma.a7e7yk.exceptions.UndefinedMdcTypeException;
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,9 +38,9 @@ public class HbasePersistBolt extends BaseRichBolt {
 
   @Override
   public void execute(Tuple input) {
-    String userId = input.getStringByField(StormFieldsConstants.USER_ID_FIELD);
+    String userId = input.getStringByField(StormConstants.USER_ID_FIELD);
     List<AbstractVitalSign> vitalSigns =
-        (List<AbstractVitalSign>) input.getValueByField(StormFieldsConstants.MEASUREMENTS_FIELD);
+        (List<AbstractVitalSign>) input.getValueByField(StormConstants.MEASUREMENTS_FIELD);
 
     for (AbstractVitalSign vitalSign : vitalSigns) {
       try {

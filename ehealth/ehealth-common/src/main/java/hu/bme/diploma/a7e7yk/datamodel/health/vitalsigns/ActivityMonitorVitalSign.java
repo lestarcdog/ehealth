@@ -11,6 +11,9 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_X_M;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_HF_ALT;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_HF_SPEED;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ActivityMonitorVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> speed = VitalSignValue.valueOf(MDC_HF_SPEED.get(), MDC_DIM_MIN.get());
 
@@ -34,6 +37,11 @@ public class ActivityMonitorVitalSign extends AbstractVitalSign {
     return MDC_VALUE;
   }
 
+  @Override
+  public List<VitalSignValue<Double>> getAllDoubleVitalSignValues() {
+    return Arrays.asList(speed, altitude, activePeriod);
+  }
+
   public VitalSignValue<Double> getSpeed() {
     return speed;
   }
@@ -45,5 +53,7 @@ public class ActivityMonitorVitalSign extends AbstractVitalSign {
   public VitalSignValue<Double> getActivePeriod() {
     return activePeriod;
   }
+
+
 
 }

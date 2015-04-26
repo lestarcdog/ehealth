@@ -10,6 +10,9 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PRESS_BLD_NONINV
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PRESS_BLD_NONINV_SYS;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PULS_RATE_NON_INV;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class BloodPressureVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> systolic = VitalSignValue.valueOf(MDC_PRESS_BLD_NONINV_SYS.get(),
       MDC_DIM_MMHG.get());
@@ -30,6 +33,11 @@ public class BloodPressureVitalSign extends AbstractVitalSign {
   @Override
   public MdcNomenclatureValue getMdcMeasurementType() {
     return MDC_VALUE;
+  }
+
+  @Override
+  public List<VitalSignValue<Double>> getAllDoubleVitalSignValues() {
+    return Arrays.asList(systolic, diastolic, pulseRate);
   }
 
   public VitalSignValue<Double> getSystolic() {

@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class PrintLnBolt extends BaseRichBolt {
 
   @Override
   public void execute(Tuple input) {
-    String ui = input.getStringByField(StormFieldsConstants.USER_ID_FIELD);
+    String ui = input.getStringByField(StormConstants.USER_ID_FIELD);
     logger.debug(txt + partition + "_" + "_" + ui);
     collector.ack(input);
   }

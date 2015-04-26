@@ -9,6 +9,9 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_KILO_G;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_LEN_BODY_ACTUAL;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_MASS_BODY_ACTUAL;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class WeightScaleVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> weight = VitalSignValue
       .valueOf(MDC_MASS_BODY_ACTUAL.get(), MDC_DIM_KILO_G.get());
@@ -26,6 +29,11 @@ public class WeightScaleVitalSign extends AbstractVitalSign {
   @Override
   public MdcNomenclatureValue getMdcMeasurementType() {
     return MDC_VALUE;
+  }
+
+  @Override
+  public List<VitalSignValue<Double>> getAllDoubleVitalSignValues() {
+    return Arrays.asList(weight, height);
   }
 
   public VitalSignValue<Double> getWeight() {

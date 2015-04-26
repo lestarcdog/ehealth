@@ -1,5 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.nettosphere.server;
 
+import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
 import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.IRealtimeMessageSender;
 import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.RealTimeDataWebSocketHandler;
@@ -17,7 +18,7 @@ public class NettoSphereServer implements IRealtimeMessageSender {
 
   public NettoSphereServer() {
     Config.Builder conf =
-        new Config.Builder().host("127.0.0.1").port(9090)
+        new Config.Builder().host(EhealthConstants.NETTOSPHERE_BIND_HOST).port(EhealthConstants.NETTOSPHERE_BIND_PORT)
             .resource(RealTimeDataWebSocketHandler.class);
 
     server = new Nettosphere.Builder().config(conf.build()).build();

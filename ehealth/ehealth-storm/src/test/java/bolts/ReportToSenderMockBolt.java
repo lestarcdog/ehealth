@@ -1,7 +1,7 @@
 package bolts;
 
 import hu.bme.diploma.a7e7yk.converters.hl7converter.HapiHl7Parser;
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -37,9 +37,9 @@ public class ReportToSenderMockBolt extends BaseRichBolt {
   public void execute(Tuple input) {
     System.err.println("ReportToSenderMockBolt executed:" + i.getAndIncrement());
     collector.ack(input);
-    Object errorObject = input.getValueByField(StormFieldsConstants.ERROR_FIELD);
-    String senderId = (String) input.getValueByField(StormFieldsConstants.SENDER_ID_FIELD);
-    ORU_R01 parsedData = (ORU_R01) input.getValueByField(StormFieldsConstants.PARSED_CONTINUA_MSG_FIELD);
+    Object errorObject = input.getValueByField(StormConstants.ERROR_FIELD);
+    String senderId = (String) input.getValueByField(StormConstants.SENDER_ID_FIELD);
+    ORU_R01 parsedData = (ORU_R01) input.getValueByField(StormConstants.PARSED_CONTINUA_MSG_FIELD);
     try {
       if (errorObject == null && parsedData != null) {
         logger.info("Report to user no error");
