@@ -24,7 +24,7 @@ function RealTimeDataHandler() {
 	this.chart = $("#chartContainer");
 	this.dps = [];
 	this.request = {
-		url : "http://127.0.0.1:9090/measurements",
+		url : "http://127.0.0.1:10000/measurements",
 		logLevel : 'debug',
 		transport : 'websocket',
 	};

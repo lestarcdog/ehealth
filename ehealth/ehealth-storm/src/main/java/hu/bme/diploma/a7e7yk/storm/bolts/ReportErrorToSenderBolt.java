@@ -15,12 +15,12 @@ import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Tuple;
-import ca.uhn.hl7v2.model.v26.message.ORU_R01;
+import ca.uhn.hl7v2.HL7Exception;
 
-public class ReportToSenderBolt extends BaseRichBolt {
+public class ReportErrorToSenderBolt extends BaseRichBolt {
   private static final long serialVersionUID = 6431541012110777124L;
 
-  private final Logger logger = LoggerFactory.getLogger(ReportToSenderBolt.class);
+  private final Logger logger = LoggerFactory.getLogger(ReportErrorToSenderBolt.class);
 
   private OutputCollector collector;
   private RabbitMqPublisher rabbitMqPublisher;
@@ -42,13 +42,12 @@ public class ReportToSenderBolt extends BaseRichBolt {
   @Override
   public void execute(Tuple input) {
     collector.ack(input);
+    Object errorObject = input.getValueByField(StormFieldsConstants.ERROR_FIELD);
     String senderId = (String) input.getValueByField(StormFieldsConstants.SENDER_ID_FIELD);
-    ORU_R01 parsedData =
-        (ORU_R01) input.getValueByField(StormFieldsConstants.PARSED_CONTINUA_MSG_FIELD);
     try {
-      if (parsedData != null) {
-        rabbitMqPublisher.publishToUserQueue(senderId, parser.unparse(parsedData.generateACK())
-            .getBytes());
+      if (errorObject != null) {
+        HL7Exception exception = (HL7Exception) errorObject;
+        rabbitMqPublisher.publishToUserQueue(senderId, exception.getMessage().getBytes());
       }
     } catch (Exception e) {
       logger.error("Can't send message to user", e);

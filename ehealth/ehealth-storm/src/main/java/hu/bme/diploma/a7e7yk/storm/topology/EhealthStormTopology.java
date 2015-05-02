@@ -5,7 +5,7 @@ import hu.bme.diploma.a7e7yk.storm.bolts.ContinuaMessageConverterBolt;
 import hu.bme.diploma.a7e7yk.storm.bolts.ErrorFilterBolt;
 import hu.bme.diploma.a7e7yk.storm.bolts.HbasePersistBolt;
 import hu.bme.diploma.a7e7yk.storm.bolts.RealtimeBolt;
-import hu.bme.diploma.a7e7yk.storm.bolts.ReportToSenderBolt;
+import hu.bme.diploma.a7e7yk.storm.bolts.ReportErrorToSenderBolt;
 import hu.bme.diploma.a7e7yk.storm.spouts.rabbitmq.RabbitMqSpout;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class EhealthStormTopology {
     builder.setSpout("rabbitSpout", rabbitSpout);
     builder.setBolt("continua", new ContinuaMessageConverterBolt()).shuffleGrouping("rabbitSpout");
     builder.setBolt("errorFilter", new ErrorFilterBolt()).shuffleGrouping("continua");
-    builder.setBolt("responseUser", new ReportToSenderBolt()).shuffleGrouping("continua");
+    builder.setBolt("responseErrorUser", new ReportErrorToSenderBolt()).shuffleGrouping("continua");
 
     builder.setBolt("realTime", new RealtimeBolt()).fieldsGrouping("errorFilter",
         new Fields(StormFieldsConstants.USER_ID_FIELD));

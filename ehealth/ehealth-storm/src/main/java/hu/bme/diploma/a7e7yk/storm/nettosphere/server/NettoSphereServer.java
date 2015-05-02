@@ -17,7 +17,7 @@ public class NettoSphereServer implements IRealtimeMessageSender {
 
   public NettoSphereServer() {
     Config.Builder conf =
-        new Config.Builder().host("127.0.0.1").port(9090)
+        new Config.Builder().host("127.0.0.1").port(10000)
             .resource(RealTimeDataWebSocketHandler.class);
 
     server = new Nettosphere.Builder().config(conf.build()).build();
