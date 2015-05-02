@@ -1,7 +1,7 @@
 package hu.bme.diploma.a7e7yk.storm.bolts;
 
 import hu.bme.diploma.a7e7yk.converters.hl7converter.HapiHl7Parser;
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 import hu.bme.diploma.a7e7yk.storm.rabbitmq.RabbitMqPublisher;
 
 import java.io.IOException;
@@ -42,8 +42,8 @@ public class ReportErrorToSenderBolt extends BaseRichBolt {
   @Override
   public void execute(Tuple input) {
     collector.ack(input);
-    Object errorObject = input.getValueByField(StormFieldsConstants.ERROR_FIELD);
-    String senderId = (String) input.getValueByField(StormFieldsConstants.SENDER_ID_FIELD);
+    Object errorObject = input.getValueByField(StormConstants.ERROR_FIELD);
+    String senderId = (String) input.getValueByField(StormConstants.SENDER_ID_FIELD);
     try {
       if (errorObject != null) {
         HL7Exception exception = (HL7Exception) errorObject;

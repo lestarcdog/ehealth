@@ -1,6 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.topology;
 
-import hu.bme.diploma.a7e7yk.storm.StormFieldsConstants;
+import hu.bme.diploma.a7e7yk.storm.StormConstants;
 import hu.bme.diploma.a7e7yk.storm.bolts.ContinuaMessageConverterBolt;
 import hu.bme.diploma.a7e7yk.storm.bolts.ErrorFilterBolt;
 import hu.bme.diploma.a7e7yk.storm.bolts.HbasePersistBolt;
@@ -27,7 +27,7 @@ public class EhealthStormTopology {
     builder.setBolt("responseErrorUser", new ReportErrorToSenderBolt()).shuffleGrouping("continua");
 
     builder.setBolt("realTime", new RealtimeBolt()).fieldsGrouping("errorFilter",
-        new Fields(StormFieldsConstants.USER_ID_FIELD));
+        new Fields(StormConstants.USER_ID_FIELD));
     builder.setBolt("persist", new HbasePersistBolt()).shuffleGrouping("errorFilter");
 
     Config config = new Config();

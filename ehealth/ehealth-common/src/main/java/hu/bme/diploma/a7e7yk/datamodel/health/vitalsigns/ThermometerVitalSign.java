@@ -7,6 +7,9 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DEV_SPEC_PROFILE
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_DEGC;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_TEMP_BODY;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ThermometerVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> temp = VitalSignValue.valueOf(MDC_TEMP_BODY.get(), MDC_DIM_DEGC.get());
   public static final SnomedConcept SNOMED_CONCEPT =
@@ -21,6 +24,11 @@ public class ThermometerVitalSign extends AbstractVitalSign {
   @Override
   public MdcNomenclatureValue getMdcMeasurementType() {
     return MDC_VALUE;
+  }
+
+  @Override
+  public List<VitalSignValue<Double>> getAllDoubleVitalSignValues() {
+    return Arrays.asList(temp);
   }
 
   public static MdcNomenclatureValue getMdcValue() {

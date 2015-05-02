@@ -1,7 +1,9 @@
 package hu.bme.diploma.a7e7yk.dtos;
 
-import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.MdcNomenclatureConstants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Dto class for measurement data transport via {@link WebSocket} between the client and server.
@@ -23,28 +25,15 @@ public class RealTimeDataDto {
   /**
    * Value of the measurements.
    */
-  private AbstractVitalSign value;
+  private final Map<Integer, Object> values = new HashMap<>();
 
   public RealTimeDataDto() {}
 
-  public RealTimeDataDto(Integer mdcMeasurementId, Long time) {
-    this.mdcMeasurementId = mdcMeasurementId;
-    this.time = time;
-  }
-
-  public RealTimeDataDto(Integer mdcMeasurementId, Long time, AbstractVitalSign value) {
-    this.mdcMeasurementId = mdcMeasurementId;
-    this.time = time;
-    this.value = value;
-  }
-
-  public RealTimeDataDto(Object subjectId, Integer mdcMeasurementId, Long time,
-      AbstractVitalSign value) {
-    super();
+  public RealTimeDataDto(Object subjectId, Integer mdcMeasurementId, Long time) {
     this.subjectId = subjectId;
     this.mdcMeasurementId = mdcMeasurementId;
     this.time = time;
-    this.value = value;
+
   }
 
   public Long getTime() {
@@ -63,14 +52,6 @@ public class RealTimeDataDto {
     this.mdcMeasurementId = mdcMeasurementId;
   }
 
-  public AbstractVitalSign getValue() {
-    return value;
-  }
-
-  public void setValue(AbstractVitalSign value) {
-    this.value = value;
-  }
-
   public Object getSubjectId() {
     return subjectId;
   }
@@ -79,9 +60,15 @@ public class RealTimeDataDto {
     this.subjectId = subjectId;
   }
 
+  public Map<Integer, Object> getValues() {
+    return values;
+  }
+
   @Override
   public String toString() {
-    return "RealTimeDataDto [subjectId=" + subjectId + ", mdcMeasurementId=" + mdcMeasurementId
-        + ", time=" + time + ", value=" + value + "]";
+    return "RealTimeDataDto [subjectId=" + subjectId + ", mdcMeasurementId=" + mdcMeasurementId + ", time=" + time
+        + ", values=" + values + "]";
   }
+
+
 }

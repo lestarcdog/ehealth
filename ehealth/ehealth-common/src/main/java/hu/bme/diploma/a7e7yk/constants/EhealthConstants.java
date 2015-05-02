@@ -16,8 +16,7 @@ public class EhealthConstants {
   public static final String RABBITMQ_EXCHANGE_NAME = "ehealth.publish";
   public static final String RABBITMQ_QUEUE_NAME = "ehealthQueue";
   public static final boolean RABBITMQ_REQUEUE = false;
-  public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE =
-      "mqtt-subscription-@senderId@qos1";
+  public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE = "mqtt-subscription-@senderId@qos1";
   public static final String RABBITMQ_SENDERSUBSCRIPTION_TEMPLATE_VAR1 = "@senderId@";
   public static final ZoneId DEFAULT_BUDAPEST_ZONEID = ZoneId.of("Europe/Budapest");
   /**
@@ -30,8 +29,11 @@ public class EhealthConstants {
   public static final String AUTH_TOKEN_HEADER_NAME = "Auth-token";
   public static final int JWT_EXPIRATION_TIME = 30;
   public static final Key JWT_KEY = new AesKey("bullshitbullshit".getBytes());
-  public static final String JWT_KEY_MANAGEMENT_ALGORITHM =
-      KeyManagementAlgorithmIdentifiers.A128KW;
+  public static final String JWT_KEY_MANAGEMENT_ALGORITHM = KeyManagementAlgorithmIdentifiers.A128KW;
   public static final String JWT_CONTENT_ENCRYPTION_ALGORITHM =
       ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256;
+
+  // ------- NETTOSPHERE -----
+  public static final String NETTOSPHERE_BIND_HOST = "127.0.0.1";
+  public static final int NETTOSPHERE_BIND_PORT = 9090;
 }

@@ -9,6 +9,9 @@ import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_DIM_PERCENT;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PULS_OXIM_PULS_RATE;
 import hu.bme.diploma.a7e7yk.datamodel.ieee_11073.constants.MDC_PULS_OXIM_SAT_O2;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PulseOxyMeterVitalSign extends AbstractVitalSign {
   private final VitalSignValue<Double> spo2 = VitalSignValue.valueOf(MDC_PULS_OXIM_SAT_O2.get(), MDC_DIM_PERCENT.get());
   private final VitalSignValue<Double> spo2Accuracy = null;
@@ -20,7 +23,10 @@ public class PulseOxyMeterVitalSign extends AbstractVitalSign {
   public static final SnomedConcept SNOMED_CONCEPT = new SnomedConcept("284034009", "Pulse oximetry monitoring");
   public static final MdcNomenclatureValue MDC_VALUE = MDC_DEV_SPEC_PROFILE_PULS_OXIM.get();
 
-
+  @Override
+  public List<VitalSignValue<Double>> getAllDoubleVitalSignValues() {
+    return Arrays.asList(spo2, pulseRate);
+  }
 
   @Override
   public SnomedConcept getSnomedConcept() {
