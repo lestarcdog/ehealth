@@ -58,7 +58,7 @@
 			<type>ejb</type>
 		</dependency>
 	</dependencies>
-
+	
 	<profiles>
 		<profile>
 			<id>jetty-dev</id>

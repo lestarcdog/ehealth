@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import schemagen.HbaseTestConstants;
 
-public class MeasurementDaoTest extends AbstractEjbAwareTest {
+public class MeasurementDaoTest extends AbstractHbaseAware {
 
   @EJB
   MeasurementsDao measurementsDao;
@@ -37,7 +37,8 @@ public class MeasurementDaoTest extends AbstractEjbAwareTest {
     String userId = "TAJSZAM123ACT";
     ActivityMonitorVitalSign v = new ActivityMonitorVitalSign();
     long d = ZonedDateTime.now().toEpochSecond();
-    v.setMeasurementTime(ZonedDateTime.ofInstant(Instant.ofEpochSecond(d), EhealthConstants.DEFAULT_BUDAPEST_ZONEID));
+    v.setMeasurementTime(ZonedDateTime.ofInstant(Instant.ofEpochSecond(d),
+        EhealthConstants.DEFAULT_BUDAPEST_ZONEID));
     v.getSpeed().setValue(5.2);
     v.getActivePeriod().setValue(6.0);
     measurementsDao.persistMeasurement(userId, v);
@@ -59,7 +60,8 @@ public class MeasurementDaoTest extends AbstractEjbAwareTest {
     String userId = "TAJSZAM123TEMP";
     ThermometerVitalSign v = new ThermometerVitalSign();
     long d = ZonedDateTime.now().toEpochSecond();
-    v.setMeasurementTime(ZonedDateTime.ofInstant(Instant.ofEpochSecond(d), EhealthConstants.DEFAULT_BUDAPEST_ZONEID));
+    v.setMeasurementTime(ZonedDateTime.ofInstant(Instant.ofEpochSecond(d),
+        EhealthConstants.DEFAULT_BUDAPEST_ZONEID));
     v.getTemp().setValue(35.2);
 
     measurementsDao.persistMeasurement(userId, v);

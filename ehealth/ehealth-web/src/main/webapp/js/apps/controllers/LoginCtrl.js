@@ -6,10 +6,9 @@ app.controller("LoginCtrl", [ "$scope", "$rootScope", "LoginService", function($
 	$scope.login = function() {
 		console.log($scope.loginUser);
 		loginService.login($scope.loginUser).success(function(data, status, headers, config) {
-			console.log(status);
 			$rootScope.user.token = headers("Auth-token");
 			$rootScope.user.userId = $scope.loginUser.userId;
-			$scope.message = "Login succeeded";
+			$scope.message = "Login succeeded "+data.userId;
 			delete $scope.loginUser;
 		}).error(function(data, status, headers, config) {
 			$scope.message = "Failed login";

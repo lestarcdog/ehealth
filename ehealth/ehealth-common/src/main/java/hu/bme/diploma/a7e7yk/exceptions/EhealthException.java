@@ -3,15 +3,15 @@ package hu.bme.diploma.a7e7yk.exceptions;
 public class EhealthException extends Exception {
 
   private static final long serialVersionUID = 7947583927318961583L;
-  private final Exception sourceException;
+  private final Throwable sourceException;
   private final String message;
 
-  public EhealthException(Exception sourceException, String message) {
+  public EhealthException(Throwable sourceException, String message) {
     this.sourceException = sourceException;
     this.message = message;
   }
 
-  public EhealthException(Exception sourceException) {
+  public EhealthException(Throwable sourceException) {
     this.sourceException = sourceException;
     this.message = null;
   }
@@ -21,7 +21,7 @@ public class EhealthException extends Exception {
     this.message = message;
   }
 
-  public Exception getSourceException() {
+  public Throwable getSourceException() {
     return sourceException;
   }
 

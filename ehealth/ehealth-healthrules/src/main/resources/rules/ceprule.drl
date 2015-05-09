@@ -9,21 +9,14 @@ package rules
 
 
 
-
-rule "Your First Rule"
-
+rule "1 week 1 kilo weight loss"
     when
-        //conditions
+        $p : Person()
+        $m1 : WeightMeasureEvent( $v1 : value, person.ssn == $p.ssn )
+	   from entry-point "Weight-EP"
+        $m2 : WeightMeasureEvent( $v2: value, $v1-$v2 > 1000 ,
+ 	   person.ssn == $p.ssn, this != $m1 ,
+	   this after [0, 7d] $m1 )  from entry-point "Weight-EP"
     then
-        //actions
-
-end
-
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
-
+System.out.println("Extreme weight loss: "+$v1/1000+"kg -> "+$v2/1000+"kg"); 
 end

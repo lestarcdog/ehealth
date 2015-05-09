@@ -17,7 +17,8 @@
 				<artifactId>maven-ear-plugin</artifactId>
 				<version>2.10</version>
 				<configuration>
-					<finalName>ehealth-ear</finalName>
+					<finalName>ehealth</finalName>
+					<skinnyWars>true</skinnyWars>
 					<version>7</version>
 				</configuration>
 			</plugin>

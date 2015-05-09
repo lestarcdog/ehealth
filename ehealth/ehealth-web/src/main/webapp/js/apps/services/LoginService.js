@@ -3,6 +3,5 @@ app.factory("LoginService", ["$http",function($http) {
 	q.login = function(user) {
 		return $http.post("api/login", JSON.stringify(user));
 	}
-	
 	return q;
 }]);

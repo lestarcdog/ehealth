@@ -1,6 +1,8 @@
 package converter.hl7conversion;
 
 import hu.bme.diploma.a7e7yk.converters.JwtTokenConverter;
+import hu.bme.diploma.a7e7yk.converters.JwtTokenConverter.EHealthJwtClaims;
+import hu.bme.diploma.a7e7yk.datamodel.enums.WebUserGroupEnum;
 import hu.bme.diploma.a7e7yk.dtos.WebUserDto;
 import hu.bme.diploma.a7e7yk.exceptions.EhealthException;
 
@@ -14,8 +16,11 @@ public class JwtTokenConverterTest {
   public void createTokenAndConvertBack() throws EhealthException, JoseException {
     WebUserDto dto = new WebUserDto();
     dto.setUserId("jozsi");
+    dto.setUserGroup(WebUserGroupEnum.Citizen.name());
     String token = JwtTokenConverter.createJwtToken(dto);
-    String id = (String) JwtTokenConverter.validateJwtToken(token);
-    Assert.assertEquals(dto.getUserId(), id);
+    EHealthJwtClaims claims = JwtTokenConverter.validateJwtToken(token);
+
+    Assert.assertEquals(dto.getUserId(), claims.getSubject());
+    Assert.assertEquals(dto.getUserGroup(), claims.getUserGroup().name());
   }
 }

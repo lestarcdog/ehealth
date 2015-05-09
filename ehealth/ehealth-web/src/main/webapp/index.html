@@ -36,9 +36,10 @@
 				<div class="col-lg-2 sidebar-offcanvas" id="sidebar" role="navigation">
 					<div data-spy="affix" data-offset-top="45" data-offset-bottom="90">
 						<ul class="nav" id="sidebar-nav">
-							<li><a href="#/login">Login</a></li>
-							<li><a href="#/dashboard">Dashboard</a></li>
-							<li><a href="#/measurements">My patients</a></li>
+							<li ng-show="user.userId == null"><a href="#/login">Login</a></li>
+							<li ng-show="user.userId != null"><a href="#/dashboard">Dashboard</a></li>
+							<li ng-show="user.userId != null"><a href="#/measurements">My patients</a></li>
+							<li ng-show="user.userId != null"><a href="#" ng-click="user = {}">Logout</a></li>
 						</ul>
 					</div>
 				</div>
