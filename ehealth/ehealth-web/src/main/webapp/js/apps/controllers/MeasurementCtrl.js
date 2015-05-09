@@ -4,9 +4,9 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 			// $location.path("/login")
 			// }
 			$scope.selectedPatient = {};
-			$scope.mypatients = rtDataService.getMyPatients($rootScope.user.userId);
-			
-			var handler = new RealTimeDataHandler();
+			rtDataService.getAllMyPatients($rootScope.user.id).success(function(data, status, headers, config) {
+				$scope.mypatients = data
+			});
 
 			$scope.selectPatient = function(patient) {
 				if($scope.selectedVitalSign == null) {
@@ -22,8 +22,8 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 			$scope.selectedVitalSign = null;
 			$scope.vitalSigns = WebConstants.VITAL_SIGNS;
 
-	var handler = new RealTimeDataHandler();
-	handler.createWebSocket();
+//	var handler = new RealTimeDataHandler();
+//	handler.createWebSocket();
 
 } ]);
 

@@ -36,10 +36,10 @@
 				<div class="col-lg-2 sidebar-offcanvas" id="sidebar" role="navigation">
 					<div data-spy="affix" data-offset-top="45" data-offset-bottom="90">
 						<ul class="nav" id="sidebar-nav">
-							<li ng-show="user.userId == null"><a href="#/login">Login</a></li>
-							<li ng-show="user.userId != null"><a href="#/dashboard">Dashboard</a></li>
-							<li ng-show="user.userId != null"><a href="#/measurements">My patients</a></li>
-							<li ng-show="user.userId != null"><a href="#" ng-click="user = {}">Logout</a></li>
+							<li ng-show="user.id == null"><a href="#/login">Login</a></li>
+							<li ng-show="user.id != null"><a href="#/dashboard">Dashboard</a></li>
+							<li ng-show="user.id != null && user.userGroup=='ClinicalPersonal'"><a href="#/measurements">My patients</a></li>
+							<li ng-show="user.id != null"><a href="#" ng-click="user = {}">Logout</a></li>
 						</ul>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 	<script type="text/javascript" src="js/apps/ehealthApp.js"></script>
 	<script type="text/javascript" src="js/apps/interceptors/AuthTokenInterceptor.js"></script>
 	<script type="text/javascript" src="js/apps/services/RealtimeDataService.js"></script>
-	<script type="text/javascript" src="js/apps/services/LoginService.js"></script>
+	<script type="text/javascript" src="js/apps/services/UserService.js"></script>
 	<script type="text/javascript" src="js/apps/controllers/LoginCtrl.js"></script>
 	<script type="text/javascript" src="js/apps/controllers/MeasurementCtrl.js"></script>
 	<script type="text/javascript" src="js/apps/controllers/DashboardCtrl.js"></script>
