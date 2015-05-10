@@ -5,11 +5,11 @@ import hu.bme.diploma.a7e7yk.interfaces.healthrules.IRealtimeNotifyDecision;
 import hu.bme.diploma.a7e7yk.interfaces.healthrules.RealtimeDecisionMessage;
 import hu.bme.diploma.a7e7yk.interfaces.nettosphere.IRealtimeMessageSender;
 
-public class RealtimeDecisionNotifyer implements IRealtimeNotifyDecision {
+public class RealtimeDecisionNotifier implements IRealtimeNotifyDecision {
 
   IRealtimeMessageSender senderService;
 
-  public RealtimeDecisionNotifyer(IRealtimeMessageSender senderService) {
+  public RealtimeDecisionNotifier(IRealtimeMessageSender senderService) {
     this.senderService = senderService;
   }
 

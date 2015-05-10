@@ -6,7 +6,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,8 +18,9 @@ public class ClinicalPersonal {
   @JoinColumn(name = "CLINICAL_PERSONAL_ID")
   private WebUser id;
 
-  @OneToMany
-  @JoinColumn(name = "CLINICAL_PERSONAL_ID")
+  @ManyToMany
+  @JoinTable(name = "CLINICALP_CITIZEN", joinColumns = {@JoinColumn(name = "CLINICAL_PERSONAL_ID")},
+      inverseJoinColumns = {@JoinColumn(name = "CITIZEN_SSN")})
   private List<Citizen> patients = new LinkedList<Citizen>();
 
   public WebUser getId() {

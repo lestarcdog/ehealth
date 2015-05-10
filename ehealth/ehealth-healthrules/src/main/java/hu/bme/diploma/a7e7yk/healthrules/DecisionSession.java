@@ -25,8 +25,7 @@ public class DecisionSession {
   private final String subjectId;
   private final IRealtimeMessageSender messageSender;
 
-  public DecisionSession(KieSession newKieSession, String subjectId,
-      IRealtimeMessageSender messageSender) {
+  public DecisionSession(KieSession newKieSession, String subjectId, IRealtimeMessageSender messageSender) {
     session = newKieSession;
     this.subjectId = subjectId;
     this.messageSender = messageSender;
