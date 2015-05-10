@@ -1,0 +1,27 @@
+//created on: 2014.12.08.
+package rules.cep
+
+//list any import classes here.
+import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
+import hu.bme.diploma.a7e7yk.healthrules.DecisionSession;
+import hu.bme.diploma.a7e7yk.interfaces.healthrules.IRealtimeDecision;
+import hu.bme.diploma.a7e7yk.interfaces.healthrules.RealtimeDecisionMessage;
+import hu.bme.diploma.a7e7yk.datamodel.enums.RealtimeDecisionMessagePriority;
+import java.time.ZonedDateTime;
+import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
+
+
+//declare any global variables here
+global IRealtimeDecision notifyService;
+
+
+rule "HighBloodPressure warning"
+    when
+       $b : BloodPressureVitalSign( systolic.value > 140) from entry-point "bp-ep" 
+    then
+	RealtimeDecisionMessage msg = new RealtimeDecisionMessage(ZonedDateTime.now(),RealtimeDecisionMessagePriority.MEDIUM);
+	msg.setMessage("High blood pressure");
+	msg.setConcept(new SnomedConcept("38341003","High blood pressure"));
+	
+	notifyService.notify(msg);
+end

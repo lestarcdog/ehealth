@@ -1,6 +1,6 @@
-package hu.bme.diploma.a7e7yk.storm.nettosphere.handler;
+package hu.bme.diploma.a7e7yk.interfaces.nettosphere;
 
-import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
+import hu.bme.diploma.a7e7yk.dtos.AbstractRealtimeDto;
 
 public interface IRealtimeMessageSender {
   /**
@@ -9,5 +9,5 @@ public interface IRealtimeMessageSender {
    * 
    * @param data data to send
    */
-  public void sendMessageToObservers(RealTimeDataDto data);
+  public void sendMessageToObservers(AbstractRealtimeDto data);
 }

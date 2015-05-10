@@ -1,6 +1,9 @@
-package hu.bme.diploma.a7e7yk.storm.nettosphere.handler;
+package hu.bme.diploma.a7e7yk.storm.realtime;
 
-import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
+import hu.bme.diploma.a7e7yk.dtos.AbstractRealtimeDto;
+import hu.bme.diploma.a7e7yk.healthrules.DecisionSupport;
+import hu.bme.diploma.a7e7yk.interfaces.nettosphere.IRealtimeMessageSender;
+import hu.bme.diploma.a7e7yk.storm.realtime.nettosphere.server.NettoSphereServer;
 
 import java.util.Set;
 
@@ -13,25 +16,22 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class WebSocketRegistry implements IRealtimeMessageSender {
-  private static final Logger logger = LoggerFactory.getLogger(WebSocketRegistry.class);
-  private static WebSocketRegistry wsr = null;
+public class RealtimeMessageBroker implements IRealtimeMessageSender {
+  private static final Logger logger = LoggerFactory.getLogger(RealtimeMessageBroker.class);
+  private static final RealtimeMessageBroker RTMB = new RealtimeMessageBroker();
+
   private final AtmosphereFramework fw;
-  private ObjectMapper mapper = new ObjectMapper();
+  private final ObjectMapper mapper = new ObjectMapper();
+  private final NettoSphereServer nettoServer;
 
-  private WebSocketRegistry(AtmosphereFramework fw) {
-    this.fw = fw;
+  private RealtimeMessageBroker() {
+    nettoServer = new NettoSphereServer();
+    fw = nettoServer.getFramework();
+    DecisionSupport.init(this);
   }
 
-  public synchronized static void init(AtmosphereFramework fw) {
-    wsr = new WebSocketRegistry(fw);
-  }
-
-  public static WebSocketRegistry get() {
-    if (wsr == null) {
-      throw new RuntimeException("WebSocketRegistry is not initialized");
-    }
-    return wsr;
+  public static RealtimeMessageBroker get() {
+    return RTMB;
   }
 
   private Broadcaster getBroadcastById(Object observerId, boolean createIfNew) {
@@ -39,7 +39,7 @@ public class WebSocketRegistry implements IRealtimeMessageSender {
   }
 
   @Override
-  public void sendMessageToObservers(RealTimeDataDto data) {
+  public void sendMessageToObservers(AbstractRealtimeDto data) {
     try {
       Broadcaster b = getBroadcastById(data.getSubjectId(), false);
       if (b != null) {
@@ -63,6 +63,10 @@ public class WebSocketRegistry implements IRealtimeMessageSender {
 
   public void removeObserverFromBroadcast(AtmosphereResource resource, Object observerId) {
     fw.getBroadcasterFactory().lookup(observerId).removeAtmosphereResource(resource);
+  }
+
+  public void close() {
+    nettoServer.close();
   }
 
 

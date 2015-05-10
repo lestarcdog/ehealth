@@ -1,6 +1,7 @@
-package hu.bme.diploma.a7e7yk.storm.nettosphere.handler;
+package hu.bme.diploma.a7e7yk.storm.realtime.nettosphere.handler;
 
 import hu.bme.diploma.a7e7yk.dtos.CommandDto;
+import hu.bme.diploma.a7e7yk.storm.realtime.RealtimeMessageBroker;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -16,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebSocketHandlerService(path = "/measurements")
-public class RealTimeDataWebSocketHandler implements WebSocketHandler {
+public class RealtimeDataWebSocketHandler implements WebSocketHandler {
 
-  private static final Logger logger = LoggerFactory.getLogger(RealTimeDataWebSocketHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(RealtimeDataWebSocketHandler.class);
 
   private final Set<String> subscriptionIds = new HashSet<>();
   private final ObjectMapper mapper = new ObjectMapper();
@@ -36,12 +37,12 @@ public class RealTimeDataWebSocketHandler implements WebSocketHandler {
       switch (command.getCommand()) {
         case SUBSCRIBE:
           subscriptionIds.add(command.getValue());
-          WebSocketRegistry.get().addObserverToBroadcast(webSocket.resource(), command.getValue());
+          RealtimeMessageBroker.get().addObserverToBroadcast(webSocket.resource(), command.getValue());
           logger.debug("command called: {}", command);
           break;
         case UNSUBSCRIBE:
           subscriptionIds.remove(command.getValue());
-          WebSocketRegistry.get().removeObserverFromBroadcast(webSocket.resource(),
+          RealtimeMessageBroker.get().removeObserverFromBroadcast(webSocket.resource(),
               command.getValue());
           logger.debug("command called: {}", command);
           break;
@@ -74,7 +75,7 @@ public class RealTimeDataWebSocketHandler implements WebSocketHandler {
   @Override
   public void onClose(WebSocket webSocket) {
     if (!subscriptionIds.isEmpty()) {
-      WebSocketRegistry.get().removeObserverFromBroadcast(webSocket.resource(), subscriptionIds);
+      RealtimeMessageBroker.get().removeObserverFromBroadcast(webSocket.resource(), subscriptionIds);
       subscriptionIds.clear();
     }
   }

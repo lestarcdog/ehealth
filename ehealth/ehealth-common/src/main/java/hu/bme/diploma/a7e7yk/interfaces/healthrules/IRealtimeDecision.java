@@ -1,26 +1,12 @@
 package hu.bme.diploma.a7e7yk.interfaces.healthrules;
 
-import java.time.ZonedDateTime;
-
+/**
+ * Interface for notification from the Decision support engine to the user
+ * 
+ *
+ */
 public interface IRealtimeDecision {
 
-  public void notify(Message msg);
+  public void notify(RealtimeDecisionMessage msg);
 
-  public static class Message {
-    private final String message;
-    private final ZonedDateTime eventTime;
-
-    public Message(String message, ZonedDateTime eventTime) {
-      this.message = message;
-      this.eventTime = eventTime;
-    }
-
-    public String getMessage() {
-      return message;
-    }
-
-    public ZonedDateTime getEventTime() {
-      return eventTime;
-    }
-  }
 }

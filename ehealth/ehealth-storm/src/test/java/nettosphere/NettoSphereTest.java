@@ -3,8 +3,8 @@ package nettosphere;
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
 import hu.bme.diploma.a7e7yk.converters.RealTimeDtoConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
-import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
-import hu.bme.diploma.a7e7yk.storm.nettosphere.server.NettoSphereServer;
+import hu.bme.diploma.a7e7yk.dtos.RealtimeMeasurementDto;
+import hu.bme.diploma.a7e7yk.storm.realtime.RealtimeMessageBroker;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,30 +22,28 @@ public class NettoSphereTest {
 
   @Test
   public void runServerAndSendBloodpressureVitalSign() throws IOException, InterruptedException {
-    NettoSphereServer s = new NettoSphereServer();
-    System.err.println("Server started");
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     while (true) {
       // br.readLine();
       Thread.sleep(1000);
-      s.sendMessageToObservers(generateBloodpressureVitalSign());
+      RealtimeMessageBroker.get().sendMessageToObservers(generateBloodpressureVitalSign());
     }
     // s.close();
   }
 
-
-  private RealTimeDataDto generateBloodpressureVitalSign() {
-    RealTimeDataDto dto = new RealTimeDataDto();
-    long seconds = ZonedDateTime.now().toInstant().getEpochSecond();
+  private RealtimeMeasurementDto generateBloodpressureVitalSign() {
+    RealtimeMeasurementDto dto = new RealtimeMeasurementDto();
+    long millis = ZonedDateTime.now().toInstant().toEpochMilli();
     ZonedDateTime mtime =
-        ZonedDateTime.ofInstant(Instant.ofEpochSecond(seconds), EhealthConstants.DEFAULT_BUDAPEST_ZONEID);
-    dto.setTime(seconds);
+        ZonedDateTime.ofInstant(Instant.ofEpochSecond(millis),
+            EhealthConstants.DEFAULT_BUDAPEST_ZONEID);
+    dto.setTimeInMillis(millis);
 
     BloodPressureVitalSign v = new BloodPressureVitalSign();
     v.setMeasurementTime(mtime);
     v.getDiastolic().setValue((double) rand.nextInt(50) + 70);
     v.getSystolic().setValue((double) rand.nextInt(90) + 70);
     v.getPulseRate().setValue((double) rand.nextInt(40) + 40);
-    return RealTimeDtoConverter.convert(v, userId);
+    return RealTimeDtoConverter.convert2Measurement(v, userId);
   }
 }

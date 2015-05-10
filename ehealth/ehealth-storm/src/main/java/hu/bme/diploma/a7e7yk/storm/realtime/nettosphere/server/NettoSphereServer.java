@@ -1,17 +1,15 @@
-package hu.bme.diploma.a7e7yk.storm.nettosphere.server;
+package hu.bme.diploma.a7e7yk.storm.realtime.nettosphere.server;
 
 import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
-import hu.bme.diploma.a7e7yk.dtos.RealTimeDataDto;
-import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.IRealtimeMessageSender;
-import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.RealTimeDataWebSocketHandler;
-import hu.bme.diploma.a7e7yk.storm.nettosphere.handler.WebSocketRegistry;
+import hu.bme.diploma.a7e7yk.storm.realtime.nettosphere.handler.RealtimeDataWebSocketHandler;
 
+import org.atmosphere.cpr.AtmosphereFramework;
 import org.atmosphere.nettosphere.Config;
 import org.atmosphere.nettosphere.Nettosphere;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NettoSphereServer implements IRealtimeMessageSender {
+public class NettoSphereServer {
 
   private static final Logger logger = LoggerFactory.getLogger(NettoSphereServer.class);
   private final Nettosphere server;
@@ -20,16 +18,16 @@ public class NettoSphereServer implements IRealtimeMessageSender {
     Config.Builder conf =
         new Config.Builder().host(EhealthConstants.NETTOSPHERE_BIND_HOST)
             .port(EhealthConstants.NETTOSPHERE_BIND_PORT)
-            .resource(RealTimeDataWebSocketHandler.class);
+            .resource(RealtimeDataWebSocketHandler.class);
 
     server = new Nettosphere.Builder().config(conf.build()).build();
-    WebSocketRegistry.init(server.framework());
     server.start();
+    logger.info("Nettosphere server started {}:{}", EhealthConstants.NETTOSPHERE_BIND_HOST,
+        EhealthConstants.NETTOSPHERE_BIND_PORT);
   }
 
-  @Override
-  public void sendMessageToObservers(RealTimeDataDto data) {
-    WebSocketRegistry.get().sendMessageToObservers(data);
+  public AtmosphereFramework getFramework() {
+    return server.framework();
   }
 
   public void close() {

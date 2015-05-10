@@ -1,19 +1,24 @@
 package hu.bme.diploma.a7e7yk.datamodel.health;
 
 public class SnomedConcept {
-	private final String snomedId;
-	private final String snomedName;
+  private final String snomedId;
+  private final String snomedName;
 
-	public SnomedConcept(String snomedId, String snomedName) {
-		this.snomedId = snomedId;
-		this.snomedName = snomedName;
-	}
+  public SnomedConcept(String snomedId, String snomedName) {
+    this.snomedId = snomedId;
+    this.snomedName = snomedName;
+  }
 
-	public String getSnomedId() {
-		return snomedId;
-	}
+  public String getSnomedId() {
+    return snomedId;
+  }
 
-	public String getSnomedName() {
-		return snomedName;
-	}
+  public String getSnomedName() {
+    return snomedName;
+  }
+
+  @Override
+  public String toString() {
+    return "SnomedConcept [snomedId=" + snomedId + ", snomedName=" + snomedName + "]";
+  }
 }

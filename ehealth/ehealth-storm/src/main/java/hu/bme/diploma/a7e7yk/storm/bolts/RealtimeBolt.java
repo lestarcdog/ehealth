@@ -6,7 +6,7 @@ import hu.bme.diploma.a7e7yk.exceptions.EhealthException;
 import hu.bme.diploma.a7e7yk.healthrules.DecisionSession;
 import hu.bme.diploma.a7e7yk.healthrules.DecisionSupport;
 import hu.bme.diploma.a7e7yk.storm.StormConstants;
-import hu.bme.diploma.a7e7yk.storm.nettosphere.server.NettoSphereServer;
+import hu.bme.diploma.a7e7yk.storm.realtime.RealtimeMessageBroker;
 
 import java.util.List;
 import java.util.Map;
@@ -33,15 +33,15 @@ public class RealtimeBolt extends BaseRichBolt {
   private static final long serialVersionUID = -4086509759524403646L;
   private static final Logger logger = LoggerFactory.getLogger(RealtimeBolt.class);
   private OutputCollector collector;
-  private NettoSphereServer server;
   private DecisionSupport decisionSupport;
+  private RealtimeMessageBroker rtMessageBroker;
 
 
   @Override
   public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
     this.collector = collector;
-    server = new NettoSphereServer();
-
+    decisionSupport = DecisionSupport.get();
+    rtMessageBroker = RealtimeMessageBroker.get();
   }
 
   @Override
@@ -50,8 +50,7 @@ public class RealtimeBolt extends BaseRichBolt {
     List<AbstractVitalSign> signValues =
         (List<AbstractVitalSign>) input.getValueByField(StormConstants.MEASUREMENTS_FIELD);
     String userId = (String) input.getValueByField(StormConstants.USER_ID_FIELD);
-
-    DecisionSession session = decisionSupport.getSession(userId, null);
+    DecisionSession session = decisionSupport.getSession(userId);
 
     try {
       session.addVitalSigns(signValues);
@@ -60,7 +59,7 @@ public class RealtimeBolt extends BaseRichBolt {
     }
 
     for (AbstractVitalSign v : signValues) {
-      server.sendMessageToObservers(RealTimeDtoConverter.convert(v, userId));
+      rtMessageBroker.sendMessageToObservers(RealTimeDtoConverter.convert2Measurement(v, userId));
 
     }
     collector.ack(input);
@@ -71,7 +70,7 @@ public class RealtimeBolt extends BaseRichBolt {
 
   @Override
   public void cleanup() {
-    server.close();
+    rtMessageBroker.close();
   }
 
 }

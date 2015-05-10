@@ -9,39 +9,24 @@ import java.util.Map;
  * Dto class for measurement data transport via {@link WebSocket} between the client and server.
  *
  */
-public class RealTimeDataDto {
-  /**
-   * Identifier of the patient who emits the measurements data
-   */
-  private Object subjectId;
+public class RealtimeMeasurementDto extends AbstractRealtimeDto {
   /**
    * MDC Id of the measurement type {@link MdcNomenclatureConstants}
    */
   private Integer mdcMeasurementId;
-  /**
-   * Time of the measurement in seconds
-   */
-  private Long time;
+
   /**
    * Value of the measurements.
    */
   private final Map<Integer, Object> values = new HashMap<>();
 
-  public RealTimeDataDto() {}
+  public RealtimeMeasurementDto() {}
 
-  public RealTimeDataDto(Object subjectId, Integer mdcMeasurementId, Long time) {
+  public RealtimeMeasurementDto(String subjectId, Integer mdcMeasurementId, long time) {
     this.subjectId = subjectId;
     this.mdcMeasurementId = mdcMeasurementId;
-    this.time = time;
+    this.timeInMillis = time;
 
-  }
-
-  public Long getTime() {
-    return time;
-  }
-
-  public void setTime(Long time) {
-    this.time = time;
   }
 
   public Integer getMdcMeasurementId() {
@@ -52,22 +37,14 @@ public class RealTimeDataDto {
     this.mdcMeasurementId = mdcMeasurementId;
   }
 
-  public Object getSubjectId() {
-    return subjectId;
-  }
-
-  public void setSubjectId(Object subjectId) {
-    this.subjectId = subjectId;
-  }
-
   public Map<Integer, Object> getValues() {
     return values;
   }
 
   @Override
   public String toString() {
-    return "RealTimeDataDto [subjectId=" + subjectId + ", mdcMeasurementId=" + mdcMeasurementId + ", time=" + time
-        + ", values=" + values + "]";
+    return "RealtimeMeasurementDto [mdcMeasurementId=" + mdcMeasurementId + ", values=" + values
+        + "]";
   }
 
 
