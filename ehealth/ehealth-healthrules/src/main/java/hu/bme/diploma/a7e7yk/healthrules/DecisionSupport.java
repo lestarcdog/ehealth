@@ -20,7 +20,7 @@ public class DecisionSupport {
 
   private KieBase kbase;
   private Map<String, DecisionSession> registry = new HashMap<>();
-  private RealtimeDecisionNotifyer notifier;
+  private IRealtimeMessageSender messageSender;
 
   private DecisionSupport(IRealtimeMessageSender messageSender) {
     KieBaseConfiguration kconf = KieServices.Factory.get().newKieBaseConfiguration();
@@ -29,7 +29,7 @@ public class DecisionSupport {
     KieContainer container = KieServices.Factory.get().getKieClasspathContainer();
     kbase = container.newKieBase(kconf);
 
-    notifier = new RealtimeDecisionNotifyer(messageSender);
+    this.messageSender = messageSender;
   }
 
   public static DecisionSupport get() {
@@ -43,7 +43,7 @@ public class DecisionSupport {
     DecisionSession s = registry.get(userId);
     if (s == null) {
       logger.debug("Creating KieSession for {}", userId);
-      s = new DecisionSession(kbase.newKieSession(), userId, notifier);
+      s = new DecisionSession(kbase.newKieSession(), userId, messageSender);
       registry.put(userId, s);
     }
     return s;
@@ -54,6 +54,9 @@ public class DecisionSupport {
   }
 
   public static synchronized void init(IRealtimeMessageSender messageSender) {
+    if (instance != null) {
+      logger.info("DecisionSupport already instanced");
+    }
     logger.info("Init DecisionSupport");
     instance = new DecisionSupport(messageSender);
   }

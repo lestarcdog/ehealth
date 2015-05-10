@@ -9,9 +9,9 @@ public class RealTimeDtoConverter {
   private RealTimeDtoConverter() {}
 
   public static RealtimeMeasurementDto convert2Measurement(AbstractVitalSign value, String subjectId) {
+    long millis = value.getMeasurementTime().toInstant().toEpochMilli();
     RealtimeMeasurementDto dto =
-        new RealtimeMeasurementDto(subjectId, value.getMdcMeasurementType().getId(), value
-            .getMeasurementTime().toInstant().toEpochMilli());
+        new RealtimeMeasurementDto(subjectId, value.getMdcMeasurementType().getId(), millis);
     value.getAllDoubleVitalSignValues().stream()
         .forEach(v -> dto.getValues().put(v.getType().getId(), v.getValue()));
     return dto;

@@ -16,6 +16,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Main class for sending realtime messages via Websocket to the client
+ *
+ */
 public class RealtimeMessageBroker implements IRealtimeMessageSender {
   private static final Logger logger = LoggerFactory.getLogger(RealtimeMessageBroker.class);
   private static final RealtimeMessageBroker RTMB = new RealtimeMessageBroker();
@@ -42,6 +46,7 @@ public class RealtimeMessageBroker implements IRealtimeMessageSender {
   public void sendMessageToObservers(AbstractRealtimeDto data) {
     try {
       Broadcaster b = getBroadcastById(data.getSubjectId(), false);
+      logger.debug("Got data: {}", data);
       if (b != null) {
         String s = mapper.writeValueAsString(data);
         logger.debug("Sending the message {}", s);
@@ -53,16 +58,22 @@ public class RealtimeMessageBroker implements IRealtimeMessageSender {
     }
   }
 
-  public void addObserverToBroadcast(AtmosphereResource resource, Object observerId) {
-    getBroadcastById(observerId, true).addAtmosphereResource(resource);
+  public void addObserverToBroadcast(AtmosphereResource resource, String subjectId) {
+    getBroadcastById(subjectId, true).addAtmosphereResource(resource);
   }
 
-  public void removeObserverFromBroadcast(AtmosphereResource resource, Set<Object> ids) {
-    ids.stream().forEach(l -> removeObserverFromBroadcast(resource, l));
+  public void removeObserverFromBroadcast(AtmosphereResource resource, Set<String> subjectIds) {
+    subjectIds.stream().forEach(l -> removeObserverFromBroadcast(resource, l));
   }
 
-  public void removeObserverFromBroadcast(AtmosphereResource resource, Object observerId) {
-    fw.getBroadcasterFactory().lookup(observerId).removeAtmosphereResource(resource);
+  public void removeObserverFromBroadcast(AtmosphereResource resource, String subjectId) {
+    Broadcaster b = fw.getBroadcasterFactory().lookup(subjectId);
+    if (b != null) {
+      // the last one
+      if (b.removeAtmosphereResource(resource) == null) {
+        // DecisionSupport.get().getSession(subjectId).dispose();
+      }
+    }
   }
 
   public void close() {

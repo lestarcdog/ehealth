@@ -4,7 +4,7 @@ package rules.cep
 //list any import classes here.
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
 import hu.bme.diploma.a7e7yk.healthrules.DecisionSession;
-import hu.bme.diploma.a7e7yk.interfaces.healthrules.IRealtimeDecision;
+import hu.bme.diploma.a7e7yk.interfaces.healthrules.IRealtimeNotifyDecision;
 import hu.bme.diploma.a7e7yk.interfaces.healthrules.RealtimeDecisionMessage;
 import hu.bme.diploma.a7e7yk.datamodel.enums.RealtimeDecisionMessagePriority;
 import java.time.ZonedDateTime;
@@ -12,7 +12,7 @@ import hu.bme.diploma.a7e7yk.datamodel.health.SnomedConcept;
 
 
 //declare any global variables here
-global IRealtimeDecision notifyService;
+global IRealtimeNotifyDecision notifyService;
 
 
 rule "HighBloodPressure warning"

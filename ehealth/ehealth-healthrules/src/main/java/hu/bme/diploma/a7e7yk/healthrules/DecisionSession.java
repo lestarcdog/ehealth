@@ -1,12 +1,14 @@
 package hu.bme.diploma.a7e7yk.healthrules;
 
+import hu.bme.diploma.a7e7yk.converters.RealTimeDtoConverter;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.AbstractVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.ActivityMonitorVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.BloodPressureVitalSign;
 import hu.bme.diploma.a7e7yk.datamodel.health.vitalsigns.GlucoseVitalSign;
 import hu.bme.diploma.a7e7yk.exceptions.EhealthException;
-import hu.bme.diploma.a7e7yk.interfaces.healthrules.IRealtimeDecision;
+import hu.bme.diploma.a7e7yk.interfaces.healthrules.IRealtimeNotifyDecision;
 import hu.bme.diploma.a7e7yk.interfaces.healthrules.RealtimeDecisionMessage;
+import hu.bme.diploma.a7e7yk.interfaces.nettosphere.IRealtimeMessageSender;
 
 import java.util.List;
 
@@ -21,12 +23,13 @@ public class DecisionSession {
 
   private final KieSession session;
   private final String subjectId;
-  private final IRealtimeDecision notifyService;
+  private final IRealtimeMessageSender messageSender;
 
-  public DecisionSession(KieSession newKieSession, String subjectId, IRealtimeDecision notifyService) {
+  public DecisionSession(KieSession newKieSession, String subjectId,
+      IRealtimeMessageSender messageSender) {
     session = newKieSession;
     this.subjectId = subjectId;
-    this.notifyService = notifyService;
+    this.messageSender = messageSender;
     session.setGlobal(NOTIFY_SERVICE_ID, new DecisionMessageModifier());
   }
 
@@ -41,6 +44,7 @@ public class DecisionSession {
 
       } else if (v instanceof ActivityMonitorVitalSign) {
         addVitalSign((ActivityMonitorVitalSign) v);
+
       } else {
         throw new EhealthException("Undefined class " + v.getClass().getCanonicalName());
       }
@@ -63,11 +67,11 @@ public class DecisionSession {
   /**
    * Private class for modifing decision message.
    */
-  private class DecisionMessageModifier implements IRealtimeDecision {
+  private class DecisionMessageModifier implements IRealtimeNotifyDecision {
     @Override
     public void notify(RealtimeDecisionMessage msg) {
       msg.setSubjectId(subjectId);
-      notifyService.notify(msg);
+      messageSender.sendMessageToObservers(RealTimeDtoConverter.convert2Decision(msg));
     }
   }
 }

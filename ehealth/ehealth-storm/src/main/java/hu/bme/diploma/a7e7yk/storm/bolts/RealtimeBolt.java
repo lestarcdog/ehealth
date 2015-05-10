@@ -52,12 +52,14 @@ public class RealtimeBolt extends BaseRichBolt {
     String userId = (String) input.getValueByField(StormConstants.USER_ID_FIELD);
     DecisionSession session = decisionSupport.getSession(userId);
 
+    // send vitalsigns to decision support
     try {
       session.addVitalSigns(signValues);
     } catch (EhealthException e) {
       logger.error(null, e);
     }
 
+    // send data to realtime observers
     for (AbstractVitalSign v : signValues) {
       rtMessageBroker.sendMessageToObservers(RealTimeDtoConverter.convert2Measurement(v, userId));
 

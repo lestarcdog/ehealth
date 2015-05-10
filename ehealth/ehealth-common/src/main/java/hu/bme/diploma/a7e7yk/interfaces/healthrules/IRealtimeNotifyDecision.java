@@ -5,7 +5,7 @@ package hu.bme.diploma.a7e7yk.interfaces.healthrules;
  * 
  *
  */
-public interface IRealtimeDecision {
+public interface IRealtimeNotifyDecision {
 
   public void notify(RealtimeDecisionMessage msg);
 
