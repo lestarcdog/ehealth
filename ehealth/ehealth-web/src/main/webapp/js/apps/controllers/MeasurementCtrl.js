@@ -10,6 +10,7 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 
 			$scope.selectPatient = function(patient) {
 				if($scope.selectedVitalSign == null) {
+					alert("Select a vital sign");
 					return;
 				}							
 				if ($scope.selectedPatient.subjectId != null) {
@@ -22,63 +23,6 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 			$scope.selectedVitalSign = null;
 			$scope.vitalSigns = WebConstants.VITAL_SIGNS;
 
-	var handler = new RealTimeDataHandler();
 	handler.createWebSocket();
 
 } ]);
-
-function RealTimeDataHandler() {
-	this.socket = $.atmosphere;
-	this.subSocket;
-	this.chart = $("#chartContainer");
-	this.dps = [];
-	this.request = {
-		url : "http://127.0.0.1:10000/measurements",
-		logLevel : 'debug',
-		transport : 'websocket',
-	};
-	
-	this.observePatient = function(patientId) {
-		var cmd = new CommandDto("SUBSCRIBE",patientId);
-		this.subSocket.push(JSON.stringify(cmd));
-	}
-	
-	this.unobservePatient = function(patientId) {
-		var cmd = new CommandDto("UNSUBSCRIBE",patientId);
-		this.subSocket.push(JSON.stringify(cmd));
-	}
-
-	this.request.onMessage = function(response) {
-		var message = response.responseBody;
-		console.log(message);
-		try {
-			var realData = JSON.parse(message);
-			var date = new Date(realData.time * 1000);
-			console.log(realData.id + ":" + date.toLocaleTimeString() + ":" + realData.value);
-			this.dps.push({
-				x : date.getTime(),
-				y : realData.value,
-				label : "cat2"
-			});
-			chart.render();
-
-		} catch (e) {
-			console.log('This does not look like a valid JSON: ', message.data);
-			return;
-		}
-	};
-
-	this.request.onError = function(response) {
-		console.log(response)
-	};
-
-	this.createWebSocket = function () {
-		this.subSocket = this.socket.subscribe(this.request);
-	}
-}
-
-
-function CommandDto(command,value) {
-	this.command = command;
-	this.value = value;
-}
