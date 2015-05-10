@@ -1,19 +1,8 @@
 function RealTimeDataHandler() {
 	var socket = $.atmosphere;
 	var subSocket;
-	var dataMap = {};
-	var chart = new CanvasJS.Chart("chartContainer", {
-		zoomEnabled : true,
-		panEnabled : true,
-		axisX : {
-			title : "Time",
-			valueFormatString : "HH:mm:ss",
-			labelAngle : -50
-		},
-		data : []
-	});
-
-	chart.render();
+	var dataMap = [];
+	var chart = null;
 
 	request = {
 		url : WebConstants.MEASUREMENTS_HOST + WebConstants.MEASUREMENTS_URL,
@@ -21,18 +10,46 @@ function RealTimeDataHandler() {
 		transport : 'websocket',
 	};
 
-	this.observePatient = function(patient,vitalSign) {
-		chart.options.title = {
-			text : vitalSign.name+" - " + patient.name
-		};
+	this.observePatient = function(patient, vitalSign) {
 		var cmd = new CommandDto("SUBSCRIBE", patient.subjectId);
-		//subSocket.push(JSON.stringify(cmd));
+		subSocket.push(JSON.stringify(cmd));
+		
+		dataMap = [];
+		dataMap.push({
+			type : "line",
+			legendText: "Systolic",
+			showInLegend: true, 
+			dataPoints : []
+		});
+		dataMap.push({
+			type : "line",
+			legendText: "Diastolic",
+			showInLegend: true, 
+			dataPoints : []
+		});
+		
+		chart = new CanvasJS.Chart("chartContainer", {
+			zoomEnabled : true,
+			panEnabled : true,
+			axisX : {
+				title : "Time",
+				valueFormatString : "HH:mm:ss",
+				labelAngle : -50
+			},
+			data : dataMap
+		});
+		
+		chart.options.title = {
+				text : vitalSign.name + " - " + patient.name
+			};
+			
+		
 		chart.render();
 	}
 
 	this.unobservePatient = function(patient) {
 		var cmd = new CommandDto("UNSUBSCRIBE", patient.subjectId);
-		//subSocket.push(JSON.stringify(cmd));
+		subSocket.push(JSON.stringify(cmd));
 	}
 
 	request.onMessage = function(response) {
@@ -46,14 +63,17 @@ function RealTimeDataHandler() {
 			return;
 		}
 		var date = new Date(realData.time);
-		console.log(realData.subjectId + ":" + date.toLocaleTimeString() + ":" + realData.values);
-//		dps.push({
-//			x : date,
-//			y : realData.values["18949"]
-//		});
-//		if (dps.length > WebConstants.MAX_CHART_DATAPOINTS) {
-//			dps.shift();
-//		}
+		var measurementId = realData.mdcMeasurementId;
+		
+		dataMap[0].dataPoints.push({
+			x : date,
+			y : realData.values[18949]
+		});
+		dataMap[1].dataPoints.push({
+			x : date,
+			y : realData.values[18950]
+		});
+		
 		chart.render();
 	};
 
