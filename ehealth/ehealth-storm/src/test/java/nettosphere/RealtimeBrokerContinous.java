@@ -24,7 +24,7 @@ public class RealtimeBrokerContinous {
   private static final Logger logger = LoggerFactory.getLogger(RealtimeBrokerContinous.class);
 
   private Random rand = new Random();
-  private static final String userId = "patient1";
+  private static final String userId = "123456789";
 
   @Test
   public void runServerAndSendBloodpressureVitalSign() throws IOException, InterruptedException {
@@ -47,7 +47,7 @@ public class RealtimeBrokerContinous {
       RealtimeDecisionDto dto = new RealtimeDecisionDto();
       dto.setMessage("this is message");
       dto.setPriority(RealtimeDecisionMessagePriority.HIGH);
-      dto.setSubjectId("jozsi");
+      dto.setSubjectId("123456789");
       dto.setTimeInMillis(ZonedDateTime.now().toInstant().toEpochMilli());
 
       RealtimeMessageBroker.get().sendMessageToObservers(dto);

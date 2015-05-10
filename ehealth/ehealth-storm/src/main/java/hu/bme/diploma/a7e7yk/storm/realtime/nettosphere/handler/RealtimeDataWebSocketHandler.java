@@ -80,6 +80,7 @@ public class RealtimeDataWebSocketHandler implements WebSocketHandler {
 
   @Override
   public void onClose(WebSocket webSocket) {
+    logger.debug("On close socket {}", observerId);
     if (!subscriptionIds.isEmpty()) {
       RealtimeMessageBroker.get()
           .removeObserverFromBroadcast(webSocket.resource(), subscriptionIds);

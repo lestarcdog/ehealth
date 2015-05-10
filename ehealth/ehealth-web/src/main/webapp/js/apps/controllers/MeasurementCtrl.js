@@ -39,7 +39,7 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 		};
 
 		this.observePatient = function(patientId,vitalSign) {
-			var cmd = new CommandDto("SUBSCRIBE", patientId);
+			var cmd = new CommandDto("SUBSCRIBE", patientId.ssn);
 			this.subSocket.push(JSON.stringify(cmd));
 		}
 
@@ -57,7 +57,8 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 
 				} else if (message.type = "RealtimeDecisionDto") {
 					message.time = new Date(message.timeInMillis);
-					$scope.notifications.push(message);
+					console.log(message.message);
+					$scope.notifications.push(message)
 				}
 
 			} catch (e) {
