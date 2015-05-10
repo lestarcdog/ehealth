@@ -195,6 +195,11 @@
 				<artifactId>postgresql</artifactId>
 				<version>9.4-1201-jdbc41</version>
 			</dependency>
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-compiler</artifactId>
+				<version>6.2.0.Final</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>

@@ -1,16 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>hu.bme.diploma.a7e7yk</groupId>
 	<artifactId>ehealth-healthrules</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
 			<groupId>org.drools</groupId>
-			<artifactId>drools-core</artifactId>
-			<version>6.2.0.Final</version>
+			<artifactId>drools-compiler</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>hu.bme.diploma.a7e7yk</groupId>
+			<artifactId>ehealth-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

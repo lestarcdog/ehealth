@@ -12,7 +12,7 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 				if($scope.selectedVitalSign == null) {
 					return;
 				}							
-				if ($scope.selectedPatient.subjectId != null) {
+				if ($scope.selectedPatient.ssn != null) {
 					handler.unobservePatient($scope.selectedPatient);
 				}
 				$scope.selectedPatient = patient;
