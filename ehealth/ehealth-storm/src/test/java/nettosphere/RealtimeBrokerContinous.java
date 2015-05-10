@@ -28,12 +28,22 @@ public class RealtimeBrokerContinous {
 
   @Test
   public void runServerAndSendBloodpressureVitalSign() throws IOException, InterruptedException {
+    RealtimeMessageBroker.get();
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    while (true) {
+    int i = 0;
+    Thread.sleep(10000);
+    while (i < 13) {
       // br.readLine();
-      Thread.sleep(1000);
+      i++;
+      Thread.sleep(2000);
       RealtimeMessageBroker.get().sendMessageToObservers(generateBloodpressureVitalSign());
     }
+    RealtimeDecisionDto dto = new RealtimeDecisionDto();
+    dto.setMessage("Hypertension");
+    dto.setPriority(RealtimeDecisionMessagePriority.MEDIUM);
+    dto.setSsn("123456789");
+    dto.setTimeInMillis(ZonedDateTime.now().toInstant().toEpochMilli());
+    RealtimeMessageBroker.get().sendMessageToObservers(dto);
   }
 
   @Test
@@ -47,7 +57,7 @@ public class RealtimeBrokerContinous {
       RealtimeDecisionDto dto = new RealtimeDecisionDto();
       dto.setMessage("this is message");
       dto.setPriority(RealtimeDecisionMessagePriority.HIGH);
-      dto.setSubjectId("123456789");
+      dto.setSsn("123456789");
       dto.setTimeInMillis(ZonedDateTime.now().toInstant().toEpochMilli());
 
       RealtimeMessageBroker.get().sendMessageToObservers(dto);
@@ -59,8 +69,7 @@ public class RealtimeBrokerContinous {
     RealtimeMeasurementDto dto = new RealtimeMeasurementDto();
     long millis = ZonedDateTime.now().toInstant().toEpochMilli();
     ZonedDateTime mtime =
-        ZonedDateTime.ofInstant(Instant.ofEpochSecond(millis),
-            EhealthConstants.DEFAULT_BUDAPEST_ZONEID);
+        ZonedDateTime.ofInstant(Instant.ofEpochMilli(millis), EhealthConstants.DEFAULT_BUDAPEST_ZONEID);
     dto.setTimeInMillis(millis);
 
     BloodPressureVitalSign v = new BloodPressureVitalSign();

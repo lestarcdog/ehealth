@@ -39,8 +39,7 @@ public class UserService {
 
   public List<CitizenDto> getAllPatiens(Integer id) {
     ClinicalPersonal p = userDao.find(ClinicalPersonal.class, id);
-    return p.getPatients().stream()
-        .collect(ArrayList::new, (arr, c) -> arr.add(convert(c)), (a, b) -> a.addAll(b));
+    return p.getPatients().stream().collect(ArrayList::new, (arr, c) -> arr.add(convert(c)), (a, b) -> a.addAll(b));
   }
 
   private CitizenDto convert(Citizen citizen) {

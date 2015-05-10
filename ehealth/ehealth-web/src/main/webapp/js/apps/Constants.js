@@ -1,9 +1,10 @@
 var WebConstants = {};
 WebConstants.MEASUREMENTS_URL = "/measurements";
-WebConstants.MEASUREMENTS_HOST = "http://127.0.0.1:9090";
+WebConstants.MEASUREMENTS_HOST = "http://127.0.0.1:10000";
 WebConstants.MAX_CHART_DATAPOINTS = 30;
 WebConstants.VITAL_SIGNS = {
 	4100 : {
+		mdcId : 4100,
 		enabled : false,
 		name : "Activity monitor",
 		values : [ {
@@ -15,6 +16,7 @@ WebConstants.VITAL_SIGNS = {
 		} ]
 	},
 	4103 : {
+		mdcId : 4103,
 		enabled : true,
 		name : "Blood pressure monitor",
 		values : [ {

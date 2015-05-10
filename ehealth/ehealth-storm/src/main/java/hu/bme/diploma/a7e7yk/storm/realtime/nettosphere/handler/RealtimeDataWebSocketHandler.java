@@ -1,9 +1,6 @@
 package hu.bme.diploma.a7e7yk.storm.realtime.nettosphere.handler;
 
-import hu.bme.diploma.a7e7yk.constants.EhealthConstants;
-import hu.bme.diploma.a7e7yk.converters.JwtTokenConverter;
 import hu.bme.diploma.a7e7yk.dtos.CommandDto;
-import hu.bme.diploma.a7e7yk.exceptions.EhealthException;
 import hu.bme.diploma.a7e7yk.storm.realtime.RealtimeMessageBroker;
 
 import java.io.IOException;
@@ -29,8 +26,7 @@ public class RealtimeDataWebSocketHandler implements WebSocketHandler {
   private String observerId = null;
 
   @Override
-  public void onByteMessage(WebSocket webSocket, byte[] data, int offset, int length)
-      throws IOException {}
+  public void onByteMessage(WebSocket webSocket, byte[] data, int offset, int length) throws IOException {}
 
   @Override
   public void onTextMessage(WebSocket webSocket, String data) {
@@ -40,14 +36,12 @@ public class RealtimeDataWebSocketHandler implements WebSocketHandler {
       switch (command.getCommand()) {
         case SUBSCRIBE:
           subscriptionIds.add(command.getValue());
-          RealtimeMessageBroker.get().addObserverToBroadcast(webSocket.resource(),
-              command.getValue());
+          RealtimeMessageBroker.get().addObserverToBroadcast(webSocket.resource(), command.getValue());
           logger.debug("command called: {}", command);
           break;
         case UNSUBSCRIBE:
           subscriptionIds.remove(command.getValue());
-          RealtimeMessageBroker.get().removeObserverFromBroadcast(webSocket.resource(),
-              command.getValue());
+          RealtimeMessageBroker.get().removeObserverFromBroadcast(webSocket.resource(), command.getValue());
           logger.debug("command called: {}", command);
           break;
         default:
@@ -62,19 +56,19 @@ public class RealtimeDataWebSocketHandler implements WebSocketHandler {
 
   @Override
   public void onOpen(WebSocket webSocket) {
-    String jwtToken =
-        webSocket.resource().getRequest().getHeader(EhealthConstants.AUTH_TOKEN_HEADER_NAME);
-    logger.debug("Auth token: {}", jwtToken);
-    try {
-      observerId = JwtTokenConverter.validateJwtToken(jwtToken).getSubject();
-    } catch (EhealthException e) {
-      logger.warn("Authentication error", e);
-      try {
-        webSocket.resource().close();
-        return;
-      } catch (IOException e1) {
-      }
-    }
+    // String jwtToken =
+    // webSocket.resource().getRequest().getHeader(EhealthConstants.AUTH_TOKEN_HEADER_NAME);
+    // logger.debug("Auth token: {}", jwtToken);
+    // try {
+    // observerId = JwtTokenConverter.validateJwtToken(jwtToken).getSubject();
+    // } catch (EhealthException e) {
+    // logger.warn("Authentication error", e);
+    // try {
+    // webSocket.resource().close();
+    // return;
+    // } catch (IOException e1) {
+    // }
+    // }
     logger.debug("On open from {}", observerId);
   }
 
@@ -82,15 +76,18 @@ public class RealtimeDataWebSocketHandler implements WebSocketHandler {
   public void onClose(WebSocket webSocket) {
     logger.debug("On close socket {}", observerId);
     if (!subscriptionIds.isEmpty()) {
-      RealtimeMessageBroker.get()
-          .removeObserverFromBroadcast(webSocket.resource(), subscriptionIds);
+      RealtimeMessageBroker.get().removeObserverFromBroadcast(webSocket.resource(), subscriptionIds);
       subscriptionIds.clear();
     }
   }
 
   @Override
   public void onError(WebSocket webSocket, WebSocketException t) {
-    // logger.error("Websocket error", t);
+    logger.error("Websocket error", t);
+    if (!subscriptionIds.isEmpty()) {
+      RealtimeMessageBroker.get().removeObserverFromBroadcast(webSocket.resource(), subscriptionIds);
+      subscriptionIds.clear();
+    }
   }
 
 }

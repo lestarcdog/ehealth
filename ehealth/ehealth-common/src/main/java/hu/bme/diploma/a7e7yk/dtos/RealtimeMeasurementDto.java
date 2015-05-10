@@ -13,7 +13,7 @@ public class RealtimeMeasurementDto extends AbstractRealtimeDto {
   /**
    * MDC Id of the measurement type {@link MdcNomenclatureConstants}
    */
-  private Integer mdcMeasurementId;
+  private Integer mdcId;
 
   /**
    * Value of the measurements.
@@ -22,19 +22,19 @@ public class RealtimeMeasurementDto extends AbstractRealtimeDto {
 
   public RealtimeMeasurementDto() {}
 
-  public RealtimeMeasurementDto(String subjectId, Integer mdcMeasurementId, long time) {
-    this.subjectId = subjectId;
-    this.mdcMeasurementId = mdcMeasurementId;
+  public RealtimeMeasurementDto(String ssn, Integer mdcMeasurementId, long time) {
+    this.ssn = ssn;
+    this.mdcId = mdcMeasurementId;
     this.timeInMillis = time;
 
   }
 
-  public Integer getMdcMeasurementId() {
-    return mdcMeasurementId;
+  public Integer getMdcId() {
+    return mdcId;
   }
 
-  public void setMdcMeasurementId(Integer mdcMeasurementId) {
-    this.mdcMeasurementId = mdcMeasurementId;
+  public void setMdcId(Integer mdcMeasurementId) {
+    this.mdcId = mdcMeasurementId;
   }
 
   public Map<Integer, Object> getValues() {
@@ -43,8 +43,7 @@ public class RealtimeMeasurementDto extends AbstractRealtimeDto {
 
   @Override
   public String toString() {
-    return "RealtimeMeasurementDto [mdcMeasurementId=" + mdcMeasurementId + ", values=" + values
-        + "]";
+    return "RealtimeMeasurementDto [mdcMeasurementId=" + mdcId + ", values=" + values + "]";
   }
 
 

@@ -45,7 +45,7 @@ public class RealtimeMessageBroker implements IRealtimeMessageSender {
   @Override
   public void sendMessageToObservers(AbstractRealtimeDto data) {
     try {
-      Broadcaster b = getBroadcastById(data.getSubjectId(), false);
+      Broadcaster b = getBroadcastById(data.getSsn(), false);
       logger.debug("Got data: {}", data);
       if (b != null) {
         String s = mapper.writeValueAsString(data);

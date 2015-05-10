@@ -22,7 +22,7 @@ public class RealTimeDtoConverterTest {
   @Test
   public void converMeasurement() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    String userId = "jozsi";
+    String userId = "123456789";
     BloodPressureVitalSign v = new BloodPressureVitalSign();
     v.setMeasurementTime(ZonedDateTime.now());
     v.getDiastolic().setValue(120.0);
@@ -32,7 +32,7 @@ public class RealTimeDtoConverterTest {
     RealtimeMeasurementDto dto = RealTimeDtoConverter.convert2Measurement(v, userId);
     System.out.println(mapper.writeValueAsString(dto));
 
-    Assert.assertEquals(userId, dto.getSubjectId());
+    Assert.assertEquals(userId, dto.getSsn());
     Assert.assertEquals(3, dto.getValues().size());
   }
 
@@ -43,14 +43,14 @@ public class RealTimeDtoConverterTest {
     RealtimeDecisionMessage msg =
         new RealtimeDecisionMessage(ZonedDateTime.now(), RealtimeDecisionMessagePriority.HIGH);
     msg.setMessage("this is serious shit");
-    msg.setSubjectId("jozsi");
+    msg.setSubjectId("123456789");
     msg.setConcept(new SnomedConcept("123456", "Noname"));
 
     RealtimeDecisionDto dto = RealTimeDtoConverter.convert2Decision(msg);
     System.out.println(mapper.writeValueAsString(dto));
 
     Assert.assertEquals(RealtimeDecisionMessagePriority.HIGH.name(), dto.getPriority().name());
-    Assert.assertEquals("jozsi", dto.getSubjectId());
+    Assert.assertEquals("jozsi", dto.getSsn());
     Assert.assertEquals(msg.getMessage(), dto.getMessage());
 
   }

@@ -7,27 +7,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
-@JsonSubTypes(value = {@Type(value = RealtimeMeasurementDto.class),
-    @Type(value = RealtimeDecisionDto.class)})
+@JsonSubTypes(value = {@Type(value = RealtimeMeasurementDto.class), @Type(value = RealtimeDecisionDto.class)})
 public class AbstractRealtimeDto {
 
   /**
    * Identifier of the patient who emits the measurements data
    */
-  protected String subjectId;
+  protected String ssn;
 
   /**
    * Time in milliseconds
    */
   protected long timeInMillis;
 
-  public String getSubjectId() {
-    return subjectId;
-  }
-
-  public void setSubjectId(String subjectId) {
-    this.subjectId = subjectId;
-  }
 
   public long getTimeInMillis() {
     return timeInMillis;
@@ -35,5 +27,13 @@ public class AbstractRealtimeDto {
 
   public void setTimeInMillis(long timeInMillis) {
     this.timeInMillis = timeInMillis;
+  }
+
+  public String getSsn() {
+    return ssn;
+  }
+
+  public void setSsn(String ssn) {
+    this.ssn = ssn;
   }
 }

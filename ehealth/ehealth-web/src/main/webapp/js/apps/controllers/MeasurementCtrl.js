@@ -1,8 +1,9 @@
 app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location", "$rootScope",
 		function(rtDataService, $scope, $location, $rootScope) {
-			if ($rootScope.user.token == null) {
-				$location.path("/login")
-			}
+			// if ($rootScope.user.token == null) {
+			// $location.path("/login")
+			// }
+
 			$scope.selectedPatient = {};
 			rtDataService.getAllMyPatients($rootScope.user.id).success(function(data, status, headers, config) {
 				$scope.mypatients = data
@@ -21,64 +22,121 @@ app.controller("MeasurementCtrl", [ "RealtimeDataService", "$scope", "$location"
 			}
 
 			$scope.selectedVitalSign = null;
+			$scope.notifications = [];
 			$scope.vitalSigns = WebConstants.VITAL_SIGNS;
 
-			var handler = new RealTimeDataHandler();
-			handler.createWebSocket();
+			var handler = new RealTimeDataHandler($scope);
+			handler.createWebSocket($rootScope.user.token);
 
-			function RealTimeDataHandler() {
-				this.socket = $.atmosphere;
-				this.subSocket = null;
-				this.chart = $("#chartContainer");
-				this.dps = [];
-				this.request = {
-					url : "http://127.0.0.1:10000/measurements",
+			function RealTimeDataHandler(sc) {
+				var socket = $.atmosphere;
+				var subSocket = null;
+				var chart = new EhealthChart();
+				var scope = sc;
+				var authtoken = authtoken;
+				var request = {
+					url : WebConstants.MEASUREMENTS_HOST + WebConstants.MEASUREMENTS_URL,
 					logLevel : 'debug',
 					transport : 'websocket',
-					headers : {
-						"Auth-token" : $rootScope.user.token
-					}
 				};
 
-				this.observePatient = function(patientId, vitalSign) {
-					var cmd = new CommandDto("SUBSCRIBE", patientId.ssn);
-					this.subSocket.push(JSON.stringify(cmd));
+				this.observePatient = function(patient, vitalSign) {
+					var cmd = new CommandDto("SUBSCRIBE", patient.ssn);
+					subSocket.push(JSON.stringify(cmd));
+					chart.createChart(vitalSign);
 				}
 
-				this.unobservePatient = function(patientId) {
-					var cmd = new CommandDto("UNSUBSCRIBE", patientId);
-					this.subSocket.push(JSON.stringify(cmd));
+				this.unobservePatient = function(patient) {
+					var cmd = new CommandDto("UNSUBSCRIBE", patient.ssn);
+					subSocket.push(JSON.stringify(cmd));
 				}
 
-				this.request.onMessage = function(response) {
-					var message = response.responseBody;
-					console.log(message);
+				request.onMessage = function(response) {
+					var message = null;
 					try {
-						var message = JSON.parse(message);
+						message = JSON.parse(response.responseBody);
+						message.time = new Date(message.timeInMillis);
+						console.log(message);
 						if (message.type == "RealtimeMeasurementDto") {
-
+							chart.addData(message);
 						} else if (message.type = "RealtimeDecisionDto") {
-							message.time = new Date(message.timeInMillis);
-							console.log(message.message);
-							$scope.notifications.push(message)
+							scope.notifications.push(message);
+							scope.$apply();
 						}
 
 					} catch (e) {
-						console.log('This does not look like a valid JSON: ', message.data);
+						console.log('Error: ', e);
 						return;
 					}
 				};
 
-				this.request.onError = function(response) {
+				request.onError = function(response) {
 					console.log(response)
 				};
 
-				this.createWebSocket = function() {
-					this.subSocket = this.socket.subscribe(this.request);
-				}
+				this.createWebSocket = function(authtoken) {
+					request.headers = {
+						"Auth-token" : authtoken
+					};
+					subSocket = socket.subscribe(request);
+				};
 			}
-
 		} ]);
+
+function EhealthChart() {
+	var chart = null;
+	var activeMeasurement = null;
+	var dataMap = [];
+
+	this.addData = function(message) {
+		if (message.mdcId == activeMeasurement) {
+			var date = new Date(message.timeInMillis);
+			for (idx in WebConstants.VITAL_SIGNS[activeMeasurement].values) {
+
+				vs = WebConstants.VITAL_SIGNS[activeMeasurement].values[idx];
+				var num = message.values[vs.mdcId];
+				dataMap[idx].dataPoints.push({
+					x : date,
+					y : num
+				});
+
+			}
+			chart.render();
+		}
+	}
+
+	this.createChart = function(vitalSign) {
+		activeMeasurement = vitalSign.mdcId;
+		dataMap = [];
+		for (idx in vitalSign.values) {
+			vs = vitalSign.values[idx];
+			dataMap.push({
+				type : "line",
+				legendText : vs.name,
+				showInLegend : true,
+				dataPoints : []
+			});
+		}
+
+		chart = new CanvasJS.Chart("chartContainer", {
+			zoomEnabled : true,
+			panEnabled : true,
+			axisX : {
+				title : "Time",
+				valueFormatString : "HH:mm:ss",
+				labelAngle : -50
+			},
+			data : dataMap
+		});
+
+		chart.options.title = {
+			text : vitalSign.name
+		};
+
+		chart.render();
+	}
+
+}
 
 function CommandDto(command, value) {
 	this.command = command;

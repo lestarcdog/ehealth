@@ -1,6 +1,6 @@
 function RealTimeDataHandler() {
 	var socket = $.atmosphere;
-	var subSocket;
+	var subSocket = null;
 	var dataMap = [];
 	var chart = null;
 
