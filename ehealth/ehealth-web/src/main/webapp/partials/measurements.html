@@ -17,7 +17,6 @@
 						</tr>
 					</tbody>
 				</table>
-
 			</div>
 		</div>
 	</div>
@@ -29,6 +28,15 @@
 			</div>
 			<div class="panel-body" ng-show="selectedPatient.subjectId != null">
 				<div id="chartContainer" style="width: 100%; height: 270px"></div>
+			</div>
+			
+			<div>
+				<h4>Notifications: </h4>
+				<ul ng-repeat="note in notifications">
+					<li>
+						{{note.priority}} {{note.message}} @ {{note.time}} 
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

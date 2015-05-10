@@ -37,7 +37,7 @@ public class DecisionSession {
     session.dispose();
   }
 
-  public void addVitalSigns(List<AbstractVitalSign> signValues) throws EhealthException {
+  public void addVitalSigns(List<? extends AbstractVitalSign> signValues) throws EhealthException {
     for (AbstractVitalSign v : signValues) {
       if (v instanceof BloodPressureVitalSign) {
         addVitalSign((BloodPressureVitalSign) v);

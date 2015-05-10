@@ -39,7 +39,8 @@ public class Hl7MessageConverter {
    * @throws HL7Exception can't convert to the domain object
    */
   public static List<AbstractVitalSign> getVitalSignValues(ORU_R01 message) throws HL7Exception {
-    List<ORU_R01_OBSERVATION> observations = message.getPATIENT_RESULT().getORDER_OBSERVATION().getOBSERVATIONAll();
+    List<ORU_R01_OBSERVATION> observations =
+        message.getPATIENT_RESULT().getORDER_OBSERVATION().getOBSERVATIONAll();
     if (observations == null || observations.isEmpty()) {
       throw new HL7Exception("Observation can not be empty", ErrorCode.REQUIRED_FIELD_MISSING);
     }
@@ -85,12 +86,15 @@ public class Hl7MessageConverter {
    */
   public static PersonModel getPersonModel(ORU_R01 message) throws HL7Exception {
     PersonModel m = new PersonModel();
+
     PID pid = message.getPATIENT_RESULT().getPATIENT().getPID();
     if (pid.getPid3_PatientIdentifierList().length == 0) {
-      throw new HL7Exception("No patient identifier found in PID3", ErrorCode.REQUIRED_FIELD_MISSING);
+      throw new HL7Exception("No patient identifier found in PID3",
+          ErrorCode.REQUIRED_FIELD_MISSING);
     }
     CX id = pid.getPid3_PatientIdentifierList(0);
     m.setSsn(id.getCx1_IDNumber().getValue());
+
     if (pid.getPid5_PatientName() != null) {
       m.setFamilyName(pid.getPid5_PatientName(0).getFamilyName().getFn1_Surname().getValue());
       m.setGivenName(pid.getPid5_PatientName(0).getGivenName().getValue());
@@ -120,7 +124,8 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static AbstractVitalSign convertToPulseOxymeterValue(ObxReader reader) throws HL7Exception {
+  private static AbstractVitalSign convertToPulseOxymeterValue(ObxReader reader)
+      throws HL7Exception {
     PulseOxyMeterVitalSign v = new PulseOxyMeterVitalSign();
     OBX obx;
     int valueId;
@@ -161,7 +166,8 @@ public class Hl7MessageConverter {
     return v;
   }
 
-  private static ActivityMonitorVitalSign convertToActivityMonitorValue(ObxReader reader) throws HL7Exception {
+  private static ActivityMonitorVitalSign convertToActivityMonitorValue(ObxReader reader)
+      throws HL7Exception {
     ActivityMonitorVitalSign v = new ActivityMonitorVitalSign();
 
     OBX obx;
@@ -186,13 +192,15 @@ public class Hl7MessageConverter {
           v.getAltitude().setValue(getObx5AsDouble(obx));
           break;
         default:
-          throw new HL7Exception("Invalid parameter for Activity monitor: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invalid parameter for Activity monitor: " + valueId,
+              ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return v;
   }
 
-  private static BloodPressureVitalSign convertToBloodPressureValue(ObxReader reader) throws HL7Exception {
+  private static BloodPressureVitalSign convertToBloodPressureValue(ObxReader reader)
+      throws HL7Exception {
     BloodPressureVitalSign v = new BloodPressureVitalSign();
     OBX obx;
     int valueId;
@@ -215,7 +223,8 @@ public class Hl7MessageConverter {
           v.getPulseRate().setValue(getObx5AsDouble(obx));
           break;
         default:
-          throw new HL7Exception("Invalid parameter for blood pressure: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invalid parameter for blood pressure: " + valueId,
+              ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return v;
@@ -236,7 +245,8 @@ public class Hl7MessageConverter {
           v.getGlucose().setValue(getObx5AsDouble(obx));
           break;
         default:
-          throw new HL7Exception("Invalid parameter for glucose meter: " + valueId, ErrorCode.UNKNOWN_KEY_IDENTIFIER);
+          throw new HL7Exception("Invalid parameter for glucose meter: " + valueId,
+              ErrorCode.UNKNOWN_KEY_IDENTIFIER);
       }
     }
     return v;
@@ -260,8 +270,8 @@ public class Hl7MessageConverter {
    * @return
    */
   private static Integer getObx3AsInteger(OBX obx) {
-    return NomenclatureHelper.getIdFromContinuaValue(obx.getObx3_ObservationIdentifier().getCwe1_Identifier()
-        .getValue());
+    return NomenclatureHelper.getIdFromContinuaValue(obx.getObx3_ObservationIdentifier()
+        .getCwe1_Identifier().getValue());
   }
 
   /**

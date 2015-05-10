@@ -30,7 +30,7 @@ public class RealTimeDtoConverterTest {
     v.getPulseRate().setValue(75.8);
     mapper.enable(SerializationFeature.INDENT_OUTPUT);
     RealtimeMeasurementDto dto = RealTimeDtoConverter.convert2Measurement(v, userId);
-    // System.out.println(mapper.writeValueAsString(dto));
+    System.out.println(mapper.writeValueAsString(dto));
 
     Assert.assertEquals(userId, dto.getSubjectId());
     Assert.assertEquals(3, dto.getValues().size());
@@ -47,7 +47,7 @@ public class RealTimeDtoConverterTest {
     msg.setConcept(new SnomedConcept("123456", "Noname"));
 
     RealtimeDecisionDto dto = RealTimeDtoConverter.convert2Decision(msg);
-    // System.out.println(mapper.writeValueAsString(convert2Decision));
+    System.out.println(mapper.writeValueAsString(dto));
 
     Assert.assertEquals(RealtimeDecisionMessagePriority.HIGH.name(), dto.getPriority().name());
     Assert.assertEquals("jozsi", dto.getSubjectId());

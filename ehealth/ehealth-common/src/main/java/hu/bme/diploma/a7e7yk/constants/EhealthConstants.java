@@ -38,5 +38,5 @@ public class EhealthConstants {
 
   // ------- NETTOSPHERE -----
   public static final String NETTOSPHERE_BIND_HOST = "127.0.0.1";
-  public static final int NETTOSPHERE_BIND_PORT = 9090;
+  public static final int NETTOSPHERE_BIND_PORT = 10000;
 }

@@ -57,7 +57,7 @@ public class JwtTokenConverter {
       JwtClaims claims = JwtClaims.parse(jwe.getPayload());
 
       if (claims.getExpirationTime().isBefore(NumericDate.now())) {
-        throw new EhealthException("Token is not valid");
+        throw new EhealthException("Token is expired");
       }
       return new EHealthJwtClaims(claims.getSubject(),
           claims.getStringClaimValue(EhealthConstants.JWT_CLAIM_GROUP_FIELDNAME));
