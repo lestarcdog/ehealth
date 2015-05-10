@@ -45,6 +45,7 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.12</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.fusesource.mqtt-client</groupId>
@@ -54,11 +55,6 @@
 			<dependency>
 				<groupId>org.apache.storm</groupId>
 				<artifactId>storm-core</artifactId>
-				<version>0.9.3</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.storm</groupId>
-				<artifactId>storm-hbase</artifactId>
 				<version>0.9.3</version>
 			</dependency>
 			<dependency>
@@ -133,6 +129,16 @@
 				<version>${spring-version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.bitbucket.b_c</groupId>
 				<artifactId>jose4j</artifactId>
 				<version>0.4.1</version>
@@ -166,6 +172,7 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-server</artifactId>
 				<version>${jetty-version}</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
@@ -176,9 +183,23 @@
 				<groupId>javax</groupId>
 				<artifactId>javaee-web-api</artifactId>
 				<version>7.0</version>
+				<scope>provided</scope>
 			</dependency>
-
-
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>2.6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>9.4-1201-jdbc41</version>
+			</dependency>
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-compiler</artifactId>
+				<version>6.2.0.Final</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -207,6 +228,7 @@
 		<module>ehealth-common</module>
 		<module>ehealth-web</module>
 		<module>ehealth-ear</module>
+		<module>ehealth-healthrules</module>
 	</modules>
 	<name>E-Health Master Thesis</name>
 	<url>www.aut.bme.hu</url>

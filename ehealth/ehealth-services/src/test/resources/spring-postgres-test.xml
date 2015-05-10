@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"	
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+       
+    <bean id="dataSourcePostgres" class="org.postgresql.ds.PGSimpleDataSource">
+    	<property name="serverName" value="localhost"></property>
+    	<property name="databaseName" value="ehealth"></property>
+    	<property name="user" value="postgres"></property>
+    	<property name="password" value="admin"></property>
+    	
+    </bean>
+       
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="ehealth-pu"></property>
+		<property name="dataSource" ref="dataSourcePostgres"></property>
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence-test.xml"></property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" name="TransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"></property>
+    </bean>
+    
+    <tx:annotation-driven />
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+                    
+    <context:component-scan base-package="hu.bme.diploma.a7e7yk.dao.web,hu.bme.diploma.a7e7yk.services" >
+    	<context:include-filter type="annotation" expression="javax.ejb.Stateless"/>
+    	<context:include-filter type="annotation" expression="javax.ejb.Stateful"/>
+    	<context:include-filter type="annotation" expression="javax.ejb.Singleton"/>
+    </context:component-scan>
+    
+</beans>

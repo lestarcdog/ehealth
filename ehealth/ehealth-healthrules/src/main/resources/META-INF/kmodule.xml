@@ -1,5 +1,5 @@
 <kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://jboss.org/kie/6.0.0/kmodule">
-	<kbase name="healthKB" default="true" packages="rules">
+	<kbase name="healthKB" eventProcessingMode="stream" default="true" packages="rules.cep">
     <ksession name="health-session"></ksession>
   </kbase>
 </kmodule>

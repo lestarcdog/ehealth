@@ -15,7 +15,7 @@ WebConstants.VITAL_SIGNS = {
 		} ]
 	},
 	4103 : {
-		enabled : false,
+		enabled : true,
 		name : "Blood pressure monitor",
 		values : [ {
 			mdcId : 18949,

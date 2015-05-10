@@ -17,7 +17,6 @@
 						</tr>
 					</tbody>
 				</table>
-
 			</div>
 		</div>
 	</div>
@@ -29,6 +28,15 @@
 			</div>
 			<div class="panel-body" ng-show="selectedPatient.subjectId != null">
 				<div id="chartContainer" style="width: 100%; height: 270px"></div>
+			</div>
+			
+			<div>
+				<h4>Notifications: </h4>
+				<ul>
+					<li ng-repeat="note in notifications">
+						{{note.priority}} {{note.message}} @ {{note.time}} 
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -43,7 +51,7 @@
 			</div>
 			<div class="panel-body">
 				<form class="form">
-					<label ng-repeat="(mdcId,value) in vitalSigns"> <input type="radio" name="vitalsigngroup" ng-model="$parent.selectedVitalSign"
+					<label style="font-size:11px" ng-repeat="(mdcId,value) in vitalSigns"> <input type="radio" name="vitalsigngroup" ng-model="$parent.selectedVitalSign"
 						ng-value="value" />{{value.name}}
 					</label>
 				</form>
